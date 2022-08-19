@@ -12,7 +12,6 @@ namespace Orchestrator.Persistance.Models
         public DbSet<Tenant> Tenant { get; set; }
         public DbSet<EventEntity> EventEntity { get; set; }
         public DbSet<ParameterEntity> ParameterEntity { get; set; }
-        public DbSet<Saga> Saga { get; set; }
         public DbSet<Flow> Flow { get; set; }
     }
 }

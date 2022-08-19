@@ -6,18 +6,19 @@ using Orchestrator.Persistance.Models;
 
 namespace Orchestrator.Persistance.DataAccess
 {
-    public class RepositoryBase<T1, T2> : IRepository<T1, T2> 
-        where T1 : Entity<T2>
-        where T2 : GuidModelBase
+    public class GuidRepositoryBase<T1> : IGuidRepository<T1> 
+        where T1 : Entity<Guid>
     {
         private readonly OrchestratorContext _context;
-        private readonly ILogger<RepositoryBase<T1, T2>> _logger;
+        private readonly ILogger<GuidRepositoryBase<T1>> _logger;
 
-        public RepositoryBase(OrchestratorContext context, ILoggerFactory loggerFactory)
+        public GuidRepositoryBase(OrchestratorContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger<RepositoryBase<T1, T2>>();
+            _logger = loggerFactory.CreateLogger<GuidRepositoryBase<T1>>();
         }
+
+        public Tenant Tenant { get; set; }
 
         public IEnumerable<T1> GetAll(int take = 1000, int skip = 0)
         {
@@ -25,9 +26,9 @@ namespace Orchestrator.Persistance.DataAccess
             return entities;
         }
 
-        public T1 Get(T2 id)
+        public T1 Get(Guid id)
         {
-            if (id == null)
+            if (id == Guid.Empty)
                 return null;
             var result = _context.Set<T1>().FirstOrDefault(x => x.Id == id);
             return result;
@@ -41,7 +42,7 @@ namespace Orchestrator.Persistance.DataAccess
             _context.SaveChanges();
         }
 
-        public void Delete(T2 id)
+        public void Delete(Guid id)
         {
             var entity = _context.Set<T1>().FirstOrDefault(x => x.Id == id);
             if (entity == null)
