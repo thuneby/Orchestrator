@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A072207B-02FB-4AE3-9DE2-378BE8D74937}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A072207B-02FB-4AE3-9DE2-378BE8D74937}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersistanceTest", "Test\Orchestrator.PersistanceTest\PersistanceTest.csproj", "{60B44583-2B53-44A9-BD4A-71EE0B9FBEA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersistanceTest", "test\PersistanceTest\PersistanceTest.csproj", "{60B44583-2B53-44A9-BD4A-71EE0B9FBEA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F44D6CA4-7508-4681-9822-F032E5177018}"
 EndProject
