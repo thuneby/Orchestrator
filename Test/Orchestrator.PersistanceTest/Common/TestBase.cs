@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
-using Orchestrator.Persistance.Models;
+using Persistance.Models;
 
-namespace Orchestrator.PersistanceTest.Common
+namespace PersistanceTest.Common
 {
     public class TestBase
     {

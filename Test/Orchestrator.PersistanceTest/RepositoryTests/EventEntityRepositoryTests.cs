@@ -1,9 +1,9 @@
-﻿using FluentAssertions;
-using Orchestrator.Core.Models;
-using Orchestrator.Persistance.DataAccess;
-using Orchestrator.PersistanceTest.Common;
+﻿using Core.Models;
+using FluentAssertions;
+using Persistance.DataAccess;
+using PersistanceTest.Common;
 
-namespace Orchestrator.PersistanceTest.RepositoryTests
+namespace PersistanceTest.RepositoryTests
 {
     public class EventEntityRepositoryTests: TestBase
     {
