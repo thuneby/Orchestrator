@@ -1,18 +1,18 @@
 ﻿using Core.Models;
+using DataAccess.Common;
+using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Persistance.Common;
-using Persistance.Models;
 
-namespace Persistance.DataAccess
+namespace DataAccess.DataAccess
 {
-    public class GuidRepositoryBase<T1> : IGuidRepository<T1> 
+    public class GuidRepositoryBase<T1> : IGuidRepository<T1>
         where T1 : Entity<Guid>
     {
-        private readonly OrchestratorContext _context;
+        private readonly DbContext _context; 
         private readonly ILogger<GuidRepositoryBase<T1>> _logger;
 
-        public GuidRepositoryBase(OrchestratorContext context, ILoggerFactory loggerFactory)
+        public GuidRepositoryBase(DbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
             _logger = loggerFactory.CreateLogger<GuidRepositoryBase<T1>>();

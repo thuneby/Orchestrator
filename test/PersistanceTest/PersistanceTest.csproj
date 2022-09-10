@@ -24,8 +24,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Components\Persistance\Persistance.csproj" />
+    <ProjectReference Include="..\..\src\Components\BlobAccess\BlobAccess.csproj" />
+    <ProjectReference Include="..\..\src\Components\DocumentAccess\DocumentAccess.csproj" />
+    <ProjectReference Include="..\..\src\Components\Persistance\DataAccess.csproj" />
     <ProjectReference Include="..\..\src\Core\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestData\Parse\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\Parse\Eksempel på OsInfo.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

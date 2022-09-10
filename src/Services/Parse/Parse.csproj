@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Components\BlobAccess\BlobAccess.csproj" />
+    <ProjectReference Include="..\..\Components\DocumentAccess\DocumentAccess.csproj" />
+    <ProjectReference Include="..\..\Core\Core\Core.csproj" />
+    <ProjectReference Include="..\..\Core\ExternalModels\ExternalModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BusinessLogic\Helpers\" />
+    <Folder Include="BusinessLogic\Mappers\" />
+  </ItemGroup>
+
+</Project>

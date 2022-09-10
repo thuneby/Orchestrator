@@ -1,6 +1,6 @@
 ﻿using Core.Models;
+using DataAccess.DataAccess;
 using Microsoft.AspNetCore.Mvc;
-using Persistance.DataAccess;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace Persistance.Common
+namespace DataAccess.Common
 {
     public interface IEventRepository
     {

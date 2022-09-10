@@ -1,9 +1,9 @@
 ﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistance.Models
+namespace DataAccess.Models
 {
-    public class OrchestratorContext: DbContext
+    public class OrchestratorContext : DbContext
     {
         public OrchestratorContext(DbContextOptions<OrchestratorContext> options) : base(options)
         {

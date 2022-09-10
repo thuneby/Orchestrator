@@ -1,17 +1,6 @@
-using DataAccess.DataAccess;
-using DataAccess.Models;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
-    opt.UseSqlite($"Data Source={nameof(OrchestratorContext)}.db",
-        x => x.MigrationsAssembly("Orchestrator.Application.WebApi")));
-
-builder.Services.AddScoped<EventRepository>();
-builder.Services.AddScoped<TenantRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

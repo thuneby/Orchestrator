@@ -1,11 +1,11 @@
 ﻿using Core.Models;
+using DataAccess.Common;
+using DataAccess.Models;
 using Microsoft.Extensions.Logging;
-using Persistance.Common;
-using Persistance.Models;
 
-namespace Persistance.DataAccess
+namespace DataAccess.DataAccess
 {
-    public class TenantRepository: ModelRepositoryBase<Tenant>, IRepository<Tenant, long>
+    public class TenantRepository : ModelRepositoryBase<Tenant>, IRepository<Tenant, long>
     {
         public TenantRepository(OrchestratorContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
         {

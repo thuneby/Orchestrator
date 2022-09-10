@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace Persistance.Common
+namespace DataAccess.Common
 {
     public interface IRepository<T1, T2>
         where T1 : Entity<T2>

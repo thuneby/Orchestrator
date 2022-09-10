@@ -1,19 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
-using Persistance.Models;
+using PersistanceTest.TestStorage;
 
 namespace PersistanceTest.Common
 {
     public class TestBase
     {
         protected OrchestratorContext Context;
-        protected ILoggerFactory LoggerFactory;
+        protected TestStorageContext TestStorageContext; 
+        protected ILoggerFactory TestLoggerFactory;
 
-        public TestBase()
+
+        protected void Initialize()
         {
             Context = TestBase.InitializeContext();
-            LoggerFactory = TestBase.InitializeLoggerFactory();
+            TestStorageContext = InitializeTestStorageContext();
+            TestLoggerFactory = TestBase.InitializeLoggerFactory();
         }
 
         public static OrchestratorContext InitializeContext()
@@ -23,6 +27,17 @@ namespace PersistanceTest.Common
                 .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .Options;
             var context = new OrchestratorContext(options);
+            return context;
+        }
+
+        public static TestStorageContext InitializeTestStorageContext()
+        {
+            var options = new DbContextOptionsBuilder<TestStorageContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+
+            var context = new TestStorageContext(options);
             return context;
         }
 
