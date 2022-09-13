@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
+    <ProjectReference Include="..\Persistance\DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

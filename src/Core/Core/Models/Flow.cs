@@ -1,6 +1,6 @@
 ﻿namespace Core.Models
 {
-    public class Flow: ModelBase
+    public class Flow: LongEntityBase
     {
     }
 }

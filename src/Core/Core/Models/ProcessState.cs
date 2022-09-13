@@ -4,9 +4,10 @@
     {
         Receive,
         Parse,
-        Process,
         Validate,
-        PutResult,
+        Pay,
+        Consolidate,
+        TransferResult,
         AddCustomer,
         RemoveCustomer,
         WorkFlowCompleted

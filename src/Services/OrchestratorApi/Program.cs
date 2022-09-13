@@ -1,17 +1,23 @@
+using Configuration.Models;
 using DataAccess.DataAccess;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using StateMachine.BusinessLogic;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Configuration.AddJsonFile($"ServiceConfig.json", optional: false);
+builder.Services.Configure<ServiceConfig>(options => builder.Configuration.GetSection("ServiceConfig").Bind(options));
 
 builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
-    opt.UseSqlite($"Data Source={nameof(OrchestratorContext)}.db",
-        x => x.MigrationsAssembly("Orchestrator.Application.WebApi")));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.MigrationsAssembly("OrchestratorApi")));
 
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<TenantRepository>();
+builder.Services.AddScoped<WorkFlowProcessor>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

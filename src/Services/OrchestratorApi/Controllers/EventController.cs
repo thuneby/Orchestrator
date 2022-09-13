@@ -1,6 +1,9 @@
-﻿using Core.Models;
+﻿using Configuration.Models;
+using Core.Models;
 using DataAccess.DataAccess;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using StateMachine.BusinessLogic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,11 +14,15 @@ namespace OrchestratorApi.Controllers
     public class EventController : ControllerBase
     {
         private readonly EventRepository _repository;
+        private readonly WorkFlowProcessor _workflowProcessor;
         private readonly ILogger<EventController> _logger;
+        private IOptions<ServiceConfig> _serviceOptions;
 
-        public EventController(EventRepository repository, ILogger<EventController> logger)
+        public EventController(EventRepository repository, WorkFlowProcessor workFlowProcessor, IOptions<ServiceConfig> options, ILogger<EventController> logger)
         {
             _repository = repository;
+            _workflowProcessor = workFlowProcessor;
+            _serviceOptions = options;
             _logger = logger;
         }
 

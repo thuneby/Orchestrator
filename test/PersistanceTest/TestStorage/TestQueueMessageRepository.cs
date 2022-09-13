@@ -1,0 +1,25 @@
+﻿using Core.Models;
+using Core.QueueModels;
+using DataAccess.DataAccess;
+using Microsoft.Extensions.Logging;
+
+namespace PersistanceTest.TestStorage
+{
+    internal class TestQueueMessageRepository: GuidRepositoryBase<QueueMessage>
+    {
+        private readonly TestStorageContext _context;
+        public TestQueueMessageRepository(TestStorageContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
+        {
+            _context = context;
+        }
+
+        public QueueMessage? Get(ProcessState queueState)
+        {
+            var message = _context.QueueMessage.OrderBy(x => x.CreatedDate)
+                .FirstOrDefault(x => x.ProcessState == queueState);
+            if (message != null)
+                Delete(message.Id);
+            return message;
+        }
+    }
+}

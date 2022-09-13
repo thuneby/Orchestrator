@@ -2,6 +2,11 @@
 {
     public class EventEntity: GuidModelBase
     {
+        public EventEntity()
+        {
+            CreatedDate = DateTime.UtcNow;
+        }
+        
         public long FlowId { get; set; }
         public EventType EventType { get; set; }
         public EventState State { get; set; }

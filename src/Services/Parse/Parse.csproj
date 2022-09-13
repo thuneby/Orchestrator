@@ -7,18 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="FileHelpers" Version="3.5.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Components\BlobAccess\BlobAccess.csproj" />
     <ProjectReference Include="..\..\Components\DocumentAccess\DocumentAccess.csproj" />
+    <ProjectReference Include="..\..\Components\EventBus\EventBus.csproj" />
+    <ProjectReference Include="..\..\Components\Utilities\Utilities.csproj" />
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
     <ProjectReference Include="..\..\Core\ExternalModels\ExternalModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BusinessLogic\Helpers\" />
     <Folder Include="BusinessLogic\Mappers\" />
   </ItemGroup>
 

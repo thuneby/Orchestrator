@@ -1,4 +1,5 @@
-﻿using DataAccess.DataAccess;
+﻿using Core.Models;
+using DataAccess.DataAccess;
 using Microsoft.Extensions.Logging;
 
 namespace PersistanceTest.TestStorage

@@ -18,9 +18,5 @@ namespace Core.Models
 
         public long TenantÍd { get; set; }
 
-        [ForeignKey("TenantId")]
-        [Newtonsoft.Json.JsonIgnore]
-        public Tenant Tenant { get; set; }
-
     }
 }

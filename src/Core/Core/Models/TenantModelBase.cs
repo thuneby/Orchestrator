@@ -2,7 +2,7 @@
 
 namespace Core.Models
 {
-    public abstract class TenantModelBase: ModelBase
+    public abstract class TenantModelBase: LongEntityBase
     {
         public TenantModelBase() 
         { 

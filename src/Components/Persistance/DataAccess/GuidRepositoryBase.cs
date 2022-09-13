@@ -1,6 +1,5 @@
 ﻿using Core.Models;
 using DataAccess.Common;
-using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -66,7 +65,7 @@ namespace DataAccess.DataAccess
         private IQueryable<T1> Query(bool eager = false)
         {
             var query = _context.Set<T1>().AsQueryable();
-            return !eager ? query : _context.Model.FindEntityType(typeof(T1)).GetNavigations().Aggregate(query, (current, property) => current.Include(property.Name));
+            return !eager ? query : _context.Model.FindEntityType(typeof(T1))?.GetNavigations().Aggregate(query, (current, property) => current.Include(property.Name));
         }
     }
 }

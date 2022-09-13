@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Models;
+using Core.QueueModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace PersistanceTest.TestStorage
 {
@@ -9,5 +11,6 @@ namespace PersistanceTest.TestStorage
         }
 
         public DbSet<InputFile> InputFile { get; set; }
+        public DbSet<QueueMessage> QueueMessage { get; set; }
     }
 }

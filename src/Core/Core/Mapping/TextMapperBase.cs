@@ -5,7 +5,7 @@ namespace Core.Mapping
 {
     public class TextMapperBase<T1, T2>
         where T1 : TextModelBase
-        where T2 : TenantModelBase
+        where T2 : GuidModelBase
     {
         private readonly IMapper _mapper;
 

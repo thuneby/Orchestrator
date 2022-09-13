@@ -1,0 +1,10 @@
+{
+  "ServiceConfig": {
+    "IngestionUri": "https://localhost:7206",
+    "ParseUri": "https://localhost:7298",
+    "ValidateUri": "",
+    "PayUri": "",
+    "ConsolidateUri": "",
+    "TransferUri": ""
+  }
+}

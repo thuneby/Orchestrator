@@ -2,7 +2,7 @@
 
 namespace Core.Models
 {
-    public class Tenant: ModelBase
+    public class Tenant: LongEntityBase
     {
         public string TenantName { get; set; }
 
