@@ -18,7 +18,7 @@ namespace PersistanceTest.RepositoryTests
         public EventEntityRepositoryTests()
         {
             Initialize();
-            _repository = new EventRepository(Context, TestLoggerFactory);
+            _repository = new EventRepository(OrchestratorContext, TestLoggerFactory);
         }
         
         [Fact]

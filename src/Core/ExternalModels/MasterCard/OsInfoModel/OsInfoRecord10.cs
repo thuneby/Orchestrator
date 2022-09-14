@@ -6,7 +6,7 @@ namespace ExternalModels.MasterCard.OsInfoModel
     /// <summary>
     /// Navngivning fra Nets
     /// </summary>
-    public class OsRecord10 : OsSubRecordBase
+    public class OsInfoRecord10 : OsInfoSubRecordBase
     {
         [StringLength(3)] public string RESERVE1KODE { get; set; }
         [StringLength(8)] public string RESERVE1 { get; set; }

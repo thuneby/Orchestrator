@@ -5,7 +5,7 @@
 namespace Parse.Models.OsInfoFormat
 {
     [FixedLengthRecord]//(FixedMode.AllowMoreChars)]
-    public class DataEndRecordA : DataEndRecordBase
+    public class DataEndRecordA : OsInfoEndRecordBase
     {
         [FieldFixedLength(4)] public string NULLER;
         [FieldFixedLength(10)] public string TOTALANTAL;

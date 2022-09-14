@@ -6,7 +6,7 @@ namespace ExternalModels.MasterCard.OsInfoModel
     /// <summary>
     /// Navngivning fra Nets
     /// </summary>
-    public class OsRecord03 : OsSubRecordBase
+    public class OsInfoRecord03 : OsInfoSubRecordBase
     {
         [StringLength(8)] public string STARTDATO_AFVIGELSE { get; set; }
         [StringLength(2)] public string AFVIGELSESKODE { get; set; }

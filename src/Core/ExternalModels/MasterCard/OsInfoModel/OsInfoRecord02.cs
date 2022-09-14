@@ -6,7 +6,7 @@ namespace ExternalModels.MasterCard.OsInfoModel
     /// <summary>
     /// Navngivning fra Nets
     /// </summary>
-    public class OsRecord02 : OsSubRecordBase
+    public class OsInfoRecord02 : OsInfoSubRecordBase
     {
         [StringLength(8)] public string STARTDATO_PENSIONSGIVENDE_LON { get; set; }
         [StringLength(12)] public string PENSIONSGIVENDE_LON { get; set; }

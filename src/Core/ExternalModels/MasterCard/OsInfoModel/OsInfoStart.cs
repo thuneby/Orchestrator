@@ -7,11 +7,11 @@ namespace ExternalModels.MasterCard.OsInfoModel
     /// <summary>
     /// Navngivning fra Nets
     /// </summary>
-    public class OsStart : GuidModelBase
+    public class OsInfoStart : GuidModelBase
     {
-        public OsStart()
+        public OsInfoStart()
         {
-            OsSectionStart = new HashSet<OsSectionStart>();
+            OsSectionStart = new HashSet<OsInfoSectionStart>();
         }
 
         [StringLength(2)] public string SYSTEMKODE { get; set; }
@@ -22,7 +22,7 @@ namespace ExternalModels.MasterCard.OsInfoModel
         [StringLength(8)] public string DATALEVERANDORNUMMER { get; set; }
         [StringLength(1)] public string LEVERANCEKVITTERING { get; set; }
 
-        public OsEnd OsEnd { get; set; }
-        public ICollection<OsSectionStart> OsSectionStart { get; set; }
+        public OsInfoEnd OsEnd { get; set; }
+        public ICollection<OsInfoSectionStart> OsSectionStart { get; set; }
     }
 }

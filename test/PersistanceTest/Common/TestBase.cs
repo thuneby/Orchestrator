@@ -8,19 +8,19 @@ namespace PersistanceTest.Common
 {
     public class TestBase
     {
-        protected OrchestratorContext Context;
+        protected OrchestratorContext OrchestratorContext;
         protected TestStorageContext TestStorageContext; 
         protected ILoggerFactory TestLoggerFactory;
 
 
         protected void Initialize()
         {
-            Context = TestBase.InitializeContext();
+            OrchestratorContext = InitializeOrchestratorContext();
             TestStorageContext = InitializeTestStorageContext();
-            TestLoggerFactory = TestBase.InitializeLoggerFactory();
+            TestLoggerFactory = InitializeLoggerFactory();
         }
 
-        public static OrchestratorContext InitializeContext()
+        public static OrchestratorContext InitializeOrchestratorContext()
         {
             var options = new DbContextOptionsBuilder<OrchestratorContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())

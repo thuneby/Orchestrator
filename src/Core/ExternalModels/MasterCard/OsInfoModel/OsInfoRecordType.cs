@@ -1,6 +1,6 @@
 ﻿namespace ExternalModels.MasterCard.OsInfoModel
 {
-    public enum OsRecordType
+    public enum OsInfoRecordType
     {
         OsRecord00 = 0,
         OsRecord01 = 1,

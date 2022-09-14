@@ -5,7 +5,7 @@
 namespace Parse.Models.OsInfoFormat
 {
     [FixedLengthRecord]//(FixedMode.AllowMoreChars)]
-    public class DataEndRecordBase : OsBase
+    public class OsInfoEndRecordBase : OsBase
     {
         [FieldFixedLength(2)] public string KONSTANT;
     }

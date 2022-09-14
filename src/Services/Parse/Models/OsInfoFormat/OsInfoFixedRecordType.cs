@@ -1,6 +1,6 @@
 ﻿namespace Parse.Models.OsInfoFormat
 {
-    public enum OsFixedRecordType
+    public enum OsInfoFixedRecordType
     {
         OsRecordFixed00 = 0,
         OsRecordFixed01 = 1,

@@ -7,14 +7,15 @@ namespace ExternalModels.MasterCard.OsInfoModel
     /// <summary>
     /// Navngivning fra Nets
     /// </summary>
-    public class OsRecordBase : GuidModelBase
+    public class OsInfoEnd : GuidModelBase
     {
         [StringLength(2)] public string SYSTEMKODE { get; set; }
         [StringLength(1)] public string RECORDTYPE { get; set; }
-        [StringLength(2)] public string OVERFORSELSTYPE { get; set; }
-        [StringLength(3)] public string INFOTYPE { get; set; }
-        [StringLength(2)] public string INFORECORDTYPE { get; set; }
-        [StringLength(7)] public string SEKVENSNUMMER { get; set; }
+        [StringLength(2)] public string KONSTANT { get; set; }
+        [StringLength(10)] public string TOTALANTAL { get; set; }
+        [StringLength(12)] public string TOTALBELOB { get; set; }
+        [StringLength(8)] public string DATALEVERANDORNUMMER { get; set; }
 
+        public OsInfoStart OsStart { get; set; }
     }
 }
