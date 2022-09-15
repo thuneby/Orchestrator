@@ -4,9 +4,9 @@ using Parse.Models.OsInfoFormat;
 
 namespace Parse.BusinessLogic.Mappers
 {
-    public class OsInfoSectionStartMapper: TextMapperBase<SectionStartRecord, OsInfoSectionStart>
+    public class OsInfoEndBMapper: TextMapperBase<DataEndRecordB, OsInfoEnd>
     {
-        public OsInfoSectionStartMapper(long tenantId) : base(tenantId)
+        public OsInfoEndBMapper(long tenantId) : base(tenantId)
         {
         }
     }

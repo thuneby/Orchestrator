@@ -1,17 +1,18 @@
 ﻿using Core.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 // ReSharper disable InconsistentNaming
 
 namespace ExternalModels.MasterCard.OsInfoModel
 {
-    /// <summary>
-    /// Navngivning fra Nets
-    /// </summary>
+    [Table("OsInfoStart")]
     public class OsInfoStart : GuidModelBase
     {
         public OsInfoStart()
         {
-            OsSectionStart = new HashSet<OsInfoSectionStart>();
+            OsInfoSectionStartCollection = new HashSet<OsInfoSectionStart>();
+            OsInfoEndCollection = new HashSet<OsInfoEnd>();
         }
 
         [StringLength(2)] public string SYSTEMKODE { get; set; }
@@ -22,7 +23,7 @@ namespace ExternalModels.MasterCard.OsInfoModel
         [StringLength(8)] public string DATALEVERANDORNUMMER { get; set; }
         [StringLength(1)] public string LEVERANCEKVITTERING { get; set; }
 
-        public OsInfoEnd OsEnd { get; set; }
-        public ICollection<OsInfoSectionStart> OsSectionStart { get; set; }
+        public ICollection<OsInfoSectionStart> OsInfoSectionStartCollection { get; set; }
+        public ICollection<OsInfoEnd> OsInfoEndCollection { get; set; }
     }
 }

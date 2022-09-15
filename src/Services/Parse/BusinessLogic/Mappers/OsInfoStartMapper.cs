@@ -6,5 +6,8 @@ namespace Parse.BusinessLogic.Mappers
 {
     public class OsInfoStartMapper: TextMapperBase<OsInfoStartRecord, OsInfoStart>
     {
+        public OsInfoStartMapper(long tenantId) : base(tenantId)
+        {
+        }
     }
 }

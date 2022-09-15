@@ -1,8 +1,15 @@
+using DocumentAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using Utilities.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContextFactory<DocumentContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.MigrationsAssembly("Parse")));
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

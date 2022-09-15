@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace PersistanceTest.Common
 {
-    internal class TestUtil
+    public class TestUtil
     {
         private static readonly string TestData = Path.Combine("TestData");
 

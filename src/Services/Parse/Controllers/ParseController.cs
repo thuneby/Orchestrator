@@ -22,10 +22,10 @@ namespace Parse.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<Guid>> ParseFromGuid([FromQuery] Guid fileId, [FromQuery] DocumentType documentType) 
+        public async Task<ActionResult<Guid>> ParseFromGuid([FromQuery] Guid fileId, [FromQuery] DocumentType documentType, [FromQuery] long tenantId) 
         {
             var parser = ParserFactory.GetParser(documentType, _storageHelper, _context, _loggerFactory);
-            var result = await parser.Parse(fileId);
+            var result = await parser.Parse(fileId, tenantId);
 
             return result;
 

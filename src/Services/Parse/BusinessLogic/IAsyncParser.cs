@@ -2,6 +2,6 @@
 {
     public interface IAsyncParser
     {
-        Task<Guid> Parse(Guid fileId);
+        Task<Guid> Parse(Guid fileId, long tenantId);
     }
 }

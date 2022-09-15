@@ -29,7 +29,7 @@ namespace BlobAccess.DataAccessLayer.Helpers
 
             // Upload local file
             await blob.UploadAsync(fileStream);
-            await AddBlobMetadataAsync(blob, documentType);
+            await AddBlobMetadataAsync(blob, documentType, fileName);
             return id;
         }
 
@@ -37,6 +37,20 @@ namespace BlobAccess.DataAccessLayer.Helpers
         {
             var containerClient = GetClient();
             var blob = containerClient.GetBlobClient(fileName);
+            var stream = new MemoryStream();
+            if (blob.Exists())
+            {
+                await blob.DownloadToAsync(stream);
+            }
+
+            stream.Position = 0;
+            return stream;
+        }
+
+        public async Task<Stream> GetPayload(Guid id)
+        {
+            var containerClient = GetClient();
+            var blob = containerClient.GetBlobClient(id.ToString());
             var stream = new MemoryStream();
             if (blob.Exists())
             {
@@ -90,13 +104,14 @@ namespace BlobAccess.DataAccessLayer.Helpers
             return containerClient;
         }
 
-        private static async Task AddBlobMetadataAsync(BlobClient blob, DocumentType documentType)
+        private static async Task AddBlobMetadataAsync(BlobClient blob, DocumentType documentType, string fileName)
         {
             IDictionary<string, string> metadata = new Dictionary<string, string>
             {
 
                 // Add metadata to the dictionary by calling the Add method
-                { "documentType", documentType.ToString() }
+                {"documentType", documentType.ToString()},
+                {"fileName", fileName}
             };
 
             // Set the blob's metadata.

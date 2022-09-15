@@ -25,7 +25,7 @@ namespace ExternalModels.MasterCard.OsInfoModel
         [StringLength(8)] public string PBSNUMMERMODTAGER { get; set; }
 
         public OsInfoStart OsStart { get; set; }
-        public OsInfoSectionEnd OsSectionEnd { get; set; }
+        public ICollection<OsInfoSectionEnd>OsSectionEnd { get; set; }
         public ICollection<OsInfoRecord00> OsRecord00Collection { get; set; }
     }
 }

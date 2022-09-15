@@ -4,6 +4,7 @@ using Core.Models;
 using DocumentAccess.Models;
 using ExternalModels.MasterCard.OsInfoModel;
 using FileHelpers;
+using Google.Api;
 using Parse.BusinessLogic.Helpers;
 using Parse.BusinessLogic.Mappers;
 using Parse.Models.OsInfoFormat;
@@ -23,9 +24,8 @@ namespace Parse.BusinessLogic
             _logger = loggerFactory.CreateLogger<ParseOsInfo>();
         }
 
-        public async Task<Guid> Parse(Guid fileId)
+        public async Task<Guid> Parse(Guid fileId, long tenantId)
         {
-            var model = new FlatOsInfoModel();
             var payload = await _storageHelper.GetPayload(fileId.ToString());
             var errors = new List<string>();
 
@@ -48,29 +48,68 @@ namespace Parse.BusinessLogic
             }
             if (result.Length == 0)
             {
-                var exception = new DataException("Error - The formatet is not OS-Information!");
-                throw exception;
+                var exception = new DataException("Error - The format is not OS-Information!"); throw exception;
             }
 
-            ParseRecordsIntoModel(model, result);
+            var model = ParseRecordsIntoModel(result, tenantId);
             
             // Fix model
-            var osInfoStart = OrderModel(model);
+            model = OrderModel(model);
+            
             // Save Model
+            await SaveModel(model);
 
             return model.OsInfoStart.Id;
         }
 
-        private static OsInfoStart OrderModel(FlatOsInfoModel model)
+        private static FlatOsInfoModel OrderModel(FlatOsInfoModel model)
         {
-            // Todo fix relations
-            return model.OsInfoStart;
+            // Todo fix FK relations
+
+            model.OsInfoEnd.OsStart = model.OsInfoStart;
+            return model;
         }
 
-        private static FlatOsInfoModel ParseRecordsIntoModel(FlatOsInfoModel model, object[] result)
+        private async Task SaveModel(FlatOsInfoModel model)
         {
-            var osStartMapper = new OsInfoStartMapper();
-            var osSectionStartMapper = new OsInfoSectionStartMapper();
+            try
+            {
+                _documentContext.OsInfoStart.Add(model.OsInfoStart);
+                _documentContext.OsInfoEnd.Add(model.OsInfoEnd);
+                _documentContext.OsSectionStart.AddRange(model.OsInfoSectionStartCollection);
+                _documentContext.OsSectionEnd.AddRange(model.OsInfoSectionEndCollection);
+                _documentContext.OsRecord00.AddRange(model.OsInfoRecord00Collection);
+                _documentContext.OsRecord01.AddRange(model.OsInfoRecord01Collection);
+                _documentContext.OsRecord02.AddRange(model.OsInfoRecord02Collection);
+                _documentContext.OsRecord03.AddRange(model.OsInfoRecord03Collection);
+                _documentContext.OsRecord04.AddRange(model.OsInfoRecord04Collection);
+                _documentContext.OsRecord05.AddRange(model.OsInfoRecord05Collection);
+                _documentContext.OsRecord10.AddRange(model.OsInfoRecord10Collection);
+                await _documentContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private static FlatOsInfoModel ParseRecordsIntoModel(object[] result, long tenantId)
+        {
+            var model = new FlatOsInfoModel();
+            var osStartMapper = new OsInfoStartMapper(tenantId);
+            var osSectionStartMapper = new OsInfoSectionStartMapper(tenantId);
+            var osRecord00Mapper = new OsInfoRecord00Mapper(tenantId);
+            var osRecord01Mapper = new OsInfoRecord01Mapper(tenantId);
+            var osRecord02Mapper = new OsInfoRecord02Mapper(tenantId);
+            var osRecord03Mapper = new OsInfoRecord03Mapper(tenantId);
+            var osRecord04Mapper = new OsInfoRecord04Mapper(tenantId);
+            var osRecord05Mapper = new OsInfoRecord05Mapper(tenantId);
+            var osRecord10Mapper = new OsInfoRecord10Mapper(tenantId);
+            var osSectionEndMapper = new OsInfoSectionEndMapper(tenantId);
+            var osEndAMapper = new OsInfoEndAMapper(tenantId);
+            var osEndBMapper = new OsInfoEndBMapper(tenantId); 
+
             foreach (var record in result)
             {
                 var type = OsInfoParserHelper.GetRecordType((OsBase)record);
@@ -85,24 +124,34 @@ namespace Parse.BusinessLogic
                         model.OsInfoSectionStartCollection.Add(osSectionStartMapper.Map((SectionStartRecord) record));
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed00:
+                        model.OsInfoRecord00Collection.Add(osRecord00Mapper.Map((OsRecordFixed00) record));
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed01:
+                        model.OsInfoRecord01Collection.Add(osRecord01Mapper.Map((OsRecordFixed01) record));
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed02:
+                        model.OsInfoRecord02Collection.Add(osRecord02Mapper.Map((OsRecordFixed02) record));
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed03:
+                        model.OsInfoRecord03Collection.Add(osRecord03Mapper.Map((OsRecordFixed03) record));
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed04:
+                        model.OsInfoRecord04Collection.Add(osRecord04Mapper.Map((OsRecordFixed04) record));
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed05:
+                        model.OsInfoRecord05Collection.Add(osRecord05Mapper.Map((OsRecordFixed05) record));
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed10:
+                        model.OsInfoRecord10Collection.Add(osRecord10Mapper.Map((OsRecordFixed10) record));
                         break;
                     case OsInfoFixedRecordType.SectionEndRecord:
+                        model.OsInfoSectionEndCollection.Add(osSectionEndMapper.Map((SectionEndRecord) record));
                         break;
                     case OsInfoFixedRecordType.DataEndRecordA:
+                        model.OsInfoEnd = osEndAMapper.Map((DataEndRecordA) record);
                         break;
                     case OsInfoFixedRecordType.DataEndRecordB:
+                        model.OsInfoEnd = osEndBMapper.Map((DataEndRecordB) record);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

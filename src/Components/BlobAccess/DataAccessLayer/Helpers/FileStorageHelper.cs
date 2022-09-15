@@ -30,6 +30,11 @@ namespace BlobAccess.DataAccessLayer.Helpers
             throw new NotImplementedException();
         }
 
+        public Task<Stream> GetPayload(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> DeleteFile(string fileName)
         {
             throw new NotImplementedException();

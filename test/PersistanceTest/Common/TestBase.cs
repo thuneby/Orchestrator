@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using DocumentAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -9,13 +10,15 @@ namespace PersistanceTest.Common
     public class TestBase
     {
         protected OrchestratorContext OrchestratorContext;
-        protected TestStorageContext TestStorageContext; 
+        protected TestStorageContext TestStorageContext;
+        protected DocumentContext DocumentContext;
         protected ILoggerFactory TestLoggerFactory;
 
 
         protected void Initialize()
         {
             OrchestratorContext = InitializeOrchestratorContext();
+            DocumentContext = InitializeDocumentContext();
             TestStorageContext = InitializeTestStorageContext();
             TestLoggerFactory = InitializeLoggerFactory();
         }
@@ -27,6 +30,16 @@ namespace PersistanceTest.Common
                 .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .Options;
             var context = new OrchestratorContext(options);
+            return context;
+        }
+
+        public static DocumentContext InitializeDocumentContext()
+        {
+            var options = new DbContextOptionsBuilder<DocumentContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .Options;
+            var context = new DocumentContext(options);
             return context;
         }
 

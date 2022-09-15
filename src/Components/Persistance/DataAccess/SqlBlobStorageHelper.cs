@@ -1,20 +1,18 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
 using Core.Models;
-using Microsoft.Extensions.Logging;
-using PersistanceTest.TestStorage;
 using System.Data;
 
-namespace PersistanceTest.Common
+namespace DataAccess.DataAccess
 {
-    public class TestStorageHelper : IStorageHelper
+    public class SqlBlobStorageHelper: IStorageHelper
     {
-        private readonly TestStorageRepository _repository;
+        private readonly InputFileRepository _repository;
 
-        public TestStorageHelper(TestStorageContext context, ILoggerFactory loggerFactory)
+        public SqlBlobStorageHelper(InputFileRepository inputFileRepository)
         {
-            _repository = new TestStorageRepository(context, loggerFactory);
+            _repository = inputFileRepository;
         }
-
+        
         public async Task<Guid> UploadFile(Stream fileStream, string fileName, DocumentType documentType)
         {
             var content = new byte[fileStream.Length];
@@ -28,35 +26,42 @@ namespace PersistanceTest.Common
             inputFile.Content = content;
             _repository.Add(inputFile);
             return inputFile.Id;
+
         }
 
         public async Task<Stream> GetPayload(string fileName)
         {
-            var guid = Guid.Parse(fileName);
             try
             {
-                var file = _repository.Get(guid);
-                await Task.FromResult(true);
+                var file = await _repository.Get(fileName);
                 return file == null ? Stream.Null : new MemoryStream(file.Content);
             }
             catch (Exception exception)
             {
-                throw new DataException("Fil med  id " + guid + " ikke fundet!", exception);
+                throw new DataException("Fil med navn " + fileName + " ikke fundet!", exception);
             }
         }
 
         public async Task<Stream> GetPayload(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var file = _repository.Get(id);
+                await Task.FromResult(true);
+                return file == null ? Stream.Null : new MemoryStream(file.Content);
+            }
+            catch (Exception exception)
+            {
+                throw new DataException("Fil med  id " + id + " ikke fundet!", exception);
+            }
         }
 
         public async Task<bool> DeleteFile(string fileName)
         {
-            var guid = Guid.Parse(fileName);
-            var file = _repository.Get(guid);
+            var file = await _repository.Get(fileName);
             if (file == null)
                 return false;
-            _repository.Delete(guid);
+            _repository.Delete(file.Id);
             await Task.FromResult(true);
             return true;
         }
@@ -67,5 +72,4 @@ namespace PersistanceTest.Common
             return _repository.GetAll().Select(x => x.FileName).ToList();
         }
     }
-
 }
