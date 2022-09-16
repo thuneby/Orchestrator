@@ -1,6 +1,12 @@
+using BlobAccess.DataAccessLayer.Helpers;
+using DataAccess.DataAccess;
 using DataAccess.Models;
+using DocumentAccess.DocumentAccessLayer;
 using DocumentAccess.Models;
+using EventBus.Abstractions;
+using EventBus.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Utilities.Ftp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +20,12 @@ builder.Services.AddDbContextFactory<DocumentContext>(opt =>
 builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("OrchestratorConnection")));
 
+builder.Services.AddScoped<IFtpController, FileController>();
+builder.Services.AddScoped<InputFileRepository>();
+builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
+builder.Services.AddScoped<EventRepository>();
+builder.Services.AddScoped<IEventBus, SqlEventBus>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 
 builder.Services.AddControllersWithViews();
 
