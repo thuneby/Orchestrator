@@ -2,6 +2,7 @@
 using Core.Models;
 using Microsoft.Extensions.Logging;
 using PersistanceTest.TestStorage;
+using System;
 using System.Data;
 
 namespace PersistanceTest.Common
@@ -47,7 +48,17 @@ namespace PersistanceTest.Common
 
         public async Task<Stream> GetPayload(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var file = _repository.Get(id);
+                await Task.FromResult(true);
+                return file == null ? Stream.Null : new MemoryStream(file.Content);
+            }
+            catch (Exception exception)
+            {
+                throw new DataException("Fil med  id " + id + " ikke fundet!", exception);
+            }
+
         }
 
         public async Task<bool> DeleteFile(string fileName)
