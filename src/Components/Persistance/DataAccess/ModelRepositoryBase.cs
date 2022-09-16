@@ -12,10 +12,10 @@ namespace DataAccess.DataAccess
         private readonly OrchestratorContext _context;
         private readonly ILogger<ModelRepositoryBase<T1>> _logger;
 
-        public ModelRepositoryBase(OrchestratorContext context, ILoggerFactory loggerFactory)
+        public ModelRepositoryBase(OrchestratorContext context, ILogger<ModelRepositoryBase<T1>> logger)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger<ModelRepositoryBase<T1>>();
+            _logger = logger;
         }
 
 

@@ -1,7 +1,5 @@
 ﻿using Core.Models;
 using Microsoft.Extensions.Logging;
-using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Utilities.Ftp
 {
@@ -9,7 +7,7 @@ namespace Utilities.Ftp
     {
         private string _ftpRootFolder;
         private const string DEFAULT_EXTENSION = ".TXT";
-        private static readonly object Lock = new object();
+        private static readonly object Lock = new();
         private ILogger _logger;
 
         public FileController(ILogger<FileController> logger, string ftpRootFolder = "")
@@ -77,7 +75,7 @@ namespace Utilities.Ftp
             return fileName;
         }
 
-        public InputFile Get(string fileName, string folder)
+        public InputFile? Get(string fileName, string folder)
         {
             var fullPath = GetFullPath(folder);
             if (!Directory.Exists(fullPath))
@@ -121,8 +119,8 @@ namespace Utilities.Ftp
         {
             try
             {
-
-                var fullName = Path.Combine(folder, fileName);
+                var fullPath = GetFullPath(folder);
+                var fullName = Path.Combine(fullPath, fileName);
                 if (File.Exists(fullName))
                     File.Delete(fullName);
             }

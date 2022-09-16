@@ -12,7 +12,7 @@ builder.Configuration.AddJsonFile($"ServiceConfig.json", optional: false);
 builder.Services.Configure<ServiceConfig>(options => builder.Configuration.GetSection("ServiceConfig").Bind(options));
 
 builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("OrchestratorConnection"),
         x => x.MigrationsAssembly("OrchestratorApi")));
 
 builder.Services.AddScoped<EventRepository>();

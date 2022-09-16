@@ -92,7 +92,7 @@ namespace Utilities.Ftp
             return fileName;
         }
 
-        public InputFile Get(string fileName, string folder)
+        public InputFile? Get(string fileName, string folder)
         {
             if (!_client.IsConnected)
                 _client.Connect();

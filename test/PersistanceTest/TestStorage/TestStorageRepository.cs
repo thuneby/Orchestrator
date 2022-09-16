@@ -6,7 +6,7 @@ namespace PersistanceTest.TestStorage
 {
     public class TestStorageRepository : GuidRepositoryBase<InputFile>
     {
-        public TestStorageRepository(TestStorageContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
+        public TestStorageRepository(TestStorageContext context, ILogger<TestStorageRepository> logger) : base(context, logger)
         {
         }
 

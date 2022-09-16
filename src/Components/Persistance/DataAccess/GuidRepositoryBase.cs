@@ -11,10 +11,10 @@ namespace DataAccess.DataAccess
         private readonly DbContext _context; 
         private readonly ILogger<GuidRepositoryBase<T1>> _logger;
 
-        public GuidRepositoryBase(DbContext context, ILoggerFactory loggerFactory)
+        public GuidRepositoryBase(DbContext context, ILogger<GuidRepositoryBase<T1>> logger)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger<GuidRepositoryBase<T1>>();
+            _logger = logger;
         }
 
         public Tenant Tenant { get; set; }

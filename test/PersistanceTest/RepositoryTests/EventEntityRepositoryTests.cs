@@ -1,6 +1,7 @@
 ﻿using Core.Models;
 using DataAccess.DataAccess;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using PersistanceTest.Common;
 
 namespace PersistanceTest.RepositoryTests
@@ -18,7 +19,7 @@ namespace PersistanceTest.RepositoryTests
         public EventEntityRepositoryTests()
         {
             Initialize();
-            _repository = new EventRepository(OrchestratorContext, TestLoggerFactory);
+            _repository = new EventRepository(OrchestratorContext, TestLoggerFactory.CreateLogger<EventRepository>());
         }
         
         [Fact]

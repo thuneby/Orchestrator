@@ -7,7 +7,7 @@ namespace DataAccess.DataAccess
 {
     public class FlowRepository : ModelRepositoryBase<Flow>, IRepository<Flow, long>
     {
-        public FlowRepository(OrchestratorContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
+        public FlowRepository(OrchestratorContext context, ILogger<FlowRepository> logger) : base(context, logger)
         {
         }
     }

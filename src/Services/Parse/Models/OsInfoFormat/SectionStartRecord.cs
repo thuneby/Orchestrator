@@ -8,7 +8,8 @@ namespace Parse.Models.OsInfoFormat
     public class SectionStartRecord : OsBase
     {
         [FieldFixedLength(2)] public string OVERFORSELSART;
-        [FieldFixedLength(26)] public string NULLER;
+        [FieldFixedLength(3)] public string INFOTYPE;
+        [FieldFixedLength(23)] public string NULLER;
         [FieldFixedLength(6)] public string DISPOSITIONSDATO;
         [FieldFixedLength(4)] public string REGISTRERINGSNUMMER;
         [FieldFixedLength(10)] public string KONTONUMMER;

@@ -8,7 +8,7 @@ namespace PersistanceTest.TestStorage
     internal class TestQueueMessageRepository: GuidRepositoryBase<QueueMessage>
     {
         private readonly TestStorageContext _context;
-        public TestQueueMessageRepository(TestStorageContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
+        public TestQueueMessageRepository(TestStorageContext context, ILogger<TestQueueMessageRepository> logger) : base(context, logger)
         {
             _context = context;
         }

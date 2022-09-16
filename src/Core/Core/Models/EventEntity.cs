@@ -1,4 +1,6 @@
-﻿namespace Core.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Core.Models
 {
     public class EventEntity: GuidModelBase
     {
@@ -18,5 +20,10 @@
         public short Priority { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
+
+
+        [ForeignKey("FlowId")]
+        [Newtonsoft.Json.JsonIgnore]
+        public virtual Flow Flow { get; set; }
     }
 }

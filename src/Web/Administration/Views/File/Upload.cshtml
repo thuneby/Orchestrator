@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Upload";
+}
+
+<h2>Start indberetning</h2>
+<p>&nbsp;</p>
+<p>
+    Indlæs en indberetningsfil fra dit lønsystem eller fra Excel:
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <section>
+            <h3>
+                Indlæsning af pensionsindberetning
+            </h3>
+            <form asp-action="Upload" asp-controller="File" method="post" enctype="multipart/form-data" role="form">
+                <p>V&aelig;lg fil og dokumenttype:</p>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="file" class="btn " name="file" />
+                    </div>
+                </div>
+                <input id="async" name="async" value="false" type="hidden" />
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <select id="type" name="type" class="form-control">
+                            <option Value="3">IP Standardformat</option>
+                            <option Value="4">IP Udvidet format</option>
+                            <option Value="2">Nets Overførselsservice</option>
+                            <option Value="1">Nets Informationsservice</option>
+                            <option Value="5">Excel</option>
+                        </select>
+                        <p></p>
+                        <button type="submit" class="btn ">OK</button>
+                    </div>
+                </div>
+            </form>
+            <p></p>
+        </section>
+    </div>
+</div>

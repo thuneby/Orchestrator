@@ -7,7 +7,7 @@ namespace DataAccess.DataAccess
 {
     public class TenantRepository : ModelRepositoryBase<Tenant>, IRepository<Tenant, long>
     {
-        public TenantRepository(OrchestratorContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
+        public TenantRepository(OrchestratorContext context, ILogger<TenantRepository> logger) : base(context, logger)
         {
         }
     }

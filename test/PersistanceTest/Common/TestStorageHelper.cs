@@ -12,7 +12,7 @@ namespace PersistanceTest.Common
 
         public TestStorageHelper(TestStorageContext context, ILoggerFactory loggerFactory)
         {
-            _repository = new TestStorageRepository(context, loggerFactory);
+            _repository = new TestStorageRepository(context, loggerFactory.CreateLogger<TestStorageRepository>());
         }
 
         public async Task<Guid> UploadFile(Stream fileStream, string fileName, DocumentType documentType)

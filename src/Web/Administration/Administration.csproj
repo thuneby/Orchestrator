@@ -6,4 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Components\BlobAccess\BlobAccess.csproj" />
+    <ProjectReference Include="..\..\Components\DocumentAccess\DocumentAccess.csproj" />
+    <ProjectReference Include="..\..\Components\EventBus\EventBus.csproj" />
+    <ProjectReference Include="..\..\Components\Persistance\DataAccess.csproj" />
+    <ProjectReference Include="..\..\Core\Core\Core.csproj" />
+  </ItemGroup>
+
 </Project>

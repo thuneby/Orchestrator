@@ -32,7 +32,7 @@ namespace Ingestion.Controllers
         public async Task<ActionResult> ReceiveFiles(string ftpFolder, long tenantId)
         {
             var fileCount = 0;
-            var fileList = _ftpController.GetFileList("");
+            var fileList = _ftpController.GetFileList(ftpFolder);
             if (fileList.Count == 0)
                 return new ObjectResult("No files to download!");
             foreach (var file in fileList)
@@ -41,8 +41,7 @@ namespace Ingestion.Controllers
                 var inputFile = _ftpController.Get(file, ftpFolder);
                 inputFile.TenantÍd = tenantId;
                 inputFile.DocumentType = documentType;
-                using var stream = new MemoryStream();
-                stream.Read(inputFile.Content);
+                using var stream = new MemoryStream(inputFile.Content);
                 var id = await _storageHelper.UploadFile(stream, inputFile.Id.ToString(), documentType);
                 fileCount++;
                 inputFile.Content = Array.Empty<byte>();

@@ -17,6 +17,7 @@ namespace ExternalModels.MasterCard.OsInfoModel
         [StringLength(2)] public string SYSTEMKODE { get; set; }
         [StringLength(1)] public string RECORDTYPE { get; set; }
         [StringLength(2)] public string OVERFORSELSART { get; set; }
+        [StringLength(3)] public string INFOTYPE { get; set; }
         [StringLength(6)] public string DISPOSITIONSDATO { get; set; }
         [StringLength(4)] public string REGISTRERINGSNUMMER { get; set; }
         [StringLength(10)] public string KONTONUMMER { get; set; }

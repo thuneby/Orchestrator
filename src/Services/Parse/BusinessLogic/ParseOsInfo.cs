@@ -1,10 +1,9 @@
 ﻿using System.Data;
 using BlobAccess.DataAccessLayer.Helpers;
 using Core.Models;
-using DocumentAccess.Models;
+using DocumentAccess.DocumentAccessLayer;
 using ExternalModels.MasterCard.OsInfoModel;
 using FileHelpers;
-using Google.Api;
 using Parse.BusinessLogic.Helpers;
 using Parse.BusinessLogic.Mappers;
 using Parse.Models.OsInfoFormat;
@@ -14,19 +13,19 @@ namespace Parse.BusinessLogic
     public class ParseOsInfo : IAsyncParser
     {
         private readonly IStorageHelper _storageHelper;
-        private readonly DocumentContext _documentContext;  
+        private readonly IDocumentRepository _documentRepository;
         private readonly ILogger _logger;
 
-        public ParseOsInfo(IStorageHelper storageHelper, DocumentContext documentContext, ILoggerFactory loggerFactory)
+        public ParseOsInfo(IStorageHelper storageHelper, IDocumentRepository documentRepository, ILoggerFactory loggerFactory)
         {
             _storageHelper = storageHelper;
-            _documentContext = documentContext;
+            _documentRepository = documentRepository;
             _logger = loggerFactory.CreateLogger<ParseOsInfo>();
         }
 
         public async Task<Guid> Parse(Guid fileId, long tenantId)
         {
-            var payload = await _storageHelper.GetPayload(fileId.ToString());
+            var payload = await _storageHelper.GetPayload(fileId);
             var errors = new List<string>();
 
             var engine = new MultiRecordEngine(
@@ -43,58 +42,29 @@ namespace Parse.BusinessLogic
             if (engine.ErrorManager.HasErrors) errors.AddRange(engine.ErrorManager.Errors.Select(error => error.ExceptionInfo.Message));
             if (errors.Any())
             {
+                foreach (var error in errors)
+                {
+                    _logger.LogError(error);   
+                }
                 var exception = new DataException(errors.FirstOrDefault());
                 throw exception;
             }
             if (result.Length == 0)
             {
-                var exception = new DataException("Error - The format is not OS-Information!"); throw exception;
+                const string errorText = "Error - The format is not OS-Information!";
+                var exception = new DataException(errorText); 
+                throw exception;
             }
 
-            var model = ParseRecordsIntoModel(result, tenantId);
-            
-            // Fix model
-            model = OrderModel(model);
+            var model = ParseRecordsIntoModel(result, tenantId, fileId);
             
             // Save Model
-            await SaveModel(model);
+            await _documentRepository.SaveModel(model);
 
             return model.OsInfoStart.Id;
         }
 
-        private static FlatOsInfoModel OrderModel(FlatOsInfoModel model)
-        {
-            // Todo fix FK relations
-
-            model.OsInfoEnd.OsStart = model.OsInfoStart;
-            return model;
-        }
-
-        private async Task SaveModel(FlatOsInfoModel model)
-        {
-            try
-            {
-                _documentContext.OsInfoStart.Add(model.OsInfoStart);
-                _documentContext.OsInfoEnd.Add(model.OsInfoEnd);
-                _documentContext.OsSectionStart.AddRange(model.OsInfoSectionStartCollection);
-                _documentContext.OsSectionEnd.AddRange(model.OsInfoSectionEndCollection);
-                _documentContext.OsRecord00.AddRange(model.OsInfoRecord00Collection);
-                _documentContext.OsRecord01.AddRange(model.OsInfoRecord01Collection);
-                _documentContext.OsRecord02.AddRange(model.OsInfoRecord02Collection);
-                _documentContext.OsRecord03.AddRange(model.OsInfoRecord03Collection);
-                _documentContext.OsRecord04.AddRange(model.OsInfoRecord04Collection);
-                _documentContext.OsRecord05.AddRange(model.OsInfoRecord05Collection);
-                _documentContext.OsRecord10.AddRange(model.OsInfoRecord10Collection);
-                await _documentContext.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        private static FlatOsInfoModel ParseRecordsIntoModel(object[] result, long tenantId)
+        private static FlatOsInfoModel ParseRecordsIntoModel(object[] result, long tenantId, Guid fileId)
         {
             var model = new FlatOsInfoModel();
             var osStartMapper = new OsInfoStartMapper(tenantId);
@@ -117,52 +87,51 @@ namespace Parse.BusinessLogic
                 {
                     case OsInfoFixedRecordType.DataStartRecord:
                     {
-                        model.OsInfoStart = osStartMapper.Map((OsInfoStartRecord) record);
+                        OsInfoParserHelper.AddDataStart(fileId, model, osStartMapper, record);
                         break;
                     }
                     case OsInfoFixedRecordType.SectionStartRecord:
-                        model.OsInfoSectionStartCollection.Add(osSectionStartMapper.Map((SectionStartRecord) record));
+                        OsInfoParserHelper.AddOsSectionStart(model, osSectionStartMapper, record);
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed00:
-                        model.OsInfoRecord00Collection.Add(osRecord00Mapper.Map((OsRecordFixed00) record));
+                        OsInfoParserHelper.AddOsRecord00(model, osRecord00Mapper, record);
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed01:
-                        model.OsInfoRecord01Collection.Add(osRecord01Mapper.Map((OsRecordFixed01) record));
+                        OsInfoParserHelper.AddOsRecord01(model, osRecord01Mapper, record);
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed02:
-                        model.OsInfoRecord02Collection.Add(osRecord02Mapper.Map((OsRecordFixed02) record));
+                        OsInfoParserHelper.AddOsRecord02(model, osRecord02Mapper, record);
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed03:
-                        model.OsInfoRecord03Collection.Add(osRecord03Mapper.Map((OsRecordFixed03) record));
+                        OsInfoParserHelper.AddOsRecord03(model, osRecord03Mapper, record);
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed04:
-                        model.OsInfoRecord04Collection.Add(osRecord04Mapper.Map((OsRecordFixed04) record));
+                        OsInfoParserHelper.AddOsRecord04(model, osRecord04Mapper, record);
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed05:
-                        model.OsInfoRecord05Collection.Add(osRecord05Mapper.Map((OsRecordFixed05) record));
+                        OsInfoParserHelper.AddOsRecord05(model, osRecord05Mapper, record);
                         break;
                     case OsInfoFixedRecordType.OsRecordFixed10:
-                        model.OsInfoRecord10Collection.Add(osRecord10Mapper.Map((OsRecordFixed10) record));
+                        OsInfoParserHelper.AddOsRecord10(model, osRecord10Mapper, record);
                         break;
                     case OsInfoFixedRecordType.SectionEndRecord:
-                        model.OsInfoSectionEndCollection.Add(osSectionEndMapper.Map((SectionEndRecord) record));
+                        OsInfoParserHelper.AddOsSectionEnd(model, osSectionEndMapper, record);
                         break;
                     case OsInfoFixedRecordType.DataEndRecordA:
-                        model.OsInfoEnd = osEndAMapper.Map((DataEndRecordA) record);
+                        OsInfoParserHelper.AddDataEndA(model, osEndAMapper, record);
                         break;
                     case OsInfoFixedRecordType.DataEndRecordB:
-                        model.OsInfoEnd = osEndBMapper.Map((DataEndRecordB) record);
+                        OsInfoParserHelper.AddDataEndB(model, osEndBMapper, record);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
             }
             return model;
 
         }
 
-        public static Type NetsOsSelector(MultiRecordEngine engine, string recordLine)
+        public static Type? NetsOsSelector(MultiRecordEngine engine, string recordLine)
         {
             if (recordLine.Length == 0)
                 return null;

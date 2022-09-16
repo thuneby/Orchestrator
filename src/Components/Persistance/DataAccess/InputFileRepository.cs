@@ -8,7 +8,7 @@ namespace DataAccess.DataAccess
     public class InputFileRepository: GuidRepositoryBase<InputFile>
     {
         private readonly BlobContext _blobContext;
-        public InputFileRepository(BlobContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
+        public InputFileRepository(BlobContext context, ILogger<InputFileRepository> logger) : base(context, logger)
         {
             _blobContext = context;
         }

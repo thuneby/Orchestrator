@@ -7,7 +7,7 @@ namespace DataAccess.DataAccess
 {
     public class ParameterRepository : GuidRepositoryBase<ParameterEntity>, IGuidRepository<ParameterEntity>
     {
-        public ParameterRepository(OrchestratorContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory)
+        public ParameterRepository(OrchestratorContext context, ILogger<ParameterRepository> logger) : base(context, logger)
         {
         }
     }

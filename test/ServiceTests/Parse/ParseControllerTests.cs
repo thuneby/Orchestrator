@@ -1,5 +1,7 @@
 ﻿using Core.Models;
+using DocumentAccess.DocumentAccessLayer;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Parse.Controllers;
 using PersistanceTest.Common;
 
@@ -7,13 +9,15 @@ namespace ServiceTests.Parse
 {
     public class ParseControllerTests: TestBase
     {
-        private const string parseFolder = "Parse";
+        private const string ParseFolder = "Parse"; 
+        private DocumentRepository _documentRepository;
         private ParseController _controller;
 
         private new void Initialize()
         {
             base.Initialize();
-            _controller = new ParseController(DocumentContext, new TestStorageHelper(TestStorageContext, TestLoggerFactory), TestLoggerFactory);
+            _documentRepository = new DocumentRepository(DocumentContext, TestLoggerFactory.CreateLogger<DocumentRepository>());
+            _controller = new ParseController(_documentRepository, new TestStorageHelper(TestStorageContext, TestLoggerFactory), TestLoggerFactory);
         }
 
         [Fact]
@@ -26,18 +30,18 @@ namespace ServiceTests.Parse
 
             // Act
             var result = await _controller.ParseFromGuid(id, DocumentType.NetsOsInfo, tenantId);
-            var infoRecord = DocumentContext.OsInfoStart.FirstOrDefault();
+            var osInfoRecord = _documentRepository.GetOsInfo(result.Value);
 
             // Assert
-            result.Should().NotBe(Guid.Empty);
-            infoRecord.Should().NotBeNull();
+            result.Value.Should().NotBe(Guid.Empty);
+            osInfoRecord.Should().NotBeNull();
 
         }
 
         private async Task<Guid> UploadDocument()
         {
-            var fileName = "Eksempel på OsInfo.txt";
-            var fileStream = await TestUtil.GetFileStream(fileName, parseFolder);
+            const string fileName = "Eksempel på OsInfo.txt";
+            var fileStream = await TestUtil.GetFileStream(fileName, ParseFolder);
             var storageHelper = new TestStorageHelper(TestStorageContext, TestLoggerFactory);
             var id = await storageHelper.UploadFile(fileStream, fileName, DocumentType.NetsOsInfo);
             return id;
