@@ -1,4 +1,5 @@
-﻿using BlobAccess.DataAccessLayer.Helpers;
+﻿using Administration.Models;
+using BlobAccess.DataAccessLayer.Helpers;
 using Core.Models;
 using Core.QueueModels;
 using EventBus.Abstractions;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Administration.Controllers
 {
-    public class FileController: Controller
+    public class FileController: AlertControllerBase
     {
         private readonly IStorageHelper _storageHelper;
         private readonly IEventBus _eventBus;
@@ -39,13 +40,13 @@ namespace Administration.Controllers
                     {
                         id = await _storageHelper.UploadFile(stream, file.FileName, documentType);
                         message = $"Succes! Filen '{file.FileName}' med id {id} er blevet uploadet.";
-                        //alertStyle = AlertStyles.Success;
+                        alertStyle = AlertStyles.Success;
 
                     }
                     catch (Exception e)
                     {
                         message = e.Message.Contains("blob already exists") ? $"Fejl! Filen '{file.FileName}' findes allerede." : e.Message + e.InnerException?.Message;
-                        //alertStyle = AlertStyles.Danger;
+                        alertStyle = AlertStyles.Danger;
                     }
                     try
                     {
@@ -57,7 +58,7 @@ namespace Administration.Controllers
                     {
                         message = "ERROR Publishing integration event: " + id + " from Upload" + e.Message + e.InnerException?.Message;
                         _logger.LogError(message);
-                        //alertStyle = AlertStyles.Danger;
+                        alertStyle = AlertStyles.Danger;
                     }
                 }
                 return RedirectToAction("Upload", "File", new { message, alertStyle });
@@ -73,7 +74,7 @@ namespace Administration.Controllers
         public IActionResult Upload(string message = "", string alertStyle = "")
         {
             if (message == "") return View("Upload");
-            //GenerateMessage(message, alertStyle);
+            GenerateMessage(message, alertStyle);
             return View("Upload");
         }
 

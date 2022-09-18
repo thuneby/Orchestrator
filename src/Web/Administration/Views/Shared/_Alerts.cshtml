@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var alerts = TempData.ContainsKey(Alert.TempDataKey)
+        ? (List<Alert>)TempData[Alert.TempDataKey]
+        : new List<Alert>();
+
+    if (alerts.Any())
+    {
+        <hr />
+    }
+
+    foreach (var alert in alerts)
+    {
+        var dismissibleClass = alert.Dismissable ? "alert-dismissible fade show" : null;
+        <div class="alert alert-@alert.AlertStyle @dismissibleClass" role="alert">
+            @Html.Raw(alert.Message)
+            @if (alert.Dismissable)
+            {
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            }
+        </div>
+    }
+}
