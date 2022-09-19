@@ -30,10 +30,10 @@ namespace ServiceTests.Parse
 
             // Act
             var result = await _controller.ParseFromGuid(id, DocumentType.NetsOsInfo, tenantId);
-            var osInfoRecord = _documentRepository.GetOsInfo(result.Value);
+            var osInfoRecord = _documentRepository.GetOsInfo(result);
 
             // Assert
-            result.Value.Should().NotBe(Guid.Empty);
+            result.Should().NotBe(Guid.Empty);
             osInfoRecord.Should().NotBeNull();
 
         }
