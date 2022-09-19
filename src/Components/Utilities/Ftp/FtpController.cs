@@ -9,20 +9,18 @@ namespace Utilities.Ftp
     {
         private static string _serverFolderPath;
         private const string DEFAULT_EXTENSION = ".TXT";
-        private FtpClient _client;
+        private readonly FtpClient _client;
         private readonly ILogger _logger;
 
-        public FtpController(string serverFolderPath, string hostName, NetworkCredential credentials, ILogger<FtpController> logger) 
+        public FtpController(FtpSettings settings, ILogger<FtpController> logger) 
         {
-            _serverFolderPath = serverFolderPath;
+            _serverFolderPath = settings.RootFolder;
             _logger = logger;
-            InitializeClient(hostName, credentials);
-        }
-        public void InitializeClient(string hostName, NetworkCredential credentials)
-        {
-            _client = new FtpClient(hostName);
-            if (credentials != null)
-                _client.Credentials = credentials; // else anonymous
+            _client = new FtpClient(settings.Host);
+            if (!string.IsNullOrWhiteSpace(settings.UserName))
+            {
+                _client.Credentials = new NetworkCredential(settings.UserName, settings.Password); // else anonymous
+            }
         }
 
         public void SetRootFolder(string rootFolder)

@@ -1,5 +1,5 @@
 ﻿using Core.Models;
-using DataAccess.Common;
+using DataAccess.Abstractions;
 using DataAccess.Models;
 using Microsoft.Extensions.Logging;
 

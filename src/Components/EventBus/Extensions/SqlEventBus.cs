@@ -24,9 +24,10 @@ namespace EventBus.Extensions
                 EventType = GetEventType(topicName),
                 State = EventState.New,
                 ProcessState = queueMessage.ProcessState,
-                Parameters = payload
+                DocumentType = queueMessage.DocumentType,
+                Parameters = queueMessage.FileName
             };
-            await _eventRepository.AddOrUpdateEventEntity(entity);
+            _eventRepository.AddOrUpdateEventEntity(entity);
         }
 
         private static EventType GetEventType(string topic)
@@ -36,9 +37,9 @@ namespace EventBus.Extensions
                 case "FileUploadedEvent":
                 case "FileParsedEvent":
                 case "RecordParsedEvent":
-                    return EventType.FileLoad;
+                    return EventType.LoadOsInfo;
                 default:
-                    return EventType.FileLoad;
+                    return EventType.LoadOsInfo;
             }
         }
     }

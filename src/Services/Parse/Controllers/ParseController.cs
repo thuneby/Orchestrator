@@ -1,7 +1,6 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
 using Core.Models;
 using DocumentAccess.DocumentAccessLayer;
-using DocumentAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Parse.BusinessLogic;
 
@@ -23,7 +22,7 @@ namespace Parse.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<Guid>> ParseFromGuid([FromQuery] Guid fileId, [FromQuery] DocumentType documentType, [FromQuery] long tenantId) 
+        public async Task<Guid> ParseFromGuid([FromQuery] Guid fileId, [FromQuery] DocumentType documentType, [FromQuery] long tenantId) 
         {
             var parser = ParserFactory.GetParser(documentType, _storageHelper, _repository, _loggerFactory);
             var result = await parser.Parse(fileId, tenantId);

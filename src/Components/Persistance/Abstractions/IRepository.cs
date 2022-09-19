@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace DataAccess.Common
+namespace DataAccess.Abstractions
 {
     public interface IRepository<T1, T2>
         where T1 : Entity<T2>

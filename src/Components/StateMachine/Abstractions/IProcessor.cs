@@ -2,7 +2,7 @@
 
 namespace StateMachine.Abstractions
 {
-    internal interface IProcessor
+    public interface IProcessor
     {
         Task<EventEntity> ProcessEvent(EventEntity entity);
     }

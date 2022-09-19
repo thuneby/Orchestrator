@@ -4,22 +4,20 @@ using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace OrchestratorApi.Migrations
+namespace Orchestrator.Migrations
 {
     [DbContext(typeof(OrchestratorContext))]
-    [Migration("20220913125233_EnumsAsStrings")]
-    partial class EnumsAsStrings
+    partial class OrchestratorContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -33,15 +31,17 @@ namespace OrchestratorApi.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ErrorMessage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
 
                     b.Property<short>("ExecutionCount")
                         .HasColumnType("smallint");
@@ -55,9 +55,8 @@ namespace OrchestratorApi.Migrations
                     b.Property<short>("Priority")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("ProcessState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProcessState")
+                        .HasColumnType("int");
 
                     b.Property<string>("Result")
                         .HasColumnType("nvarchar(max)");
@@ -73,6 +72,8 @@ namespace OrchestratorApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FlowId");
+
                     b.ToTable("EventEntity");
                 });
 
@@ -86,6 +87,9 @@ namespace OrchestratorApi.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<long>("TenantÍd")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -101,13 +105,11 @@ namespace OrchestratorApi.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ParameterType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ParameterType")
+                        .HasColumnType("int");
 
                     b.Property<long>("TenantÍd")
                         .HasColumnType("bigint");
@@ -150,6 +152,22 @@ namespace OrchestratorApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tenant");
+                });
+
+            modelBuilder.Entity("Core.Models.EventEntity", b =>
+                {
+                    b.HasOne("Core.Models.Flow", "Flow")
+                        .WithMany("Events")
+                        .HasForeignKey("FlowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Flow");
+                });
+
+            modelBuilder.Entity("Core.Models.Flow", b =>
+                {
+                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

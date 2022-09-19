@@ -2,7 +2,7 @@
 using DataAccess.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OrchestratorApi.Controllers
+namespace Orchestrator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

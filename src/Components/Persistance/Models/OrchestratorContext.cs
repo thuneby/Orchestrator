@@ -11,24 +11,6 @@ namespace DataAccess.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder
-                .Entity<EventEntity>()
-                .Property(e => e.ProcessState)
-                .HasConversion<string>();
-
-            modelBuilder
-                .Entity<EventEntity>()
-                .Property(e => e.EventType)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<ParameterEntity>()
-                .Property(e => e.EventType)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<ParameterEntity>()
-                .Property(e => e.ParameterType)
-                .HasConversion<string>();
-
         }
 
         public DbSet<Tenant> Tenant { get; set; }

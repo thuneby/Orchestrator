@@ -7,5 +7,7 @@ namespace DocumentAccess.DocumentAccessLayer
         Task SaveModel(FlatOsInfoModel model);
 
         OsInfoStart? GetOsInfo(Guid id);
+
+        bool OsInfoExists(Guid id);
     }
 }

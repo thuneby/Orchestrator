@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace OrchestratorApi.Migrations
+namespace Orchestrator.Migrations
 {
     [DbContext(typeof(OrchestratorContext))]
-    [Migration("20220916141116_FlowId")]
-    partial class FlowId
+    [Migration("20220919124416_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,15 +33,17 @@ namespace OrchestratorApi.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ErrorMessage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
 
                     b.Property<short>("ExecutionCount")
                         .HasColumnType("smallint");
@@ -55,9 +57,8 @@ namespace OrchestratorApi.Migrations
                     b.Property<short>("Priority")
                         .HasColumnType("smallint");
 
-                    b.Property<string>("ProcessState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProcessState")
+                        .HasColumnType("int");
 
                     b.Property<string>("Result")
                         .HasColumnType("nvarchar(max)");
@@ -89,15 +90,10 @@ namespace OrchestratorApi.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("TenantId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("TenantÍd")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
 
                     b.ToTable("Flow");
                 });
@@ -111,13 +107,11 @@ namespace OrchestratorApi.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ParameterType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ParameterType")
+                        .HasColumnType("int");
 
                     b.Property<long>("TenantÍd")
                         .HasColumnType("bigint");
@@ -171,15 +165,6 @@ namespace OrchestratorApi.Migrations
                         .IsRequired();
 
                     b.Navigation("Flow");
-                });
-
-            modelBuilder.Entity("Core.Models.Flow", b =>
-                {
-                    b.HasOne("Core.Models.Tenant", "Tenant")
-                        .WithMany()
-                        .HasForeignKey("TenantId");
-
-                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Core.Models.Flow", b =>

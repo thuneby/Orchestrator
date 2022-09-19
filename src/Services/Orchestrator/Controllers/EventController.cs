@@ -7,7 +7,7 @@ using StateMachine.BusinessLogic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace OrchestratorApi.Controllers
+namespace Orchestrator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -26,9 +26,17 @@ namespace OrchestratorApi.Controllers
             _logger = logger;
         }
 
+        [HttpPost("[action]")]
+        public async Task<EventEntity> ExecuteEvent(Guid id)
+        {
+            var entity = Get(id);
+            await _workflowProcessor.ProcessEvent(entity);
+            return entity;
+        }
+
 
         // GET: api/<EventController>
-        [HttpGet("GetAll")]
+        [HttpGet("[action]")]
         public IEnumerable<EventEntity> GetAll()
         {
             return _repository.GetAll();
@@ -42,7 +50,7 @@ namespace OrchestratorApi.Controllers
         }
 
         // POST api/<EventController>
-        [HttpPost]
+        [HttpPost("[action]")]
         public void Add([FromBody] EventEntity entity)
         {
             _repository.Add(entity);

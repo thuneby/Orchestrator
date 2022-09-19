@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "src\Component
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StateMachine", "src\Components\StateMachine\StateMachine.csproj", "{D4A25A60-956C-4275-BCC4-3D723DEEF883}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrchestratorApi", "src\Services\OrchestratorApi\OrchestratorApi.csproj", "{C3C3C0BF-D2E4-4C78-95B8-DF6E58DAE458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orchestrator", "src\Services\Orchestrator\Orchestrator.csproj", "{C3C3C0BF-D2E4-4C78-95B8-DF6E58DAE458}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentAccess", "src\Components\DocumentAccess\DocumentAccess.csproj", "{B6A133DE-661F-4291-B8AB-4F988E7E195C}"
 EndProject

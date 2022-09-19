@@ -1,5 +1,4 @@
 ﻿using Core.Models;
-using DataAccess.Common;
 using DataAccess.DataAccess;
 using Microsoft.Extensions.Logging;
 
@@ -8,11 +7,13 @@ namespace StateMachine.BusinessLogic
     public class WorkFlowProcessor
     {
         private readonly EventRepository _eventRepository;
-        private readonly ILogger _logger;
+        private readonly ILogger<WorkFlowProcessor> _logger;
+        private readonly ProcessorFactory _processorFactory;
 
-        public WorkFlowProcessor(EventRepository eventRepository, ILogger<WorkFlowProcessor> logger)
+        public WorkFlowProcessor(EventRepository eventRepository, ProcessorFactory processorFactory, ILogger<WorkFlowProcessor> logger)
         {
             _eventRepository = eventRepository;
+            _processorFactory = processorFactory;
             _logger = logger;
         }
 
@@ -50,8 +51,9 @@ namespace StateMachine.BusinessLogic
         {
             if (entity.State == EventState.Completed)
                 return entity;
-            _eventRepository.Update(ProcessHelper.StartEvent(entity)); // make sure nobody else takes it
-            var processor = ProcessorFactory.GetProcessor(entity);
+            entity.StartEvent();
+            _eventRepository.Update(entity); // make sure nobody else takes it
+            var processor = _processorFactory.GetProcessor(entity);
             if (processor == null)
             {
                 entity.ErrorMessage = "Processor not found for event!";
@@ -66,11 +68,12 @@ namespace StateMachine.BusinessLogic
         {
             if (originalEvent.ProcessState == ProcessState.WorkFlowCompleted)
                 return originalEvent;
-            var entity = new EventEntity()
+            var entity = new EventEntity
             {
                 State = EventState.New,
                 FlowId = originalEvent.FlowId,
                 TenantÍd = originalEvent.TenantÍd,
+                DocumentType = originalEvent.DocumentType,
                 ProcessState = StateMap.GetNextStep(originalEvent),
                 Parameters = originalEvent.Result
             };

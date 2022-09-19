@@ -40,6 +40,12 @@ namespace DocumentAccess.DocumentAccessLayer
             }
         }
 
+        public bool OsInfoExists(Guid id) 
+        {
+            var startRecord = _documentContext.OsInfoStart.FirstOrDefaultAsync(x => x.Id == id);
+            return startRecord != null;
+        }
+
         public OsInfoStart? GetOsInfo(Guid id)
         {
             var startRecord = _documentContext.OsInfoStart

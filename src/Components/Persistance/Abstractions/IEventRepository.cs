@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace DataAccess.Common
+namespace DataAccess.Abstractions
 {
     public interface IEventRepository
     {

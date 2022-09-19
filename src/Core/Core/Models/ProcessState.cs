@@ -5,6 +5,7 @@
         Receive,
         Parse,
         Validate,
+        GeneratePayments,
         Pay,
         Consolidate,
         TransferResult,
