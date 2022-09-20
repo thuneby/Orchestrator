@@ -8,7 +8,6 @@ using EventBus.Abstractions;
 using EventBus.Extensions;
 using Ingestion.Controllers;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Parse.Controllers;
 using StateMachine.BusinessLogic;
 using System.Text.Json.Serialization;
@@ -31,6 +30,7 @@ builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
         x => x.MigrationsAssembly("Orchestrator")));
 
 builder.Services.AddScoped<EventRepository>();
+builder.Services.AddScoped<FlowRepository>();
 builder.Services.AddScoped<TenantRepository>();
 builder.Services.AddScoped<FtpControllerFactory>();
 builder.Services.AddScoped<InputFileRepository>();

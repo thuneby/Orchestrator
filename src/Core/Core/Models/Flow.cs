@@ -6,6 +6,8 @@
         {
             Events = new List<EventEntity>();
         }
+
+        public FlowState State { get; set; }
         public ICollection<EventEntity> Events { get; set; }
     }
 }

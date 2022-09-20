@@ -1,7 +1,6 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
 using Core.Models;
 using Core.QueueModels;
-using DataAccess.DataAccess;
 using EventBus.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -18,16 +17,14 @@ namespace Ingestion.Controllers
         private readonly FtpControllerFactory _ftpControllerFactory;
         private readonly IStorageHelper _storageHelper;
         private readonly IEventBus _eventBus;
-        private readonly EventRepository _eventRepository;
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<ReceiveFileController> _logger;
 
-        public ReceiveFileController(FtpControllerFactory ftpControllerFactory, IStorageHelper storageHelper, IEventBus eventBus, EventRepository eventRepository, ILoggerFactory loggerFactory)
+        public ReceiveFileController(FtpControllerFactory ftpControllerFactory, IStorageHelper storageHelper, IEventBus eventBus, ILoggerFactory loggerFactory)
         {
             _ftpControllerFactory = ftpControllerFactory;
             _storageHelper = storageHelper;
             _eventBus = eventBus;
-            _eventRepository = eventRepository;
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<ReceiveFileController>();
         }
@@ -64,26 +61,6 @@ namespace Ingestion.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult> GenerateEvents(long tenantId)
-        {
-            var fileList = GetFileList(tenantId);
-            if (fileList.Count == 0)
-                return new ObjectResult("No files to download!");
-            var eventCount = 0;
-            var result = new List<string>();
-            foreach (var fileName in fileList)
-            {
-                var entity = _eventRepository.AddOrGetEventFromFileName(tenantId, fileName, EventType.LoadOsInfo);
-                if (entity == null)
-                    continue;
-                eventCount++;
-                result.Add(entity.Id.ToString());
-            }
-            result.Add(eventCount + " events in event store...");
-            return new ObjectResult(result);
-        }
-
-        [HttpPost("[action]")]
         public async Task<EventEntity> ExecuteReceiveEvent(EventEntity entity)  
         {
             try
@@ -108,9 +85,10 @@ namespace Ingestion.Controllers
                 entity.UpdateProcessResult(EventState.Error);
             }
             return entity;
-        } 
+        }
 
-        private List<string> GetFileList(long tenantId)
+        [HttpGet("[action]")]
+        public List<string> GetFileList(long tenantId)
         {
             var settings = GetSettings(tenantId);
             var ftpController = _ftpControllerFactory.GetController(settings, _loggerFactory);

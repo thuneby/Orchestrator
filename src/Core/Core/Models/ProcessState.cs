@@ -4,8 +4,8 @@
     {
         Receive,
         Parse,
-        Validate,
         GeneratePayments,
+        Validate,
         Pay,
         Consolidate,
         TransferResult,
