@@ -10,7 +10,7 @@
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
     <ProjectReference Include="..\..\Services\Ingestion\Ingestion.csproj" />
     <ProjectReference Include="..\..\Services\Parse\Parse.csproj" />
-    <ProjectReference Include="..\Persistance\DataAccess.csproj" />
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

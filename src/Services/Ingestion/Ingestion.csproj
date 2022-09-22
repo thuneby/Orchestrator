@@ -4,6 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>d645856c-bb8b-4d83-8167-06672402d5f6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,13 +16,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Components\BlobAccess\BlobAccess.csproj" />
     <ProjectReference Include="..\..\Components\EventBus\EventBus.csproj" />
-    <ProjectReference Include="..\..\Components\Persistance\DataAccess.csproj" />
+    <ProjectReference Include="..\..\Components\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\..\Components\Utilities\Utilities.csproj" />
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
   </ItemGroup>

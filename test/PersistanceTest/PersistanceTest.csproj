@@ -29,7 +29,7 @@
     <ProjectReference Include="..\..\src\Components\BlobAccess\BlobAccess.csproj" />
     <ProjectReference Include="..\..\src\Components\DocumentAccess\DocumentAccess.csproj" />
     <ProjectReference Include="..\..\src\Components\EventBus\EventBus.csproj" />
-    <ProjectReference Include="..\..\src\Components\Persistance\DataAccess.csproj" />
+    <ProjectReference Include="..\..\src\Components\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\..\src\Components\Utilities\Utilities.csproj" />
     <ProjectReference Include="..\..\src\Core\Core\Core.csproj" />
     <ProjectReference Include="..\..\src\Services\Ingestion\Ingestion.csproj" />

@@ -7,6 +7,7 @@
     <UserSecretsId>4a0543dd-383d-4f39-a443-93cfa4f8d7e3</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Components\Persistance\DataAccess.csproj" />
+    <ProjectReference Include="..\..\Components\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\..\Components\StateMachine\StateMachine.csproj" />
     <ProjectReference Include="..\..\Core\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
