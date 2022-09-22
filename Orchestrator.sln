@@ -59,8 +59,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 		dapr\configuration\config.yaml = dapr\configuration\config.yaml
 	EndProjectSection
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1631BFBD-CBF9-49F7-BE20-8182454E902B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,10 +129,6 @@ Global
 		{5935AB49-1B66-4EB3-8B09-2FC99EB7701B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5935AB49-1B66-4EB3-8B09-2FC99EB7701B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5935AB49-1B66-4EB3-8B09-2FC99EB7701B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1631BFBD-CBF9-49F7-BE20-8182454E902B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1631BFBD-CBF9-49F7-BE20-8182454E902B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1631BFBD-CBF9-49F7-BE20-8182454E902B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1631BFBD-CBF9-49F7-BE20-8182454E902B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
