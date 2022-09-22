@@ -1,6 +1,7 @@
 ﻿using Core.Models;
+using Core.OrchestratorModels;
 
-namespace Core.QueueModels 
+namespace Core.QueueModels
 {
     public class QueueMessage : GuidModelBase
     {

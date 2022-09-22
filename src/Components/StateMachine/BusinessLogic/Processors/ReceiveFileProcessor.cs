@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.OrchestratorModels;
 using Ingestion.Controllers;
 using Microsoft.Extensions.Logging;
 using StateMachine.Abstractions;

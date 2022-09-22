@@ -11,7 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Parse.Controllers;
 using StateMachine.BusinessLogic;
 using System.Text.Json.Serialization;
+using Convert.Controllers;
 using Utilities.Ftp;
+using Validate.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,9 @@ builder.Services.AddDbContextFactory<BlobContext>(opt =>
 
 builder.Services.AddDbContextFactory<DocumentContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DocumentConnection")));
+
+builder.Services.AddDbContextFactory<DomainContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DomainConnection")));
 
 builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("OrchestratorConnection"),
@@ -40,6 +45,9 @@ builder.Services.AddScoped<IEventBus, SqlEventBus>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<ReceiveFileController>();
 builder.Services.AddScoped<ParseController>();
+builder.Services.AddScoped<PaymentRepository>();
+builder.Services.AddScoped<ConversionController>();
+builder.Services.AddScoped<ValidationController>();
 builder.Services.AddScoped<ProcessorFactory>();
 builder.Services.AddScoped<WorkFlowProcessor>();
 

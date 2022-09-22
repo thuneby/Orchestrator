@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using Core.OrchestratorModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Models

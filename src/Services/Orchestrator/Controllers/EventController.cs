@@ -1,5 +1,5 @@
 ﻿using Configuration.Models;
-using Core.Models;
+using Core.OrchestratorModels;
 using DataAccess.DataAccess;
 using Ingestion.Controllers;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.OrchestratorModels;
 using Core.QueueModels;
 using DataAccess.DataAccess;
 using EventBus.Abstractions;

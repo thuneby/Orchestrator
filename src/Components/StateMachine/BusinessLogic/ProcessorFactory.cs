@@ -1,10 +1,12 @@
-﻿using Core.Models;
+﻿using Convert.Controllers;
+using Core.OrchestratorModels;
 using DataAccess.DataAccess;
 using Ingestion.Controllers;
 using Microsoft.Extensions.Logging;
 using Parse.Controllers;
 using StateMachine.Abstractions;
 using StateMachine.BusinessLogic.Processors;
+using Validate.Controllers;
 
 namespace StateMachine.BusinessLogic
 {
@@ -12,13 +14,17 @@ namespace StateMachine.BusinessLogic
     {
         private readonly ParseController _parseController;
         private readonly ReceiveFileController _receiveFileController;
-        private readonly EventRepository _eventRepository;
+        private readonly ConversionController _conversionController;
+        private readonly ValidationController _validationController;
+        private readonly PaymentRepository _paymentRepository;
         private readonly ILoggerFactory _loggerFactory;
-        public ProcessorFactory(ParseController parseController, ReceiveFileController receiveFileController, EventRepository eventRepository, ILoggerFactory loggerFactory)
+        public ProcessorFactory(ParseController parseController, ReceiveFileController receiveFileController, ConversionController conversionController, ValidationController validationController, PaymentRepository paymentRepository, ILoggerFactory loggerFactory)
         {
             _parseController = parseController;
             _receiveFileController = receiveFileController;
-            _eventRepository = eventRepository;
+            _conversionController = conversionController;
+            _validationController = validationController;
+            _paymentRepository = paymentRepository;
             _loggerFactory = loggerFactory;
         }
         public IProcessor? GetProcessor(EventEntity entity)
@@ -29,9 +35,13 @@ namespace StateMachine.BusinessLogic
                     return new ReceiveFileProcessor(_receiveFileController, _loggerFactory.CreateLogger<ReceiveFileProcessor>());
                 case ProcessState.Parse:
                     return new ParseFileProcessor(_parseController, _loggerFactory);
+                case ProcessState.GeneratePayments:
+                    return new ConvertDocumentProcessor(_conversionController, _loggerFactory);
+                case ProcessState.Validate:
+                    return new ValidationProcessor(_paymentRepository, _validationController, _loggerFactory);
                 case ProcessState.Pay:
                     break;
-                case ProcessState.Validate:
+                case ProcessState.Consolidate:
                     break;
                 case ProcessState.TransferResult:
                     break;
@@ -40,7 +50,7 @@ namespace StateMachine.BusinessLogic
                 case ProcessState.RemoveCustomer:
                     break;
                 case ProcessState.WorkFlowCompleted:
-                    break;
+                    return null;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
