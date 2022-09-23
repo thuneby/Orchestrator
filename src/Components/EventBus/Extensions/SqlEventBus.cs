@@ -37,9 +37,9 @@ namespace EventBus.Extensions
                 case "FileUploadedEvent":
                 case "FileParsedEvent":
                 case "RecordParsedEvent":
-                    return EventType.LoadOsInfo;
+                    return EventType.HandleOsInfo;
                 default:
-                    return EventType.LoadOsInfo;
+                    return EventType.HandleOsInfo;
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Core.Models
+namespace Core.CoreModels
 {
     public abstract class DocumentModelBase : Entity<string>
     {

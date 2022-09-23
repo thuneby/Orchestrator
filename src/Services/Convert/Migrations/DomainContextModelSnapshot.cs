@@ -99,13 +99,20 @@ namespace Convert.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CustomerNumber")
+                    b.Property<string>("CustomerNumberSender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustumerNumberRecepient")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cvr")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FromDate")
                         .HasColumnType("Date");
@@ -115,6 +122,9 @@ namespace Convert.Migrations
 
                     b.Property<Guid?>("PaymentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("SequenceNumber")
+                        .HasColumnType("int");
 
                     b.Property<long>("TenantÍd")
                         .HasColumnType("bigint");
@@ -127,6 +137,66 @@ namespace Convert.Migrations
                     b.HasIndex("PaymentId");
 
                     b.ToTable("PaymentDetail");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("PaymentDetail");
+                });
+
+            modelBuilder.Entity("Core.DomainModels.ExtendedPaymentDetail", b =>
+                {
+                    b.HasBaseType("Core.DomainModels.PaymentDetail");
+
+                    b.Property<DateTime?>("ContributionRateFromDate")
+                        .HasColumnType("Date");
+
+                    b.Property<int?>("DeviationCode")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeviationEndDate")
+                        .HasColumnType("Date");
+
+                    b.Property<DateTime?>("DeviationStartDate")
+                        .HasColumnType("Date");
+
+                    b.Property<decimal?>("EmployeeSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("EmployeeSalaryStartDate")
+                        .HasColumnType("Date");
+
+                    b.Property<decimal?>("EmployerContribution")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("EmployerContributionRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("EmploymentRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("EmploymentRateStartDate")
+                        .HasColumnType("Date");
+
+                    b.Property<DateTime?>("EmploymentTerminationDate")
+                        .HasColumnType("Date");
+
+                    b.Property<string>("LaborAgreementNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("NormalContribution")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("NormalContributionStartDate")
+                        .HasColumnType("Date");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SalaryTerms")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TotalContributionRate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasDiscriminator().HasValue("ExtendedPaymentDetail");
                 });
 
             modelBuilder.Entity("Core.DomainModels.PaymentDetail", b =>

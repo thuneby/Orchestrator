@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Models;
+using Core.CoreModels;
 
 namespace Core.Mapping
 {

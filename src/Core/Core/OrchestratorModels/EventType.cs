@@ -2,8 +2,8 @@
 {
     public enum EventType
     {
-        LoadOsInfo,
-
+        HandleOsInfo,
+        HandleNetsBs,
         AddCustomer,
         RemoveCustomer
     }

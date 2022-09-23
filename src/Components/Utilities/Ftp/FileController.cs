@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 using Microsoft.Extensions.Logging;
 
 namespace Utilities.Ftp

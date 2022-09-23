@@ -1,9 +1,9 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
-using Core.Models;
 using Microsoft.Extensions.Logging;
 using PersistanceTest.TestStorage;
 using System;
 using System.Data;
+using Core.CoreModels;
 
 namespace PersistanceTest.Common
 {

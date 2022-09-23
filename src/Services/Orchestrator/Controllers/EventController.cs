@@ -50,7 +50,7 @@ namespace Orchestrator.Controllers
             var result = new List<string>();
             foreach (var fileName in fileList)
             {
-                var entity = _eventRepository.AddOrGetEventFromFileName(tenantId, fileName, EventType.LoadOsInfo);
+                var entity = _eventRepository.AddOrGetEventFromFileName(tenantId, fileName, EventType.HandleOsInfo);
                 if (entity == null)
                     continue;
                 eventCount++;

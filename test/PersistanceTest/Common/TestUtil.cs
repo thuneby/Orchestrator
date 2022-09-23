@@ -1,8 +1,8 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
 using BlobAccess.Models;
-using Core.Models;
 using Microsoft.Extensions.Options;
 using System.Reflection;
+using Core.CoreModels;
 
 namespace PersistanceTest.Common
 {

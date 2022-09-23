@@ -1,6 +1,6 @@
 ﻿using System.Data;
 using BlobAccess.DataAccessLayer.Helpers;
-using Core.Models;
+using Core.CoreModels;
 using DocumentAccess.DocumentAccessLayer;
 using ExternalModels.MasterCard.OsInfoModel;
 using FileHelpers;
@@ -33,7 +33,8 @@ namespace Parse.BusinessLogic
                 typeof(OsRecordFixed00), typeof(OsRecordFixed01),
                 typeof(OsRecordFixed02), typeof(OsRecordFixed03), 
                 typeof(OsRecordFixed04), typeof(OsRecordFixed05), 
-                typeof(OsRecordFixed10), typeof(SectionEndRecord),
+                typeof(OsRecordFixed10), typeof(OsRecordFixed1116), 
+                typeof(SectionEndRecord), 
                 typeof(DataEndRecordA), typeof(DataEndRecordB)
                 ) { RecordSelector = NetsOsSelector };
             engine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue;
@@ -114,6 +115,8 @@ namespace Parse.BusinessLogic
                     case OsInfoFixedRecordType.OsRecordFixed10:
                         OsInfoParserHelper.AddOsRecord10(model, osRecord10Mapper, record);
                         break;
+                    case OsInfoFixedRecordType.OsRecordFixed1116:
+                        break; // ToDo 
                     case OsInfoFixedRecordType.SectionEndRecord:
                         OsInfoParserHelper.AddOsSectionEnd(model, osSectionEndMapper, record);
                         break;

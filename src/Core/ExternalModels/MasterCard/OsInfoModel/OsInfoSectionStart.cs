@@ -1,5 +1,6 @@
-﻿using Core.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Core.CoreModels;
+
 // ReSharper disable InconsistentNaming
 
 namespace ExternalModels.MasterCard.OsInfoModel

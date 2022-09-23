@@ -1,5 +1,5 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
-using Core.Models;
+using Core.CoreModels;
 using Core.OrchestratorModels;
 using Core.QueueModels;
 using EventBus.Abstractions;

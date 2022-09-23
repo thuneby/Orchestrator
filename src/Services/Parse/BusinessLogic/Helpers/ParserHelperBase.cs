@@ -1,5 +1,5 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
-using Core.Models;
+using Core.CoreModels;
 using FileHelpers;
 
 namespace Parse.BusinessLogic.Helpers

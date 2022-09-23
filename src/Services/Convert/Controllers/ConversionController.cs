@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Convert.BusinessLogic;
+using Core.CoreModels;
 using DataAccess.DataAccess;
 using DocumentAccess.DocumentAccessLayer;
 using Microsoft.AspNetCore.Mvc;
@@ -11,19 +12,21 @@ namespace Convert.Controllers
     {
         private readonly PaymentRepository _paymentRepository;
         private readonly IDocumentRepository _documentRepository;
-        private readonly ILogger<ConversionController> _logger;
+        private readonly ILoggerFactory _loggerFactory;
 
-        public ConversionController(PaymentRepository paymentRepository, IDocumentRepository documentRepository, ILogger<ConversionController> logger)
+        public ConversionController(PaymentRepository paymentRepository, IDocumentRepository documentRepository, ILoggerFactory loggerFactory)
         {
             _paymentRepository = paymentRepository;
             _documentRepository = documentRepository;
-            _logger = logger;
+            _loggerFactory = loggerFactory;
         }
 
         [HttpPost("[action]")]
         public async Task<Guid> ConvertDocument(Guid documentId, DocumentType documentType, long tenantId)
         {
-            return documentId;
+            var converter = ConverterFactory.GetConverter(documentType, _documentRepository, _paymentRepository, _loggerFactory);
+            var result = await converter.Convert(documentId, tenantId);
+            return result;
         }
     }
 }

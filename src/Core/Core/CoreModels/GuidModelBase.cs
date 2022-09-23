@@ -1,4 +1,4 @@
-﻿namespace Core.Models
+﻿namespace Core.CoreModels
 {
     public abstract class GuidModelBase: Entity<Guid>
     {

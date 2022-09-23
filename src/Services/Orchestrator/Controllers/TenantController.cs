@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 using DataAccess.DataAccess;
 using Microsoft.AspNetCore.Mvc;
 

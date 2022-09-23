@@ -40,7 +40,7 @@ namespace StateMachine.BusinessLogic
                 case ProcessState.Validate:
                     return new ValidationProcessor(_paymentRepository, _validationController, _loggerFactory);
                 case ProcessState.Pay:
-                    break;
+                    return new PaymentProcessor(_loggerFactory);
                 case ProcessState.Consolidate:
                     break;
                 case ProcessState.TransferResult:

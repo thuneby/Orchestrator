@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 using Core.OrchestratorModels;
 using DataAccess.Models;
 using Microsoft.Extensions.Logging;
@@ -51,7 +51,7 @@ namespace DataAccess.DataAccess
             if (existing != null)
                 return existing;
             var documentType = GetDocumentType(eventType);
-            var eventEntity = new EventEntity()
+            var eventEntity = new EventEntity
             {
                 EventType = eventType,
                 TenantÍd = tenantId,
@@ -67,7 +67,7 @@ namespace DataAccess.DataAccess
         {
             return eventType switch
             {
-                EventType.LoadOsInfo => DocumentType.NetsOsInfo,
+                EventType.HandleOsInfo => DocumentType.NetsOsInfo,
                 EventType.AddCustomer => DocumentType.Customer,
                 EventType.RemoveCustomer => DocumentType.Customer,
                 _ => throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null)

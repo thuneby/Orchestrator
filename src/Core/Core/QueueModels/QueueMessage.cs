@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 using Core.OrchestratorModels;
 
 namespace Core.QueueModels

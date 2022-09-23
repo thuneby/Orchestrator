@@ -1,5 +1,4 @@
-﻿using Core.Models;
-using ExternalModels.MasterCard.OsInfoModel;
+﻿using ExternalModels.MasterCard.OsInfoModel;
 using Parse.BusinessLogic.Mappers;
 using Parse.Models.OsInfoFormat;
 
@@ -28,6 +27,8 @@ namespace Parse.BusinessLogic.Helpers
                 return OsInfoFixedRecordType.OsRecordFixed05;
             if (type == typeof(OsRecordFixed10))
                 return OsInfoFixedRecordType.OsRecordFixed10;
+            if (type == typeof(OsRecordFixed1116))
+                return OsInfoFixedRecordType.OsRecordFixed1116; 
             if (type == typeof(SectionEndRecord))
                 return OsInfoFixedRecordType.SectionEndRecord;
             if (type == typeof(DataEndRecordA))

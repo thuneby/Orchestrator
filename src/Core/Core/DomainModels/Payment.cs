@@ -1,6 +1,6 @@
-﻿using Core.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Core.CoreModels;
 
 namespace Core.DomainModels
 {
@@ -23,7 +23,7 @@ namespace Core.DomainModels
         public DateTime DueDate { get; set; } 
         
         public Decimal TotalAmount { get; set; }
-        public string PaymentReference { get; set; }
+        public string PaymentReference { get; set; } = "";
         public string RoutingNumber { get; set; }
         public string AccountNumber { get; set; }
         public string DataProviderNumber { get; set; }

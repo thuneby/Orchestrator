@@ -1,7 +1,7 @@
 ﻿using Azure.Identity;
 using Azure.Storage.Blobs;
 using BlobAccess.Models;
-using Core.Models;
+using Core.CoreModels;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 

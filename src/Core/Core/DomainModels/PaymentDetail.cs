@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Core.Models;
+using Core.CoreModels;
 
 namespace Core.DomainModels
 {
@@ -21,6 +21,8 @@ namespace Core.DomainModels
         [Display(Name = "Cvr")]
         public string Cvr { get; set; }
 
+        public int SequenceNumber { get; set; }
+
         [Required]
         [StringLength(11)]
         public string Cpr { get; set; }
@@ -32,7 +34,8 @@ namespace Core.DomainModels
 
         [Required]
         public PaymentDetailType PaymentDetailType { get; set; }
-        public string CustomerNumber { get; set; }
+        public string CustomerNumberSender { get; set; }
+        public string CustumerNumberRecepient { get; set; }
 
     }
 }

@@ -15,5 +15,6 @@ namespace DataAccess.Models
 
         public DbSet<Payment> Payment { get; set; }
         public DbSet<PaymentDetail> PaymentDetail { get; set; }
+        public DbSet<ExtendedPaymentDetail> ExtendedPaymentDetail { get; set; }
     }
 }

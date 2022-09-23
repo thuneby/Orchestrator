@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 
 namespace Core.OrchestratorModels
 {

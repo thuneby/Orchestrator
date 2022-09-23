@@ -59,13 +59,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 		dapr\configuration\config.yaml = dapr\configuration\config.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Convert", "src\Services\Convert\Convert.csproj", "{E11BE048-7BEF-4308-95D4-31D8B8593C13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Convert", "src\Services\Convert\Convert.csproj", "{E11BE048-7BEF-4308-95D4-31D8B8593C13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validate", "src\Services\Validate\Validate.csproj", "{09F157B9-9DF9-4FFA-A722-64AD8B2FE502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validate", "src\Services\Validate\Validate.csproj", "{09F157B9-9DF9-4FFA-A722-64AD8B2FE502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pay", "src\Services\Pay\Pay.csproj", "{3D974438-AC7A-4544-9898-4BC40B40D3EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pay", "src\Services\Pay\Pay.csproj", "{3D974438-AC7A-4544-9898-4BC40B40D3EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transfer", "src\Services\Transfer\Transfer.csproj", "{B27F13B4-7DF0-45D8-8426-4CBEDE80ABFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transfer", "src\Services\Transfer\Transfer.csproj", "{B27F13B4-7DF0-45D8-8426-4CBEDE80ABFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{365AFE4D-559B-4174-8665-55AC71BDD16E}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

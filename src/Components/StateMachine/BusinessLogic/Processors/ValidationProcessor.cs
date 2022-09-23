@@ -23,18 +23,27 @@ namespace StateMachine.BusinessLogic.Processors
         {
             try
             {
-                var id = Guid.Parse(entity.Parameters);
-                var payment = _paymentRepository.Get(id);
-                var result = await _validationController.ValidatePayment(payment);
-                if (result.Valid)
+                var id = Guid.Parse(entity.Parameters); 
+                var payments = _paymentRepository.GetFromDocumentId(id).ToList();
+                var results = (await _validationController.ValidatePaymentList(payments)).ToList();
+                foreach (var validationResult in results)
                 {
-                    entity.Result = "Validated";
-                    payment.Valid = true;
-                    _paymentRepository.Update(payment);
+                    var payment = payments.FirstOrDefault(x => x.Id == validationResult.PaymentId);
+                    if (payment == null)
+                        continue;
+                    payment.Valid = validationResult.Valid;
+                }
+
+                await _paymentRepository.UpdateRange(payments);
+                if (results.All(x => x.Valid))
+                {
+                    entity.Result = entity.Parameters;
                 }
                 else
                 {
-                    entity.ErrorMessage = result.ValidationErrors.ToString();
+                    entity.Result = entity.Parameters;
+                    var errorMessages = results.SelectMany(x => x.ValidationErrors);
+                    entity.ErrorMessage = errorMessages.ToString();
                 }
                 entity.UpdateProcessResult();
             }

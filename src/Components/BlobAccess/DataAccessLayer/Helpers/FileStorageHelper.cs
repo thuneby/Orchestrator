@@ -1,7 +1,7 @@
 ﻿using Azure;
 using Azure.Storage.Files.Shares;
 using BlobAccess.Models;
-using Core.Models;
+using Core.CoreModels;
 using Microsoft.Extensions.Options;
 
 namespace BlobAccess.DataAccessLayer.Helpers

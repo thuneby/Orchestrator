@@ -1,7 +1,7 @@
 ﻿using FluentFTP;
 using Microsoft.Extensions.Logging;
 using System.Net;
-using Core.Models;
+using Core.CoreModels;
 
 namespace Utilities.Ftp
 {

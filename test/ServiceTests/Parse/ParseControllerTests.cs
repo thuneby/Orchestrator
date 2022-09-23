@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 using DocumentAccess.DocumentAccessLayer;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;

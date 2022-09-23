@@ -9,7 +9,7 @@ namespace StateMachine.BusinessLogic
             var currentStep = entity.ProcessState;
             switch (entity.EventType)
             {
-                case EventType.LoadOsInfo:
+                case EventType.HandleOsInfo:
                 {
                     return currentStep switch
                     {

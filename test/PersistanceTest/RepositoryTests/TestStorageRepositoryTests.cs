@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 using PersistanceTest.Common;
 
 namespace PersistanceTest.RepositoryTests

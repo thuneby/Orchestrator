@@ -1,4 +1,4 @@
-﻿namespace Core.Models
+﻿namespace Core.CoreModels 
 {
     public enum DocumentType
     {
@@ -6,6 +6,8 @@
         NetsIs = 1,
         NetsOs = 2,
         NetsOsInfo = 3,
+        Bs601,
+        Bs602,
         Excel = 5,
         Customer = 21,
         Unknown = 99

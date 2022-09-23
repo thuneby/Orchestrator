@@ -17,5 +17,16 @@ namespace Validate.Controllers
                 Valid = true
             };
         }
+
+        [HttpPost("[Action]")]
+        public async Task<IEnumerable<ValidationResult>> ValidatePaymentList(List<Payment> payments)
+        {
+            var result = new List<ValidationResult>();
+            foreach (var payment in payments)
+            {
+                result.Add(await ValidatePayment(payment));
+            }
+            return result;
+        }
     }
 }

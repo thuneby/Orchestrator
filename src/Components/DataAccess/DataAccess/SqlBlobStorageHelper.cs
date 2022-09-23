@@ -1,6 +1,6 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
-using Core.Models;
 using System.Data;
+using Core.CoreModels;
 
 namespace DataAccess.DataAccess
 {

@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.CoreModels;
 using Core.QueueModels;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,5 +1,5 @@
-﻿using Core.Models;
-using System.Text;
+﻿using System.Text;
+using Core.CoreModels;
 
 namespace Parse.BusinessLogic.Helpers
 {

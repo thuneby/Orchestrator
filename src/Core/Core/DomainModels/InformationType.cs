@@ -1,7 +1,8 @@
 ﻿namespace Core.DomainModels
 {
     public enum InformationType
-    {
+    { 
+        Unknown = 0,
         PensionAndInsurance = 100,
         LaborMarketPension = 150,
         LaborUnions = 200,
