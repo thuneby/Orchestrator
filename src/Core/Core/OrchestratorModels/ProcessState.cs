@@ -8,6 +8,7 @@
         Validate = 40,
         Pay = 50,
         Consolidate = 60,
+        GenerateReceipt = 70,
         TransferResult = 90,
         AddCustomer = 110,
         RemoveCustomer = 120,

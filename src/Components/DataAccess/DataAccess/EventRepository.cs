@@ -68,8 +68,12 @@ namespace DataAccess.DataAccess
             return eventType switch
             {
                 EventType.HandleOsInfo => DocumentType.NetsOsInfo,
+                EventType.HandleBs601 => DocumentType.Bs601,
                 EventType.AddCustomer => DocumentType.Customer,
                 EventType.RemoveCustomer => DocumentType.Customer,
+                EventType.HandleOs => DocumentType.NetsOs,
+                EventType.GenerateIs => DocumentType.NetsIs,
+                EventType.GenerateBs602 => DocumentType.Bs602,
                 _ => throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null)
             };
         }

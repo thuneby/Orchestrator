@@ -14,4 +14,9 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MasterCard\Bs601Model\" />
+    <Folder Include="MasterCard\Bs602Model\" />
+  </ItemGroup>
+
 </Project>

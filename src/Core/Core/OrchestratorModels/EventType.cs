@@ -3,8 +3,11 @@
     public enum EventType
     {
         HandleOsInfo,
-        HandleNetsBs,
-        AddCustomer,
+        HandleOs,
+        HandleBs601, 
+        GenerateIs,
+        GenerateBs602,
+        AddCustomer, 
         RemoveCustomer
     }
 }
