@@ -1,5 +1,5 @@
 ﻿using ExternalModels.MasterCard.OsInfoModel;
-using Parse.BusinessLogic.Mappers;
+using Parse.BusinessLogic.Mappers.OsInfo;
 using Parse.Models.OsInfoFormat;
 
 namespace Parse.BusinessLogic.Helpers

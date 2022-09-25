@@ -14,11 +14,11 @@ builder.Services.AddDbContextFactory<DocumentContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DocumentConnection"),
         x => x.MigrationsAssembly("Parse")));
 
-builder.Services.AddDbContextFactory<BlobContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("BlobConnection")));
+//builder.Services.AddDbContextFactory<BlobContext>(opt =>
+//    opt.UseSqlServer(builder.Configuration.GetConnectionString("BlobConnection")));
 
-builder.Services.AddScoped<InputFileRepository>();
-builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
+//builder.Services.AddScoped<InputFileRepository>();
+//builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 
 

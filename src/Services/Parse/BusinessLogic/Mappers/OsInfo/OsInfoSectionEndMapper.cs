@@ -2,7 +2,7 @@
 using ExternalModels.MasterCard.OsInfoModel;
 using Parse.Models.OsInfoFormat;
 
-namespace Parse.BusinessLogic.Mappers
+namespace Parse.BusinessLogic.Mappers.OsInfo
 {
     public class OsInfoSectionEndMapper : TextMapperBase<SectionEndRecord, OsInfoSectionEnd>
     {

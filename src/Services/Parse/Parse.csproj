@@ -30,4 +30,8 @@
     <ProjectReference Include="..\..\Core\ExternalModels\ExternalModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BusinessLogic\Mappers\Bs601\" />
+  </ItemGroup>
+
 </Project>

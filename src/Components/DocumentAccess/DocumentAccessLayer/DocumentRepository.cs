@@ -1,4 +1,5 @@
 ﻿using DocumentAccess.Models;
+using ExternalModels.MasterCard.Bs601Model;
 using ExternalModels.MasterCard.OsInfoModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -40,9 +41,32 @@ namespace DocumentAccess.DocumentAccessLayer
             }
         }
 
-        public bool OsInfoExists(Guid id) 
+        public async Task SaveModel(FlatNetsBs601Model model)
         {
-            var startRecord = _documentContext.OsInfoStart.FirstOrDefaultAsync(x => x.Id == id);
+            try
+            {
+                _documentContext.Add(model.Delivery601Start);
+                _documentContext.AddRange(model.Section0112StartCollection);
+                await _documentContext.AddRangeAsync(model.BsRecord42Collection);
+                await _documentContext.AddRangeAsync(model.BsRecord22Collection);
+                await _documentContext.AddRangeAsync(model.BsRecord2209Collection);
+                await _documentContext.AddRangeAsync(model.BsRecord2210Collection);
+                await _documentContext.AddRangeAsync(model.BsRecord52Collection);
+                await _documentContext.AddRangeAsync(model.BsRecord62Collection);
+                _documentContext.AddRange(model.Section0112EndCollection);
+                _documentContext.Add(model.Delivery601End);
+                await _documentContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<bool> OsInfoExists(Guid id) 
+        {
+            var startRecord = await _documentContext.OsInfoStart.FirstOrDefaultAsync(x => x.Id == id);
             return startRecord != null;
         }
 

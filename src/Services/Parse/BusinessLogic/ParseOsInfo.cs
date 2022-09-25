@@ -6,6 +6,7 @@ using ExternalModels.MasterCard.OsInfoModel;
 using FileHelpers;
 using Parse.BusinessLogic.Helpers;
 using Parse.BusinessLogic.Mappers;
+using Parse.BusinessLogic.Mappers.OsInfo;
 using Parse.Models.OsInfoFormat;
 
 namespace Parse.BusinessLogic
@@ -14,7 +15,7 @@ namespace Parse.BusinessLogic
     {
         private readonly IStorageHelper _storageHelper;
         private readonly IDocumentRepository _documentRepository;
-        private readonly ILogger _logger;
+        private readonly ILogger<ParseOsInfo> _logger;
 
         public ParseOsInfo(IStorageHelper storageHelper, IDocumentRepository documentRepository, ILoggerFactory loggerFactory)
         {
