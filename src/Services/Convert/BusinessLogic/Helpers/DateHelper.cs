@@ -16,11 +16,11 @@ namespace Convert.BusinessLogic.Helpers
             }
         }
 
-        public static DateTime GetDate8DK(string dateString)
+        public static DateTime GetDate8N(string dateString)
         {
             try
             {
-                return DateTime.ParseExact(dateString, "ddMMyyyy", CultureInfo.InvariantCulture);
+                return DateTime.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture);
             }
             catch
             {

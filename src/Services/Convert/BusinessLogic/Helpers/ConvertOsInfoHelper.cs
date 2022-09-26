@@ -46,8 +46,8 @@ namespace Convert.BusinessLogic.Helpers
                     Cvr = cvr,
                     SequenceNumber = TextHelper.GetInt(infoRecord00.SEKVENSNUMMER),
                     LaborAgreementNumber = infoRecord00.OVERENSKOMSTNUMMER.Trim(),
-                    FromDate = DateHelper.GetDate8DK(infoRecord00.PERIODE_FRA),
-                    ToDate = DateHelper.GetDate8DK(infoRecord00.PERIODE_TIL),
+                    FromDate = DateHelper.GetDate8N(infoRecord00.PERIODE_FRA),
+                    ToDate = DateHelper.GetDate8N(infoRecord00.PERIODE_TIL),
                     CustomerNumberSender = infoRecord00.KUNDENUMMER_AFSENDER.Trim(),
                     CustumerNumberRecepient = infoRecord00.KUNDENUMMER_MODTAGER.Trim()
                 };
@@ -73,7 +73,7 @@ namespace Convert.BusinessLogic.Helpers
             paymentDetail.PersonName = textRecord.KUNDENAVN?.TrimEnd() ?? string.Empty;
             if (TextHelper.IsNumeric(textRecord.FRATRAEDELSESDATO))
             {
-                paymentDetail.EmploymentTerminationDate = DateHelper.GetDate8DK(textRecord.FRATRAEDELSESDATO);
+                paymentDetail.EmploymentTerminationDate = DateHelper.GetDate8N(textRecord.FRATRAEDELSESDATO);
             }
             paymentDetail.SalaryTerms = SalaryTermsHelper.GetTerms(textRecord.AFLONNINGSFORM);
             // ToDo Etc...

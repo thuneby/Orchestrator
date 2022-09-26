@@ -12,7 +12,7 @@ namespace PersistanceTest.RepositoryTests
         
         private readonly EventEntity _eventEntity = new EventEntity()
         {
-            EventType = EventType.AddCustomer,
+            EventType = EventType.HandleBs605,
             ProcessState = ProcessState.Receive
         };
 
@@ -34,7 +34,7 @@ namespace PersistanceTest.RepositoryTests
 
             // Assert
             result.Should().NotBeNull();
-            result.EventType.Should().Be(EventType.AddCustomer);
+            result.EventType.Should().Be(EventType.HandleBs605);
         }
     }
 }

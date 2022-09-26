@@ -40,7 +40,7 @@ namespace ServiceTests.Parse
 
         private async Task<Guid> UploadDocument()
         {
-            const string fileName = "Eksempel på OsInfo.txt";
+            const string fileName = "OSI.txt";
             var fileStream = await TestUtil.GetFileStream(fileName, ParseFolder);
             var storageHelper = new TestStorageHelper(TestStorageContext, TestLoggerFactory);
             var id = await storageHelper.UploadFile(fileStream, fileName, DocumentType.NetsOsInfo);

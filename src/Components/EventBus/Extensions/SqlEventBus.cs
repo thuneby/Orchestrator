@@ -3,7 +3,6 @@ using Core.OrchestratorModels;
 using Core.QueueModels;
 using DataAccess.DataAccess;
 using EventBus.Abstractions;
-using Newtonsoft.Json;
 
 namespace EventBus.Extensions
 {
@@ -43,7 +42,7 @@ namespace EventBus.Extensions
                         DocumentType.NetsOs => EventType.HandleOs,
                         DocumentType.NetsOsInfo => EventType.HandleOsInfo,
                         DocumentType.Bs601 => EventType.HandleBs601,
-                        DocumentType.Customer => EventType.AddCustomer,
+                        DocumentType.Bs605 => EventType.HandleBs605,
                         _ => throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null)
                     };
                 default:

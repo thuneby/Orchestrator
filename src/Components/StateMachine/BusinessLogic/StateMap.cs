@@ -31,26 +31,18 @@ namespace StateMachine.BusinessLogic
                 {
                     return currentStep switch
                     {
-                        ProcessState.Consolidate => ProcessState.TransferResult,
+                        ProcessState.Consolidate => ProcessState.Pay,
+                        ProcessState.Pay => ProcessState.TransferResult,
                         ProcessState.TransferResult => ProcessState.WorkFlowCompleted,
                         ProcessState.WorkFlowCompleted => ProcessState.WorkFlowCompleted,
                         _ => throw new ArgumentOutOfRangeException()
                     };
                 }
-                case EventType.AddCustomer:
+                case EventType.HandleBs605:
                 {
                     return currentStep switch
                     {
                         ProcessState.AddCustomer => ProcessState.WorkFlowCompleted,
-                        ProcessState.WorkFlowCompleted => ProcessState.WorkFlowCompleted,
-                        _ => throw new ArgumentOutOfRangeException()
-                    };
-                }
-                case EventType.RemoveCustomer:
-                {
-                    return currentStep switch
-                    {
-                        ProcessState.RemoveCustomer => ProcessState.WorkFlowCompleted,
                         ProcessState.WorkFlowCompleted => ProcessState.WorkFlowCompleted,
                         _ => throw new ArgumentOutOfRangeException()
                     };

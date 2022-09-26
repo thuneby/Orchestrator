@@ -71,6 +71,7 @@ namespace StateMachine.BusinessLogic
             var entity = new EventEntity
             {
                 State = EventState.New,
+                EventType = originalEvent.EventType,
                 FlowId = originalEvent.FlowId,
                 TenantÍd = originalEvent.TenantÍd,
                 DocumentType = originalEvent.DocumentType,

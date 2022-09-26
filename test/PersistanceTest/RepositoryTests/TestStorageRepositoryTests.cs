@@ -17,7 +17,7 @@ namespace PersistanceTest.RepositoryTests
         {
             // Arrange
             Initialize();
-            var fileName = "Eksempel på OsInfo.txt";
+            var fileName = "OSI.txt";
             var fileStream = await TestUtil.GetFileStream(fileName, "Parse");
             var storageHelper = new TestStorageHelper(TestStorageContext, TestLoggerFactory);
             await storageHelper.UploadFile(fileStream, fileName, DocumentType.NetsOsInfo);

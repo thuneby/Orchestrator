@@ -48,7 +48,7 @@ namespace DataAccess.DataAccess
             var existing = _context.EventEntity
                 .FirstOrDefault(x => x.TenantÍd == tenantId && x.ProcessState == ProcessState.Receive && x.EventType == eventType &&
                                      !string.IsNullOrWhiteSpace(x.Parameters) && x.Parameters == fileName);
-            if (existing != null)
+            if (existing != null && existing.State != EventState.Completed)
                 return existing;
             var documentType = GetDocumentType(eventType);
             var eventEntity = new EventEntity
@@ -69,11 +69,11 @@ namespace DataAccess.DataAccess
             {
                 EventType.HandleOsInfo => DocumentType.NetsOsInfo,
                 EventType.HandleBs601 => DocumentType.Bs601,
-                EventType.AddCustomer => DocumentType.Customer,
-                EventType.RemoveCustomer => DocumentType.Customer,
+                EventType.HandleBs605 => DocumentType.Bs605,
                 EventType.HandleOs => DocumentType.NetsOs,
                 EventType.GenerateIs => DocumentType.NetsIs,
                 EventType.GenerateBs602 => DocumentType.Bs602,
+                EventType.GenerateBs603 => DocumentType.Bs603,
                 _ => throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null)
             };
         }

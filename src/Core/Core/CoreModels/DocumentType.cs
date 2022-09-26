@@ -7,9 +7,14 @@
         NetsOs = 2,
         NetsOsInfo = 3,
         Bs601 = 4,
-        Bs602 = 5,
+        Xml000 = 5, 
+        Bs602 = 6,
         Excel = 9,
-        Customer = 21,
+        Bs603 = 21,
+        Bs605 = 22,
+        Bs621 = 23,
+        Bs686 = 24,
+        BsPlus = 25,
         Unknown = 99
     }
 }
