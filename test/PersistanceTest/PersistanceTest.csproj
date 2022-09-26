@@ -39,4 +39,10 @@
     <Folder Include="TestData\Parse\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\Parse\OSI.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
