@@ -1,0 +1,25 @@
+﻿@model IQueryable<Core.OrchestratorModels.EventEntity>
+<h2>Events</h2>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.FlowId).Titled("FlowId");
+        columns.Add(model => model.EventType).Titled("Type");
+        columns.Add(model => model.ProcessState).Titled("Process State");
+        columns.Add(model => model.State).Titled("State");
+
+@*        columns.Add(model => model.DocumentType).Titled("DocumentType");
+*@ 
+        columns.Add(model => model.ExecutionCount).Titled("ExecutionCount");
+
+        columns.Add(model => model.ErrorMessage).Titled("Errors");
+    })
+    .Using(GridFilterMode.Header)
+    .Empty("No data found")
+    .Filterable()
+    .Sortable()
+    .Pageable()
+
+    )

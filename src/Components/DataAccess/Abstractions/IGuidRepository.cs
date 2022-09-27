@@ -5,7 +5,8 @@ namespace DataAccess.Abstractions
     public interface IGuidRepository<T>
     {
         Tenant Tenant { set; }
-        IEnumerable<T> GetAll(int take, int skip);
+        IEnumerable<T> GetList(int take, int skip);
+        IQueryable<T> GetQueryList();
         T Get(Guid id);
         void Add(T entity);
         void Delete(Guid id);

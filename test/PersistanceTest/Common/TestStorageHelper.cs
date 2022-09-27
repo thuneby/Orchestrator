@@ -75,7 +75,7 @@ namespace PersistanceTest.Common
         public async Task<IEnumerable<string>> GetFileList()
         {
             await Task.FromResult(true);
-            return _repository.GetAll().Select(x => x.FileName).ToList();
+            return _repository.GetList().Select(x => x.FileName).ToList();
         }
     }
 

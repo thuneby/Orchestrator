@@ -1,0 +1,26 @@
+﻿@model IQueryable<Core.DomainModels.Payment>
+
+<h2>Payments</h2>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.CreatedDate).Titled("Created");
+        columns.Add(model => model.DocumentType).Titled("Type");
+
+        @*        columns.Add(model => model.DocumentType).Titled("DocumentType");
+*@
+        columns.Add(model => model.DueDate).Formatted("{0: dd-MM-yyyy}").Titled("Due");
+        columns.Add(model => model.ReconcileStatus).Titled("ReconcileStatus");
+        columns.Add(model => model.Valid).RenderedAs(model => Html.CheckBoxFor(a => model.Valid)).Css("text-center").Titled("Valid");
+    columns.Add(model => model.TotalAmount).Formatted("{0:N}").Titled("Amount");
+
+    })
+    .Using(GridFilterMode.Header)
+    .Empty("No data found")
+    .Filterable()
+    .Sortable()
+    .Pageable()
+
+    )

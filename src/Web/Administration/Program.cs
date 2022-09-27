@@ -20,12 +20,16 @@ builder.Services.AddDbContextFactory<DocumentContext>(opt =>
 builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("OrchestratorConnection")));
 
+builder.Services.AddDbContextFactory<DomainContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DomainConnection")));
+
 builder.Services.AddScoped<IFtpController, FileController>();
 builder.Services.AddScoped<InputFileRepository>();
 builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<IEventBus, SqlEventBus>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<PaymentRepository>();
 
 builder.Services.AddControllersWithViews();
 

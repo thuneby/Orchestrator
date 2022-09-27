@@ -64,7 +64,7 @@ namespace Orchestrator.Controllers
         [HttpGet("[action]")]
         public IEnumerable<EventEntity> GetAll()
         {
-            return _eventRepository.GetAll();
+            return _eventRepository.GetList();
         }
 
         [HttpGet("[action]")]

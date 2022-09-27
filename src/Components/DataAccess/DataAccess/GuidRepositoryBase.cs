@@ -19,7 +19,12 @@ namespace DataAccess.DataAccess
 
         public Tenant Tenant { get; set; }
 
-        public IEnumerable<T1> GetAll(int take = 1000, int skip = 0)
+        public IQueryable<T1> GetQueryList()
+        {
+            return Query();
+        }
+
+        public IEnumerable<T1> GetList(int take = 1000, int skip = 0)
         {
             var entities = Query(true).Skip(skip).Take(take).ToList();
             return entities;
