@@ -12,6 +12,7 @@ using Parse.Controllers;
 using StateMachine.BusinessLogic;
 using System.Text.Json.Serialization;
 using Convert.Controllers;
+using Pay.Controllers;
 using Utilities.Ftp;
 using Validate.Controllers;
 
@@ -49,6 +50,7 @@ builder.Services.AddScoped<PaymentRepository>();
 builder.Services.AddScoped<ConversionController>();
 builder.Services.AddScoped<MasterDataRepository>();
 builder.Services.AddScoped<ValidationController>();
+builder.Services.AddScoped<PaymentController>();
 builder.Services.AddScoped<ProcessorFactory>();
 builder.Services.AddScoped<WorkFlowProcessor>();
 
