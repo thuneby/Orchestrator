@@ -1,5 +1,8 @@
-﻿using Core.DomainModels;
+﻿using Core.CoreModels;
+using Core.DomainModels;
+using DataAccess.DataAccess;
 using Microsoft.AspNetCore.Mvc;
+using Validate.BusinessLogic;
 using Validate.Dtos;
 
 namespace Validate.Controllers
@@ -8,25 +11,24 @@ namespace Validate.Controllers
     [Route("[controller]")]
     public class ValidationController: ControllerBase
     {
-        [HttpPost("[Action]")]
-        public async Task<ValidationResult> ValidatePayment(Payment payment)
+        private readonly PaymentValidator _paymentValidator;
+
+        public ValidationController(MasterDataRepository masterDataRepository)
         {
-            return new ValidationResult
-            {
-                PaymentId = payment.Id,
-                Valid = true
-            };
+            _paymentValidator = new PaymentValidator(masterDataRepository);
         }
 
         [HttpPost("[Action]")]
-        public async Task<IEnumerable<ValidationResult>> ValidatePaymentList(List<Payment> payments)
+        public async Task<ValidationResult> ValidatePayment(Payment payment, DocumentType documentType)
         {
-            var result = new List<ValidationResult>();
-            foreach (var payment in payments)
-            {
-                result.Add(await ValidatePayment(payment));
-            }
-            return result;
+            var result = (await ValidatePaymentList(new List<Payment> { payment }, documentType)).ToList();
+            return result.First();
+        }
+
+        [HttpPost("[Action]")]
+        public async Task<IEnumerable<ValidationResult>> ValidatePaymentList(List<Payment> payments, DocumentType documentType)
+        {
+            return _paymentValidator.ValidatePayments(payments, documentType);
         }
     }
 }

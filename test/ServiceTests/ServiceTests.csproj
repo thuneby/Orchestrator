@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\src\Core\Core\Core.csproj" />
     <ProjectReference Include="..\..\src\Core\ExternalModels\ExternalModels.csproj" />
     <ProjectReference Include="..\..\src\Services\Parse\Parse.csproj" />
+    <ProjectReference Include="..\..\src\Services\Validate\Validate.csproj" />
     <ProjectReference Include="..\PersistanceTest\PersistanceTest.csproj" />
   </ItemGroup>
 

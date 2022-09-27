@@ -1,4 +1,4 @@
-﻿namespace Convert.BusinessLogic.Helpers
+﻿namespace Utilities.Dates
 {
     public class Holiday
     {

@@ -47,6 +47,7 @@ builder.Services.AddScoped<ReceiveFileController>();
 builder.Services.AddScoped<ParseController>();
 builder.Services.AddScoped<PaymentRepository>();
 builder.Services.AddScoped<ConversionController>();
+builder.Services.AddScoped<MasterDataRepository>();
 builder.Services.AddScoped<ValidationController>();
 builder.Services.AddScoped<ProcessorFactory>();
 builder.Services.AddScoped<WorkFlowProcessor>();

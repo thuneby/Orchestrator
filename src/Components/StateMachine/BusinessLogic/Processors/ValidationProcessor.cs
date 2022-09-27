@@ -25,7 +25,7 @@ namespace StateMachine.BusinessLogic.Processors
             {
                 var id = Guid.Parse(entity.Parameters); 
                 var payments = _paymentRepository.GetFromDocumentId(id).ToList();
-                var results = (await _validationController.ValidatePaymentList(payments)).ToList();
+                var results = (await _validationController.ValidatePaymentList(payments, entity.DocumentType)).ToList();
                 foreach (var validationResult in results)
                 {
                     var payment = payments.FirstOrDefault(x => x.Id == validationResult.PaymentId);
