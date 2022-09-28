@@ -8,6 +8,7 @@ using Parse.BusinessLogic.Helpers;
 using Parse.BusinessLogic.Mappers;
 using Parse.BusinessLogic.Mappers.OsInfo;
 using Parse.Models.OsInfoFormat;
+using Utilities.Encoding;
 
 namespace Parse.BusinessLogic
 {

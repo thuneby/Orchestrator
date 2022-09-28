@@ -1,6 +1,7 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
 using Core.CoreModels;
 using FileHelpers;
+using Utilities.Encoding;
 
 namespace Parse.BusinessLogic.Helpers
 {

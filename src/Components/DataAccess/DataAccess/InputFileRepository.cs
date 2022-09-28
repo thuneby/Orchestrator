@@ -17,5 +17,10 @@ namespace DataAccess.DataAccess
         {
             return await _blobContext.InputFiles.FirstOrDefaultAsync(x => x.FileName == fileName);
         }
+
+        public async Task<string> GetInputFileName(Guid id)
+        {
+            return _blobContext.InputFiles.FirstOrDefault(x => x.Id == id)?.FileName ?? string.Empty;
+        }
     }
 }

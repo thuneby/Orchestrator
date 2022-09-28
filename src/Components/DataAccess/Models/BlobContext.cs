@@ -14,5 +14,6 @@ namespace DataAccess.Models
         }
 
         public DbSet<InputFile> InputFiles { get; set; }
+        public DbSet<OutputFile> OutputFiles { get; set; }
     }
 }

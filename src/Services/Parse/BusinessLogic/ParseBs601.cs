@@ -6,6 +6,7 @@ using FileHelpers;
 using Parse.BusinessLogic.Helpers;
 using Parse.BusinessLogic.Mappers.Bs601;
 using Parse.Models.Bs601Format;
+using Utilities.Encoding;
 
 namespace Parse.BusinessLogic
 {

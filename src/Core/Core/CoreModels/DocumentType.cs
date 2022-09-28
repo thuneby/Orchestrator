@@ -15,6 +15,9 @@
         Bs621 = 23,
         Bs686 = 24,
         BsPlus = 25,
+        ReceiptNetsOs = 32,
+        ReceiptNetsOsInfo = 33, 
+        ReceiptBs601 = 34,
         Unknown = 99
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Convert.Controllers;
 using Core.OrchestratorModels;
 using DataAccess.DataAccess;
+using Document.Controllers;
 using Ingestion.Controllers;
 using Microsoft.Extensions.Logging;
 using Parse.Controllers;
@@ -18,16 +19,18 @@ namespace StateMachine.BusinessLogic
         private readonly ConversionController _conversionController;
         private readonly ValidationController _validationController;
         private readonly PaymentController _paymentController;
+        private readonly ReceiptController _receiptController;
         private readonly PaymentRepository _paymentRepository;
         private readonly ILoggerFactory _loggerFactory;
         public ProcessorFactory(ParseController parseController, ReceiveFileController receiveFileController, ConversionController conversionController, ValidationController validationController, PaymentController paymentController,
-            PaymentRepository paymentRepository, ILoggerFactory loggerFactory)
+            ReceiptController receiptController, PaymentRepository paymentRepository, ILoggerFactory loggerFactory)
         {
             _parseController = parseController;
             _receiveFileController = receiveFileController;
             _conversionController = conversionController;
             _validationController = validationController;
             _paymentController = paymentController;
+            _receiptController = receiptController;
             _paymentRepository = paymentRepository;
             _loggerFactory = loggerFactory;
         }
@@ -45,6 +48,8 @@ namespace StateMachine.BusinessLogic
                     return new ValidationProcessor(_paymentRepository, _validationController, _loggerFactory);
                 case ProcessState.Pay:
                     return new PaymentProcessor(_paymentRepository, _paymentController, _loggerFactory);
+                case ProcessState.GenerateReceipt:
+                    return new GenerateReceiptProcessor(_receiptController, _loggerFactory);
                 case ProcessState.Consolidate:
                     break;
                 case ProcessState.TransferResult:
