@@ -13,9 +13,9 @@ namespace DataAccess.DataAccess
             _blobContext = context;
         }
 
-        public async Task<List<OutputFile>> GetDocumentFiles(Guid documentId)
+        public async Task<List<OutputFile>> GetOutputFiles(long flowId)
         {
-            return await _blobContext.OutputFiles.Where(x => x.DocumentId == documentId).ToListAsync();
+            return await _blobContext.OutputFiles.Where(x => x.FlowId == flowId).ToListAsync();
         }
     }
 }

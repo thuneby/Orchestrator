@@ -2,6 +2,7 @@
 using Core.CoreModels;
 using Core.OrchestratorModels;
 using Core.QueueModels;
+using DataAccess.DataAccess;
 using EventBus.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -18,36 +19,39 @@ namespace Ingestion.Controllers
         private readonly FtpControllerFactory _ftpControllerFactory;
         private readonly IStorageHelper _storageHelper;
         private readonly IEventBus _eventBus;
+        private readonly ParameterRepository _parameterRepository;
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<ReceiveFileController> _logger;
 
-        public ReceiveFileController(FtpControllerFactory ftpControllerFactory, IStorageHelper storageHelper, IEventBus eventBus, ILoggerFactory loggerFactory)
+        public ReceiveFileController(FtpControllerFactory ftpControllerFactory, IStorageHelper storageHelper, IEventBus eventBus, ParameterRepository parameterRepository, ILoggerFactory loggerFactory)
         {
             _ftpControllerFactory = ftpControllerFactory;
             _storageHelper = storageHelper;
             _eventBus = eventBus;
+            _parameterRepository = parameterRepository;
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<ReceiveFileController>();
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult> ReceiveFiles(string ftpFolder, long tenantId)
+        public async Task<ActionResult> ReceiveFiles(long tenantId, DocumentType documentType)
         {
             var fileCount = 0;
-            var ftpController = _ftpControllerFactory.GetController(GetSettings(tenantId), _loggerFactory);
+            var settings = GetSettings(tenantId);
+            var ftpController = _ftpControllerFactory.GetController(settings, _loggerFactory);
+            var ftpFolder = GetInputFolder(settings, documentType);
             var fileList = ftpController.GetFileList(ftpFolder);
             if (fileList.Count == 0)
                 return new ObjectResult("No files to download!");
             foreach (var file in fileList)
             {
-                var documentType = GetDocumentType(ftpFolder, tenantId);
                 var inputFile = ftpController.Get(file, ftpFolder);
                 if (inputFile == null)
                     continue;
                 inputFile.TenantÍd = tenantId;
                 inputFile.DocumentType = documentType;
                 using var stream = new MemoryStream(inputFile.Content);
-                var id = await _storageHelper.UploadFile(stream, inputFile.Id.ToString(), documentType);
+                var id = await _storageHelper.UploadFile(stream, inputFile.FileName, documentType);
                 fileCount++;
                 inputFile.Content = Array.Empty<byte>();
                 var payload = JsonConvert.SerializeObject(inputFile, new StringEnumConverter());
@@ -68,16 +72,18 @@ namespace Ingestion.Controllers
             {
                 var settings = GetSettings(entity.TenantÍd);
                 var ftpController = _ftpControllerFactory.GetController(settings, _loggerFactory);
-                var inputFile = ftpController.Get(entity.Parameters, settings.InputFolder);
+                var ftpFolder = GetInputFolder(settings, entity.DocumentType);
+                var inputFile = ftpController.Get(entity.Parameters, ftpFolder);
                 if (inputFile == null)
                     throw new ArgumentException(@"File with filename {0} not found", entity.Parameters);
                 inputFile.TenantÍd = entity.TenantÍd;
                 inputFile.DocumentType = entity.DocumentType;
+                inputFile.FlowId = entity.FlowId;
                 using var stream = new MemoryStream(inputFile.Content);
-                var id = await _storageHelper.UploadFile(stream, inputFile.Id.ToString(), inputFile.DocumentType);
+                var id = await _storageHelper.UploadFile(stream, inputFile.FileName, inputFile.DocumentType);
                 entity.Result = id.ToString();
                 entity.UpdateProcessResult();
-                ftpController.DeleteFile(inputFile.FileName, settings.InputFolder);
+                ftpController.DeleteFile(inputFile.FileName, settings.BsInputFolder);
             }
             catch (Exception e)
             {
@@ -89,25 +95,49 @@ namespace Ingestion.Controllers
         }
 
         [HttpGet("[action]")]
-        public List<string> GetFileList(long tenantId)
+        public List<string> GetFileList(long tenantId, DocumentType documentType)
         {
             var settings = GetSettings(tenantId);
             var ftpController = _ftpControllerFactory.GetController(settings, _loggerFactory);
-            var fileList = ftpController.GetFileList(settings.InputFolder);
+            var fileList = ftpController.GetFileList(GetInputFolder(settings, documentType));
             return fileList;
-        }
-
-        private DocumentType GetDocumentType(string ftpFolder, long tenantId)
-        {
-            return DocumentType.NetsOsInfo;
         }
 
         private FtpSettings GetSettings(long tenantId)
         {
-            return new FtpSettings
+            var defaultSettings = new FtpSettings
             {
                 RootFolder = FtpFolder,
-                InputFolder = "Input"
+                BsInputFolder = "BsInput",
+                OsInputFolder = "OsInput"
+            };
+            var parameters = _parameterRepository.GetParameters(tenantId);
+            var fileLoadParameter = parameters.FirstOrDefault(x => x.ParameterType == ParameterType.FileLoadParameters);
+            if (fileLoadParameter == null)
+                return defaultSettings;
+            try
+            {
+                var settings = JsonConvert.DeserializeObject<FtpSettings>(fileLoadParameter.Value);
+                if (settings != null)
+                    return settings;
+            }
+            catch(Exception e)
+            {
+                _logger.LogError("Error deserializing FtpSettings " + e.Message, e);
+            }
+
+            return defaultSettings;
+        }
+
+        private static string GetInputFolder(FtpSettings settings, DocumentType documentType)
+        {
+            return documentType switch
+            {
+                DocumentType.NetsOs => settings.OsInputFolder,
+                DocumentType.NetsOsInfo => settings.OsInputFolder,
+                DocumentType.Bs601 => settings.BsInputFolder,
+                DocumentType.Xml000 => settings.BsInputFolder,
+                _ => throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null)
             };
         }
     }

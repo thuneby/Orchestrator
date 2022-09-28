@@ -41,16 +41,16 @@ namespace Orchestrator.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult GenerateReceiveEvents(long tenantId) 
+        public ActionResult GenerateReceiveEvents(long tenantId, EventType eventType) 
         {
-            var fileList = _receiveFileController.GetFileList(tenantId);
+            var fileList = _receiveFileController.GetFileList(tenantId, ProcessHelper.GetDocumentType(eventType));
             if (fileList.Count == 0)
                 return new ObjectResult("No files to download!");
             var eventCount = 0;
             var result = new List<string>();
             foreach (var fileName in fileList)
             {
-                var entity = _eventRepository.AddOrGetEventFromFileName(tenantId, fileName, EventType.HandleOsInfo);
+                var entity = _eventRepository.AddOrGetEventFromFileName(tenantId, fileName, eventType);
                 if (entity == null)
                     continue;
                 eventCount++;

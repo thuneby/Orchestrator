@@ -11,5 +11,7 @@ namespace Core.CoreModels
         public long Size { get; set; }
         public DocumentType DocumentType { get; set; }
         public byte[] Content { get; set; }
+        public long FlowId { get; set; }
+
     }
 }

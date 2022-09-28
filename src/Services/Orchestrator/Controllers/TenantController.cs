@@ -18,29 +18,32 @@ namespace Orchestrator.Controllers
         }
 
 
-        // GET: api/<EventController>
-        [HttpGet("GetAll")]
-        public IEnumerable<Tenant> GetAll()
+        [HttpGet("[action]")]
+        public IEnumerable<Tenant> GetAllTenants()
         {
             return _repository.GetAll();
         }
 
-        // GET api/<EventController>/5
-        [HttpGet("{id}")]
+        [HttpGet("[action]")]
         public Tenant Get(long id)
         {
             return _repository.Get(id);
         }
 
-        // POST api/<EventController>
-        [HttpPost]
+        [HttpPost("[action]")]
         public void Add([FromBody] Tenant entity)
         {
             _repository.Add(entity);
         }
 
-        // DELETE api/<EventController>/5
-        [HttpDelete("{id}")]
+        [HttpPost("[action]")]
+        public void Update([FromBody] Tenant entity)
+        {
+            _repository.Update(entity);
+        }
+
+
+        [HttpDelete("[action]")]
         public void Delete(long id)
         {
             _repository.Delete(id);

@@ -16,7 +16,7 @@ namespace ScenarioTests.StepDefinitions
         [When(@"the event with EventType (.*) and ProcessState (.*)")]
         public void WhenTheEventWithEventTypeHandleOsInfoAndProcessStateReceive(EventType eventType, ProcessState processState)
         {
-            _eventEntity = new EventEntity()
+            _eventEntity = new EventEntity
             {
                 EventType = eventType,
                 ProcessState = processState

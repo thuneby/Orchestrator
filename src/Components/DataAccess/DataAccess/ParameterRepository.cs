@@ -10,5 +10,10 @@ namespace DataAccess.DataAccess
         public ParameterRepository(OrchestratorContext context, ILogger<ParameterRepository> logger) : base(context, logger)
         {
         }
+
+        public IEnumerable<ParameterEntity> GetParameters(long tenantId)
+        {
+            return GetQueryList().Where(x => x.TenantÍd == tenantId).ToList();
+        }
     }
 }

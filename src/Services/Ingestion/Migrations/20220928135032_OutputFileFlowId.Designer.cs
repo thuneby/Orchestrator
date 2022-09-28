@@ -4,6 +4,7 @@ using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ingestion.Migrations
 {
     [DbContext(typeof(BlobContext))]
-    partial class BlobContextModelSnapshot : ModelSnapshot
+    [Migration("20220928135032_OutputFileFlowId")]
+    partial class OutputFileFlowId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +42,6 @@ namespace Ingestion.Migrations
                     b.Property<string>("FileName")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<long>("FlowId")
-                        .HasColumnType("bigint");
 
                     b.Property<long>("Size")
                         .HasColumnType("bigint");

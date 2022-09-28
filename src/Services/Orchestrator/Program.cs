@@ -14,6 +14,7 @@ using System.Text.Json.Serialization;
 using Convert.Controllers;
 using Document.Controllers;
 using Pay.Controllers;
+using Transfer.Controllers;
 using Utilities.Ftp;
 using Validate.Controllers;
 
@@ -39,6 +40,7 @@ builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<FlowRepository>();
 builder.Services.AddScoped<TenantRepository>();
+builder.Services.AddScoped<ParameterRepository>();
 builder.Services.AddScoped<FtpControllerFactory>();
 builder.Services.AddScoped<InputFileRepository>();
 builder.Services.AddScoped<OutputFileRepository>();
@@ -54,6 +56,7 @@ builder.Services.AddScoped<MasterDataRepository>();
 builder.Services.AddScoped<ValidationController>();
 builder.Services.AddScoped<PaymentController>();
 builder.Services.AddScoped<ReceiptController>();
+builder.Services.AddScoped<TransferController>();
 builder.Services.AddScoped<ProcessorFactory>();
 builder.Services.AddScoped<WorkFlowProcessor>();
 

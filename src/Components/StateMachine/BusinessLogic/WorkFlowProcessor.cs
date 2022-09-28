@@ -64,7 +64,7 @@ namespace StateMachine.BusinessLogic
             return result;
         }
 
-        private EventEntity GetNextEvent(EventEntity originalEvent)
+        private static EventEntity GetNextEvent(EventEntity originalEvent)
         {
             if (originalEvent.ProcessState == ProcessState.WorkFlowCompleted)
                 return originalEvent;
@@ -78,6 +78,11 @@ namespace StateMachine.BusinessLogic
                 ProcessState = StateMap.GetNextStep(originalEvent),
                 Parameters = originalEvent.Result
             };
+            if (entity.ProcessState != ProcessState.WorkFlowCompleted) return entity;
+            entity.State = EventState.Completed;
+            entity.StartTime = entity.CreatedDate;
+            entity.EndTime = entity.CreatedDate;
+            entity.Result = "Workflow Completed";
             return entity;
         }
     }

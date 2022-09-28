@@ -27,6 +27,7 @@ namespace Document.Controllers
             var outputFile = ReceiptHandler.CreateOutPutFile(inputFileName, entity.DocumentType);
             outputFile.TenantÍd = entity.TenantÍd;
             outputFile.DocumentId = documentId;
+            outputFile.FlowId = entity.FlowId;
             _outputFileRepository.Add(outputFile);
             return outputFile.Id;
         }

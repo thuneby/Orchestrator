@@ -13,15 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContextFactory<BlobContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("BlobConnection"),
         x => x.MigrationsAssembly("Ingestion")));
-//builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
-//    opt.UseSqlServer(builder.Configuration.GetConnectionString("OrchestratorConnection")));
+builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("OrchestratorConnection")));
 
-//builder.Services.AddScoped<ILoggerFactory, LoggerFactory>();
+builder.Services.AddScoped<ILoggerFactory, LoggerFactory>();
 builder.Services.AddScoped<FtpControllerFactory>();
 builder.Services.AddScoped<InputFileRepository>();
 builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
-//builder.Services.AddScoped<EventRepository>();
-//builder.Services.AddScoped<IEventBus, SqlEventBus>();
+builder.Services.AddScoped<EventRepository>();
+builder.Services.AddScoped<IEventBus, SqlEventBus>();
 
 
 
