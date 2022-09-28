@@ -4,7 +4,7 @@
     {
         Receive = 10,
         Parse = 20,
-        GeneratePayments = 30,
+        Convert = 30,
         Validate = 40,
         Consolidate = 50,
         Pay = 55,

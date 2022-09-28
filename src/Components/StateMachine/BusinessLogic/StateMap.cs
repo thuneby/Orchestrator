@@ -2,7 +2,7 @@
 
 namespace StateMachine.BusinessLogic
 {
-    internal static class StateMap
+    public static class StateMap
     {
         public static ProcessState GetNextStep(EventEntity entity)
         {
@@ -16,8 +16,8 @@ namespace StateMachine.BusinessLogic
                     return currentStep switch
                     {
                         ProcessState.Receive => ProcessState.Parse,
-                        ProcessState.Parse => ProcessState.GeneratePayments,
-                        ProcessState.GeneratePayments => ProcessState.Validate,
+                        ProcessState.Parse => ProcessState.Convert,
+                        ProcessState.Convert => ProcessState.Validate,
                         ProcessState.Validate => ProcessState.Pay,
                         ProcessState.Pay => ProcessState.GenerateReceipt,
                         ProcessState.GenerateReceipt => ProcessState.TransferResult,

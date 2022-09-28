@@ -42,7 +42,7 @@ namespace StateMachine.BusinessLogic
                     return new ReceiveFileProcessor(_receiveFileController, _loggerFactory.CreateLogger<ReceiveFileProcessor>());
                 case ProcessState.Parse:
                     return new ParseFileProcessor(_parseController, _loggerFactory);
-                case ProcessState.GeneratePayments:
+                case ProcessState.Convert:
                     return new ConvertDocumentProcessor(_conversionController, _loggerFactory);
                 case ProcessState.Validate:
                     return new ValidationProcessor(_paymentRepository, _validationController, _loggerFactory);
