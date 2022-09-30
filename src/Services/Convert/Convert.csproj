@@ -7,6 +7,7 @@
     <UserSecretsId>11175c83-eb2e-4224-9186-884e52011088</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
+	<DockerComposeProjectPath>..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Components\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
-    <ProjectReference Include="..\Parse\Parse.csproj" />
   </ItemGroup>
 
 </Project>
