@@ -1,4 +1,5 @@
 ﻿using Configuration.Models;
+using Core.CoreModels;
 using Core.OrchestratorModels;
 using DataAccess.DataAccess;
 using Ingestion.Controllers;
@@ -37,6 +38,13 @@ namespace Orchestrator.Controllers
         {
             var entity = Get(id);
             await _workflowProcessor.ProcessEvent(entity);
+            return entity;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<EventEntity> ExecuteFlow(long flowId)
+        {
+            var entity = await _workflowProcessor.ProcessFlow(flowId);
             return entity;
         }
 

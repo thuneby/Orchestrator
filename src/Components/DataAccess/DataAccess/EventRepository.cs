@@ -63,6 +63,18 @@ namespace DataAccess.DataAccess
             return eventEntity;
         }
 
+        public EventEntity GetNextEvent(long flowId)
+        {
+            var flowEvents = GetEventFlow(flowId);
+            var nextEvent = flowEvents.FirstOrDefault(x => x.State != EventState.Completed);
+            return nextEvent;
+        }
+
+        public IEnumerable<EventEntity> GetEventFlow(long flowId)
+        {
+            return _context.EventEntity.Where(x => x.FlowId == flowId).OrderBy(x => x.ProcessState);
+        }
+
         private static DocumentType GetDocumentType(EventType eventType)
         {
             return eventType switch

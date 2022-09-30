@@ -17,7 +17,25 @@ namespace StateMachine.BusinessLogic
             _logger = logger;
         }
 
-        
+
+        public async Task<EventEntity> ProcessFlow(long flowId)
+        {
+            var eventEntity = _eventRepository.GetNextEvent(flowId);
+            if (eventEntity == null)
+            {
+                _logger.LogError("Event ikke fundet for flowId {0}", flowId);
+                return null;
+            }
+
+            do
+            {
+                eventEntity = await ProcessEvent(eventEntity);
+                if (eventEntity.State == EventState.Error || eventEntity.State == EventState.Processing)
+                    return eventEntity;
+            } while (eventEntity.ProcessState != ProcessState.WorkFlowCompleted);
+            return eventEntity;
+        }
+
         public async Task<EventEntity> ProcessEvent(EventEntity eventEntity, bool returnNewEvent = true)
         {
             try
