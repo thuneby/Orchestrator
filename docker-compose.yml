@@ -1,0 +1,66 @@
+version: '3.4'
+
+services:
+  orchestrator:
+    image: ${DOCKER_REGISTRY-}orchestrator
+    build:
+      context: .
+      dockerfile: src/Services/Orchestrator/Dockerfile
+
+
+
+  convert:
+    image: ${DOCKER_REGISTRY-}convert
+    build:
+      context: .
+      dockerfile: src/Services/Convert/Dockerfile
+
+  document:
+    image: ${DOCKER_REGISTRY-}document
+    build:
+      context: .
+      dockerfile: src/Services/Document/Dockerfile
+
+
+  ingestion:
+    image: ${DOCKER_REGISTRY-}ingestion
+    build:
+      context: .
+      dockerfile: src/Services/Ingestion/Dockerfile
+
+
+
+  parse:
+    image: ${DOCKER_REGISTRY-}parse
+    build:
+      context: .
+      dockerfile: src/Services/Parse/Dockerfile
+
+
+  pay:
+    image: ${DOCKER_REGISTRY-}pay
+    build:
+      context: .
+      dockerfile: src/Services/Pay/Dockerfile
+
+
+  transfer:
+    image: ${DOCKER_REGISTRY-}transfer
+    build:
+      context: .
+      dockerfile: src/Services/Transfer/Dockerfile
+
+
+  validate:
+    image: ${DOCKER_REGISTRY-}validate
+    build:
+      context: .
+      dockerfile: src/Services/Validate/Dockerfile
+
+
+  administration:
+    image: ${DOCKER_REGISTRY-}administration
+    build:
+      context: .
+      dockerfile: src/Web/Administration/Dockerfile
+

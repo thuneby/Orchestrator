@@ -72,9 +72,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE.txt = LICENSE.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Document", "src\Services\Document\Document.csproj", "{CEEA5983-B37C-47E1-B3EF-66A07FF44299}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Document", "src\Services\Document\Document.csproj", "{CEEA5983-B37C-47E1-B3EF-66A07FF44299}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScenarioTests", "test\ScenarioTests\ScenarioTests.csproj", "{BC09DC80-DCE0-48B9-9079-7811B62C70A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScenarioTests", "test\ScenarioTests\ScenarioTests.csproj", "{BC09DC80-DCE0-48B9-9079-7811B62C70A5}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FC25B833-6504-4864-8FBF-52E621066618}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,6 +172,10 @@ Global
 		{BC09DC80-DCE0-48B9-9079-7811B62C70A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC09DC80-DCE0-48B9-9079-7811B62C70A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC09DC80-DCE0-48B9-9079-7811B62C70A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC25B833-6504-4864-8FBF-52E621066618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC25B833-6504-4864-8FBF-52E621066618}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC25B833-6504-4864-8FBF-52E621066618}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC25B833-6504-4864-8FBF-52E621066618}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
