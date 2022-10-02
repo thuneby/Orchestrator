@@ -2,6 +2,13 @@
 {
     public class DateUtil
     {
+        public static bool IsBusinessDay(DateTime date)
+        {
+            if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
+                return false;
+            return !date.IsHoliday();
+        }
+        
         public static DateTime GetNextBusinessDay(DateTime date)
         {
             DateTime nextDay;
