@@ -6,7 +6,32 @@ services:
     build:
       context: .
       dockerfile: src/Services/Orchestrator/Dockerfile
+    ports: 
+    - 5010:80
+    - 55010:55010
 
+  orchestrator-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "orchestrator", "-app-port", "80" ]
+    depends_on:
+      - orchestrator
+    network_mode: "service:orchestrator"
+
+  ingestion:
+    image: ${DOCKER_REGISTRY-}ingestion
+    build:
+      context: .
+      dockerfile: src/Services/Ingestion/Dockerfile
+    ports: 
+    - 5020:80
+    - 55020:55010
+
+  ingestion-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "ingestion", "-app-port", "80" ]
+    depends_on:
+      - ingestion
+    network_mode: "service:ingestion"
 
 
   convert:
@@ -22,11 +47,6 @@ services:
       dockerfile: src/Services/Document/Dockerfile
 
 
-  ingestion:
-    image: ${DOCKER_REGISTRY-}ingestion
-    build:
-      context: .
-      dockerfile: src/Services/Ingestion/Dockerfile
 
 
 

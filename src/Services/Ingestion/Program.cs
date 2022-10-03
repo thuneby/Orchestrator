@@ -19,6 +19,7 @@ builder.Services.AddDbContextFactory<OrchestratorContext>(opt =>
 builder.Services.AddScoped<FtpControllerFactory>();
 builder.Services.AddScoped<InputFileRepository>();
 builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
+builder.Services.AddScoped<ParameterRepository>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<IEventBus, SqlEventBus>();
 
@@ -41,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

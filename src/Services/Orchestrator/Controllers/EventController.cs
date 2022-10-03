@@ -1,10 +1,7 @@
-﻿using Configuration.Models;
-using Core.CoreModels;
-using Core.OrchestratorModels;
+﻿using Core.OrchestratorModels;
+using Dapr.Client;
 using DataAccess.DataAccess;
-using Ingestion.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using StateMachine.BusinessLogic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,18 +15,13 @@ namespace Orchestrator.Controllers
         private readonly EventRepository _eventRepository;
         private readonly FlowRepository _flowRepository;
         private readonly WorkFlowProcessor _workflowProcessor;
-        private readonly ReceiveFileController _receiveFileController;
         private readonly ILogger<EventController> _logger;
-        private IOptions<ServiceConfig> _serviceOptions;
 
-        public EventController(EventRepository eventRepository, FlowRepository flowRepository, WorkFlowProcessor workFlowProcessor, ReceiveFileController receiveFileController, 
-            IOptions<ServiceConfig> options, ILogger<EventController> logger)
+        public EventController(EventRepository eventRepository, FlowRepository flowRepository, WorkFlowProcessor workFlowProcessor, ILogger<EventController> logger)
         {
             _eventRepository = eventRepository;
             _flowRepository = flowRepository;
             _workflowProcessor = workFlowProcessor;
-            _receiveFileController = receiveFileController;
-            _serviceOptions = options;
             _logger = logger;
         }
 
@@ -49,9 +41,9 @@ namespace Orchestrator.Controllers
         }
 
         [HttpPost("[action]")]
-        public ActionResult GenerateReceiveEvents(long tenantId, EventType eventType) 
+        public async Task<ActionResult> GenerateReceiveEvents(long tenantId, EventType eventType) 
         {
-            var fileList = _receiveFileController.GetFileList(tenantId, ProcessHelper.GetDocumentType(eventType));
+            var fileList = await GetFileList(tenantId, eventType);
             if (fileList.Count == 0)
                 return new ObjectResult("No files to download!");
             var eventCount = 0;
@@ -66,6 +58,25 @@ namespace Orchestrator.Controllers
             }
             result.Add(eventCount + " events in event store...");
             return new ObjectResult(result);
+        }
+
+        private async Task<List<string>> GetFileList(long tenantId, EventType eventType)
+        {
+            var source = new CancellationTokenSource();
+            var cancellationToken = source.Token;
+            var documentType = ProcessHelper.GetDocumentType(eventType);
+            using var client = new DaprClientBuilder().Build();
+            var request = client.CreateInvokeMethodRequest(HttpMethod.Get, "ingestion", "receivefile/getfilelist?tenantId=" + tenantId + "&documentType=" + documentType);
+            var result = new List<string>();
+            try
+            {
+                result = await client.InvokeMethodAsync<List<string>>(request, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+            }
+            return result;
         }
 
         // GET: api/<EventController>
