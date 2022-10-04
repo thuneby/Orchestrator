@@ -46,7 +46,7 @@ builder.Services.AddScoped<InputFileRepository>();
 builder.Services.AddScoped<OutputFileRepository>();
 builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
 builder.Services.AddScoped<EventRepository>();
-builder.Services.AddScoped<IEventBus, SqlEventBus>();
+builder.Services.AddScoped<IEventBus, DaprEventBus>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<ReceiveFileController>();
 builder.Services.AddScoped<ParseController>();
@@ -60,11 +60,12 @@ builder.Services.AddScoped<TransferController>();
 builder.Services.AddScoped<ProcessorFactory>();
 builder.Services.AddScoped<WorkFlowProcessor>();
 
-builder.Services.AddControllers().AddJsonOptions(opts =>
+builder.Services.AddControllers().AddDapr()
+    .AddJsonOptions(opts =>
 {
     var enumConverter = new JsonStringEnumConverter();
     opts.JsonSerializerOptions.Converters.Add(enumConverter);
-}); 
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -77,11 +78,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+//app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
+app.UseRouting();
+app.UseCloudEvents();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapSubscribeHandler();
+    endpoints.MapControllers();
+});
 
 app.Run();

@@ -38,11 +38,16 @@ namespace StateMachine.BusinessLogic
 
         public async Task<EventEntity> ProcessEvent(EventEntity eventEntity, bool returnNewEvent = true)
         {
-            try
-            {
                 if (eventEntity.ProcessState == ProcessState.WorkFlowCompleted)
                     return eventEntity;
                 eventEntity = await DoProcessing(eventEntity);
+                return await UpdateEvent(eventEntity, returnNewEvent);
+        }
+
+        public async Task<EventEntity> UpdateEvent(EventEntity eventEntity, bool returnNewEvent = true)
+        {
+            try
+            {
                 if (eventEntity.State == EventState.Completed)
                 {
                     var newEvent = GetNextEvent(eventEntity);
@@ -52,9 +57,7 @@ namespace StateMachine.BusinessLogic
                     _eventRepository.AddOrUpdateEventEntity(newEvent);
                     return returnNewEvent ? newEvent : eventEntity;
                 }
-
                 _eventRepository.Update(eventEntity);
-
             }
             catch (Exception e)
             {

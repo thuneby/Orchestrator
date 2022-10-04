@@ -1,4 +1,7 @@
-﻿using Core.OrchestratorModels;
+﻿using Core.CoreModels;
+using Core.OrchestratorModels;
+using Core.QueueModels;
+using Dapr;
 using Dapr.Client;
 using DataAccess.DataAccess;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +15,7 @@ namespace Orchestrator.Controllers
     [ApiController]
     public class EventController : ControllerBase
     {
+        private const string DaprPubsubName = "pubsub";
         private readonly EventRepository _eventRepository;
         private readonly FlowRepository _flowRepository;
         private readonly WorkFlowProcessor _workflowProcessor;
@@ -78,6 +82,33 @@ namespace Orchestrator.Controllers
             }
             return result;
         }
+
+        [HttpPost("[action]")]
+        [Topic(DaprPubsubName, Topics.FileUploadedTopicName)]
+        public async Task UpdateEvent(QueueMessage queueMessage)
+        {
+            var eventType = GetEventType(queueMessage.DocumentType);
+            var entity = _eventRepository.AddOrGetEventFromFileName(queueMessage.TenantÍd, queueMessage.FileName, eventType);
+            if (entity == null)
+                return;
+            entity.Result = queueMessage.Id.ToString();
+            entity.UpdateProcessResult();
+            await _workflowProcessor.UpdateEvent(entity);
+        }
+
+        private static EventType GetEventType(DocumentType documentType)
+        {
+            return documentType switch
+            {
+                DocumentType.NetsOs => EventType.HandleOs,
+                DocumentType.NetsOsInfo => EventType.HandleOsInfo,
+                DocumentType.Bs601 => EventType.HandleBs601,
+                DocumentType.Xml000 => EventType.HandleBs601,
+                DocumentType.Bs605 => EventType.HandleBs605,
+                _ => throw new ArgumentOutOfRangeException(nameof(documentType), documentType, null)
+            };
+        }
+
 
         // GET: api/<EventController>
         [HttpGet("[action]")]

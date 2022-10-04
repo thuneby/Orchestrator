@@ -55,11 +55,11 @@ namespace Ingestion.Controllers
                 fileCount++;
                 inputFile.Content = Array.Empty<byte>();
                 var payload = JsonConvert.SerializeObject(inputFile, new StringEnumConverter());
-                var message = new QueueMessage(id, documentType, ProcessState.Parse, inputFile.FileName, payload);
+                var message = new QueueMessage(id, documentType, ProcessState.Receive, inputFile.FileName, payload);
                 // raise event 
                 await _eventBus.PublishAsync(message, Topics.FileUploadedTopicName);
                 _logger.LogInformation($"File with id {id} published!");
-                ftpController.DeleteFile(inputFile.FileName, ftpFolder);
+                //ftpController.DeleteFile(inputFile.FileName, ftpFolder); // ToDo Uncomment this!
             }
             fileList.Add(fileCount + " files uploaded");
             return new ObjectResult(fileList);
@@ -76,7 +76,7 @@ namespace Ingestion.Controllers
                 var inputFile = ftpController.Get(entity.Parameters, ftpFolder);
                 if (inputFile == null)
                 {
-                    var errorMessage = $"File with filename {entity.Parameters} not found";
+                    var errorMessage = $"File with filename '{entity.Parameters}' not found";
                     throw new ArgumentException(errorMessage);
                 }
                 inputFile.TenantÍd = entity.TenantÍd;

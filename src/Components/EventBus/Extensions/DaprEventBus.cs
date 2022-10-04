@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Dapr.Client;
 using Core.QueueModels;
+using EventBus.Abstractions;
 
 namespace EventBus.Extensions
 {
-    public class DaprEventBus
+    public class DaprEventBus : IEventBus
     {
         private const string DaprPubsubName = "pubsub";
 

@@ -1,4 +1,5 @@
 using BlobAccess.DataAccessLayer.Helpers;
+using Dapr.Client;
 using DataAccess.DataAccess;
 using DataAccess.Models;
 using EventBus.Abstractions;
@@ -20,9 +21,9 @@ builder.Services.AddScoped<InputFileRepository>();
 builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
 builder.Services.AddScoped<ParameterRepository>();
 builder.Services.AddScoped<EventRepository>();
-builder.Services.AddScoped<IEventBus, SqlEventBus>();
+builder.Services.AddScoped<IEventBus, DaprEventBus>();
 
-builder.Services.AddControllers(); // Remove enum serialization for Dapr service invocation
+builder.Services.AddControllers().AddDapr(); // Remove enum serialization for Dapr service invocation
     //.AddJsonOptions(opts =>
     //{
     //    var enumConverter = new JsonStringEnumConverter();

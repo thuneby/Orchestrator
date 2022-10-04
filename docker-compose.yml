@@ -12,7 +12,13 @@ services:
 
   orchestrator-dapr:
     image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "orchestrator", "-app-port", "80" ]
+    command: [ "./daprd", "-app-id", "orchestrator", "-app-port", "80",
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
     depends_on:
       - orchestrator
     network_mode: "service:orchestrator"
@@ -28,7 +34,13 @@ services:
 
   ingestion-dapr:
     image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "ingestion", "-app-port", "80" ]
+    command: [ "./daprd", "-app-id", "ingestion", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
     depends_on:
       - ingestion
     network_mode: "service:ingestion"
