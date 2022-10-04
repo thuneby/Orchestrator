@@ -1,5 +1,6 @@
 ﻿using BlobAccess.DataAccessLayer.Helpers;
 using Core.CoreModels;
+using Core.OrchestratorModels;
 using DocumentAccess.DocumentAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Parse.BusinessLogic;
@@ -26,9 +27,16 @@ namespace Parse.Controllers
         {
             var parser = ParserFactory.GetParser(documentType, _storageHelper, _repository, _loggerFactory);
             var result = await parser.Parse(fileId, tenantId);
-
             return result;
+        }
 
+        [HttpPost("[action]")]
+        public async Task<Guid> ParseFromEvent(EventEntity entity)
+        {
+            var fileId = Guid.Parse(entity.Parameters);
+            var parser = ParserFactory.GetParser(entity.DocumentType, _storageHelper, _repository, _loggerFactory);
+            var result = await parser.Parse(fileId, entity.TenantÍd);
+            return result;
         }
     }
 }

@@ -45,6 +45,28 @@ services:
       - ingestion
     network_mode: "service:ingestion"
 
+  parse:
+    image: ${DOCKER_REGISTRY-}parse
+    build:
+      context: .
+      dockerfile: src/Services/Parse/Dockerfile
+    ports: 
+    - 5030:80
+    - 55030:50001
+
+  parse-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "parse", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - parse
+    network_mode: "service:parse"
+
 
   convert:
     image: ${DOCKER_REGISTRY-}convert
@@ -60,13 +82,6 @@ services:
 
 
 
-
-
-  parse:
-    image: ${DOCKER_REGISTRY-}parse
-    build:
-      context: .
-      dockerfile: src/Services/Parse/Dockerfile
 
 
   pay:

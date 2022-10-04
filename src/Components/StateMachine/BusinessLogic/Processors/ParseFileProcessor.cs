@@ -1,6 +1,7 @@
 ﻿using Core.OrchestratorModels;
 using Microsoft.Extensions.Logging;
 using Parse.Controllers;
+using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
 
 namespace StateMachine.BusinessLogic.Processors
@@ -20,8 +21,9 @@ namespace StateMachine.BusinessLogic.Processors
         {
             try
             {
-                var id = Guid.Parse(entity.Parameters);
-                var documentId = await _controller.ParseFromGuid(id, entity.DocumentType, entity.TenantÍd);
+                //var id = Guid.Parse(entity.Parameters);
+                //var documentId = await _controller.ParseFromGuid(id, entity.DocumentType, entity.TenantÍd);
+                var documentId = await ServiceInvoker.InvokeService<EventEntity, Guid>(HttpMethod.Post, "parse", "parse/ParseFromEvent", entity);
                 entity.Result = documentId.ToString();
                 entity.UpdateProcessResult();
             }

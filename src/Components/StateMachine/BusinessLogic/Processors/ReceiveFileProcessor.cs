@@ -1,7 +1,7 @@
 ﻿using Core.OrchestratorModels;
-using Dapr.Client;
 using Ingestion.Controllers;
 using Microsoft.Extensions.Logging;
+using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
 
 namespace StateMachine.BusinessLogic.Processors
@@ -22,7 +22,7 @@ namespace StateMachine.BusinessLogic.Processors
             try
             {
                 //entity = await _controller.ExecuteReceiveEvent(entity);
-                entity = await ExecuteEvent(entity);
+                entity = await EventServiceInvoker.InvokeService(HttpMethod.Post, "ingestion", "receivefile/ExecuteReceiveEvent", entity);
             }
             catch (Exception e)
             {
@@ -33,18 +33,6 @@ namespace StateMachine.BusinessLogic.Processors
 
             return entity;
         }
-
-        private static async Task<EventEntity> ExecuteEvent(EventEntity entity)
-        {
-            var source = new CancellationTokenSource();
-            var cancellationToken = source.Token;
-            using var client = new DaprClientBuilder().Build();
-            var request = client.CreateInvokeMethodRequest(HttpMethod.Post, "ingestion", "receivefile/ExecuteReceiveEvent", entity);
-            var result = await client.InvokeMethodAsync<EventEntity>(request, cancellationToken);
-            entity.AssignResult(result);
-            return entity;
-        }
-
 
     }
 }
