@@ -75,7 +75,10 @@ namespace Ingestion.Controllers
                 var ftpFolder = GetInputFolder(settings, entity.DocumentType);
                 var inputFile = ftpController.Get(entity.Parameters, ftpFolder);
                 if (inputFile == null)
-                    throw new ArgumentException(@"File with filename {0} not found", entity.Parameters);
+                {
+                    var errorMessage = $"File with filename {entity.Parameters} not found";
+                    throw new ArgumentException(errorMessage);
+                }
                 inputFile.TenantÍd = entity.TenantÍd;
                 inputFile.DocumentType = entity.DocumentType;
                 inputFile.FlowId = entity.FlowId;
@@ -83,7 +86,7 @@ namespace Ingestion.Controllers
                 var id = await _storageHelper.UploadFile(stream, inputFile.FileName, inputFile.DocumentType);
                 entity.Result = id.ToString();
                 entity.UpdateProcessResult();
-                ftpController.DeleteFile(inputFile.FileName, settings.BsInputFolder);
+                //ftpController.DeleteFile(inputFile.FileName, ftpFolder); // ToDo: Uncomment this!
             }
             catch (Exception e)
             {

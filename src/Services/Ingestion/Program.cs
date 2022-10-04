@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using BlobAccess.DataAccessLayer.Helpers;
 using DataAccess.DataAccess;
 using DataAccess.Models;
@@ -23,12 +22,12 @@ builder.Services.AddScoped<ParameterRepository>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<IEventBus, SqlEventBus>();
 
-builder.Services.AddControllers()
-    .AddJsonOptions(opts =>
-    {
-        var enumConverter = new JsonStringEnumConverter();
-        opts.JsonSerializerOptions.Converters.Add(enumConverter);
-    });
+builder.Services.AddControllers(); // Remove enum serialization for Dapr service invocation
+    //.AddJsonOptions(opts =>
+    //{
+    //    var enumConverter = new JsonStringEnumConverter();
+    //    opts.JsonSerializerOptions.Converters.Add(enumConverter);
+    //});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

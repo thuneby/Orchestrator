@@ -28,6 +28,13 @@ namespace Core.OrchestratorModels
             ExecutionCount++;
         }
 
+        public void AssignResult(EventEntity result)
+        {
+            State = result.State;
+            Result = result.Result;
+            ErrorMessage = result.ErrorMessage;
+        }
+
         public long FlowId { get; set; }
         public EventType EventType { get; set; }
         public EventState State { get; set; }
