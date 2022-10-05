@@ -1,8 +1,8 @@
 ﻿using Core.CoreModels;
 using Core.DomainModels;
+using Core.Dtos;
 using DataAccess.DataAccess;
 using Validate.BusinessLogic.ValidationRules.PaymentValidationRules;
-using Validate.Dtos;
 
 namespace Validate.BusinessLogic
 {

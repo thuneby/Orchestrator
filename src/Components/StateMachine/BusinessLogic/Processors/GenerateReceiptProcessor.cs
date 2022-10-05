@@ -1,18 +1,16 @@
 ﻿using Core.OrchestratorModels;
-using Document.Controllers;
 using Microsoft.Extensions.Logging;
+using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
 
 namespace StateMachine.BusinessLogic.Processors
 {
     public class GenerateReceiptProcessor: IProcessor
     {
-        private readonly ReceiptController _controller;
         private readonly ILogger<GenerateReceiptProcessor> _logger;
 
-        public GenerateReceiptProcessor(ReceiptController controller, ILoggerFactory loggerFactory)
+        public GenerateReceiptProcessor(ILoggerFactory loggerFactory)
         {
-            _controller = controller;
             _logger = loggerFactory.CreateLogger<GenerateReceiptProcessor>();
         } 
         
@@ -20,8 +18,8 @@ namespace StateMachine.BusinessLogic.Processors
         {
             try
             {
-                var id = Guid.Parse(entity.Parameters);
-                entity.Result = (await _controller.GenerateReceipt(entity, id)).ToString();
+                //entity.Result = (await _controller.GenerateReceipt(entity)).ToString();
+                entity.Result = (await ServiceInvoker.InvokeService<EventEntity, Guid>(HttpMethod.Post, "document", "receipt/GenerateReceipt", entity)).ToString();
                 entity.UpdateProcessResult();
             }
             catch (Exception e)

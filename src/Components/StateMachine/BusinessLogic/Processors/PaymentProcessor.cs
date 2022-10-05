@@ -1,8 +1,9 @@
 ﻿using Core.DomainModels;
+using Core.Dtos;
 using Core.OrchestratorModels;
 using DataAccess.DataAccess;
 using Microsoft.Extensions.Logging;
-using Pay.Controllers;
+using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
 
 namespace StateMachine.BusinessLogic.Processors
@@ -10,12 +11,10 @@ namespace StateMachine.BusinessLogic.Processors
     public class PaymentProcessor: IProcessor
     {
         private readonly PaymentRepository _paymentRepository;
-        private readonly PaymentController _paymentController;
         private readonly ILogger<PaymentProcessor> _logger;
 
-        public PaymentProcessor(PaymentRepository paymentRepository, PaymentController paymentController, ILoggerFactory loggerFactory)
+        public PaymentProcessor(PaymentRepository paymentRepository, ILoggerFactory loggerFactory)
         {
-            _paymentController = paymentController;
             _paymentRepository = paymentRepository;
             _logger = loggerFactory.CreateLogger<PaymentProcessor>();
         }
@@ -28,7 +27,8 @@ namespace StateMachine.BusinessLogic.Processors
                     .Where(x => x.Valid && x.ReconcileStatus == ReconcileStatus.Open && x.DueDate.Date <= DateTime.Today).ToList();
                 if (payments.Any())
                 {
-                    var paymentResult = _paymentController.RequestPayments(payments);
+                    //var paymentResult = _paymentController.RequestPayments(payments);
+                    var paymentResult = await ServiceInvoker.InvokeService<List<Payment>,IEnumerable<PaymentResult>>(HttpMethod.Post,"pay" , "payment/RequestPayments", payments);
                     foreach (var payment in payments.Where(payment => paymentResult.Any(x => x.PaymentId == payment.Id && x.Paid)))
                     {
                         payment.ReconcileStatus = ReconcileStatus.Paid;

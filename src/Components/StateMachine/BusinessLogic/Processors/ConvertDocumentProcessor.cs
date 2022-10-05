@@ -1,19 +1,17 @@
-﻿using Convert.Controllers;
-using Core.OrchestratorModels;
+﻿using Core.OrchestratorModels;
 using Microsoft.Extensions.Logging;
+using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
 
 namespace StateMachine.BusinessLogic.Processors
 {
     public class ConvertDocumentProcessor: IProcessor
     {
-        private readonly ConversionController _controller;
-        private ILogger<ConvertDocumentProcessor> _logger;
+        private readonly ILogger<ConvertDocumentProcessor> _logger;
 
-        public ConvertDocumentProcessor(ConversionController controller, ILoggerFactory loggerFactory
+        public ConvertDocumentProcessor(ILoggerFactory loggerFactory
         )
         {
-            _controller = controller;
             _logger = loggerFactory.CreateLogger<ConvertDocumentProcessor>();
         }
 
@@ -21,8 +19,8 @@ namespace StateMachine.BusinessLogic.Processors
         {
             try
             {
-                var id = Guid.Parse(entity.Parameters);
-                var documentId = await _controller.ConvertDocument(id, entity.DocumentType, entity.TenantÍd);
+                //var documentId = await _controller.ConvertDocument(entity);
+                var documentId = await ServiceInvoker.InvokeService<EventEntity, Guid>(HttpMethod.Post, "convert", "conversion/ConvertDocument", entity);
                 if (documentId != Guid.Empty)
                 {
                     entity.Result = documentId.ToString();
@@ -30,7 +28,7 @@ namespace StateMachine.BusinessLogic.Processors
                 }
                 else
                 {
-                    entity.ErrorMessage = "Unable to convert document with Id " + id;
+                    entity.ErrorMessage = "Unable to convert document with Id " + entity.Parameters;
                     entity.UpdateProcessResult(EventState.Error);
                 }
             }

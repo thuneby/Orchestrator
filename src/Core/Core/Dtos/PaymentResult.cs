@@ -1,4 +1,4 @@
-﻿namespace Pay.Models
+﻿namespace Core.Dtos
 {
     public class PaymentResult
     {

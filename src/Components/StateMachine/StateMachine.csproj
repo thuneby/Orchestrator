@@ -8,13 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
-    <ProjectReference Include="..\..\Services\Convert\Convert.csproj" />
-    <ProjectReference Include="..\..\Services\Document\Document.csproj" />
-    <ProjectReference Include="..\..\Services\Ingestion\Ingestion.csproj" />
-    <ProjectReference Include="..\..\Services\Parse\Parse.csproj" />
-    <ProjectReference Include="..\..\Services\Pay\Pay.csproj" />
-    <ProjectReference Include="..\..\Services\Transfer\Transfer.csproj" />
-    <ProjectReference Include="..\..\Services\Validate\Validate.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\ServiceInvocation\ServiceInvocation.csproj" />
   </ItemGroup>

@@ -35,7 +35,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Components\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\..\Components\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\..\Components\StateMachine\StateMachine.csproj" />
+    <ProjectReference Include="..\..\Components\Utilities\Utilities.csproj" />
     <ProjectReference Include="..\..\Core\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\..\Core\Core\Core.csproj" />
   </ItemGroup>

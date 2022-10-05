@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: src/Services/Orchestrator/Dockerfile
     ports: 
-    - 5010:80
-    - 55010:50001
+    - 5001:80
+    - 55001:50001
 
   orchestrator-dapr:
     image: "daprio/daprd:latest"
@@ -29,8 +29,8 @@ services:
       context: .
       dockerfile: src/Services/Ingestion/Dockerfile
     ports: 
-    - 5020:80
-    - 55020:50001
+    - 5010:80
+    - 55010:50001
 
   ingestion-dapr:
     image: "daprio/daprd:latest"
@@ -51,8 +51,8 @@ services:
       context: .
       dockerfile: src/Services/Parse/Dockerfile
     ports: 
-    - 5030:80
-    - 55030:50001
+    - 5020:80
+    - 55020:50001
 
   parse-dapr:
     image: "daprio/daprd:latest"
@@ -73,29 +73,22 @@ services:
     build:
       context: .
       dockerfile: src/Services/Convert/Dockerfile
+    ports: 
+    - 5030:80
+    - 55030:50001
 
-  document:
-    image: ${DOCKER_REGISTRY-}document
-    build:
-      context: .
-      dockerfile: src/Services/Document/Dockerfile
-
-
-
-
-
-  pay:
-    image: ${DOCKER_REGISTRY-}pay
-    build:
-      context: .
-      dockerfile: src/Services/Pay/Dockerfile
-
-
-  transfer:
-    image: ${DOCKER_REGISTRY-}transfer
-    build:
-      context: .
-      dockerfile: src/Services/Transfer/Dockerfile
+  convert-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "convert", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - convert
+    network_mode: "service:convert"
 
 
   validate:
@@ -103,6 +96,91 @@ services:
     build:
       context: .
       dockerfile: src/Services/Validate/Dockerfile
+    ports: 
+    - 5040:80
+    - 55040:50001
+
+  validate-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "validate", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - validate
+    network_mode: "service:validate"
+
+
+  pay:
+    image: ${DOCKER_REGISTRY-}pay
+    build:
+      context: .
+      dockerfile: src/Services/Pay/Dockerfile
+    ports: 
+    - 5055:80
+    - 55055:50001
+
+  pay-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "pay", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - pay
+    network_mode: "service:pay"
+
+
+  document:
+    image: ${DOCKER_REGISTRY-}document
+    build:
+      context: .
+      dockerfile: src/Services/Document/Dockerfile
+    ports: 
+    - 5060:80
+    - 55060:50001
+
+  document-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "document", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - document
+    network_mode: "service:document"
+
+
+  transfer:
+    image: ${DOCKER_REGISTRY-}transfer
+    build:
+      context: .
+      dockerfile: src/Services/Transfer/Dockerfile
+    ports: 
+    - 5090:80
+    - 55090:50001
+
+  transfer-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "transfer", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - transfer
+    network_mode: "service:transfer"
 
 
   administration:

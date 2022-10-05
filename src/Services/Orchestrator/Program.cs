@@ -6,17 +6,10 @@ using DocumentAccess.DocumentAccessLayer;
 using DocumentAccess.Models;
 using EventBus.Abstractions;
 using EventBus.Extensions;
-using Ingestion.Controllers;
 using Microsoft.EntityFrameworkCore;
-using Parse.Controllers;
 using StateMachine.BusinessLogic;
 using System.Text.Json.Serialization;
-using Convert.Controllers;
-using Document.Controllers;
-using Pay.Controllers;
-using Transfer.Controllers;
 using Utilities.Ftp;
-using Validate.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,15 +41,7 @@ builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<IEventBus, DaprEventBus>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
-builder.Services.AddScoped<ReceiveFileController>();
-builder.Services.AddScoped<ParseController>();
 builder.Services.AddScoped<PaymentRepository>();
-builder.Services.AddScoped<ConversionController>();
-builder.Services.AddScoped<MasterDataRepository>();
-builder.Services.AddScoped<ValidationController>();
-builder.Services.AddScoped<PaymentController>();
-builder.Services.AddScoped<ReceiptController>();
-builder.Services.AddScoped<TransferController>();
 builder.Services.AddScoped<ProcessorFactory>();
 builder.Services.AddScoped<WorkFlowProcessor>();
 

@@ -1,18 +1,16 @@
 ﻿using Core.OrchestratorModels;
 using Microsoft.Extensions.Logging;
+using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
-using Transfer.Controllers;
 
 namespace StateMachine.BusinessLogic.Processors
 {
     public class TransferProcessor: IProcessor
     {
-        private readonly TransferController _controller;
         private readonly ILogger<TransferProcessor> _logger;
 
-        public TransferProcessor(TransferController controller, ILoggerFactory loggerFactory)
+        public TransferProcessor(ILoggerFactory loggerFactory)
         {
-            _controller = controller;
             _logger = loggerFactory.CreateLogger<TransferProcessor>();
         }
 
@@ -20,7 +18,8 @@ namespace StateMachine.BusinessLogic.Processors
         {
             try
             {
-                entity.Result = await _controller.TransferToRecipient(entity);
+                //entity.Result = await _controller.TransferToRecipient(entity);
+                entity.Result = await ServiceInvoker.InvokeService<EventEntity, string>(HttpMethod.Post, "transfer", "transfer/TransferToRecipient", entity);
                 entity.UpdateProcessResult();
             }
             catch (Exception e)

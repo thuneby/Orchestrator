@@ -1,4 +1,4 @@
-﻿namespace Validate.Dtos
+﻿namespace Core.Dtos
 {
     public class ValidationResult
     {

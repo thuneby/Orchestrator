@@ -1,5 +1,5 @@
 ﻿using Convert.BusinessLogic;
-using Core.CoreModels;
+using Core.OrchestratorModels;
 using DataAccess.DataAccess;
 using DocumentAccess.DocumentAccessLayer;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +22,11 @@ namespace Convert.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<Guid> ConvertDocument(Guid documentId, DocumentType documentType, long tenantId)
+        public async Task<Guid> ConvertDocument(EventEntity entity)
         {
-            var converter = ConverterFactory.GetConverter(documentType, _documentRepository, _paymentRepository, _loggerFactory);
-            var result = await converter.Convert(documentId, tenantId);
+            var documentId = Guid.Parse(entity.Parameters);
+            var converter = ConverterFactory.GetConverter(entity.DocumentType, _documentRepository, _paymentRepository, _loggerFactory);
+            var result = await converter.Convert(documentId, entity.TenantÍd);
             return result;
         }
     }

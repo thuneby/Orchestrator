@@ -19,8 +19,9 @@ namespace Document.Controllers
         }
 
         [HttpPost("[Action]")]
-        public async Task<Guid> GenerateReceipt(EventEntity entity, Guid documentId)
+        public async Task<Guid> GenerateReceipt(EventEntity entity)
         {
+            var documentId = Guid.Parse(entity.Parameters);
             var inputFileName = await _inputFileRepository.GetInputFileName(documentId);
             if (string.IsNullOrEmpty(inputFileName))
                 return Guid.Empty;

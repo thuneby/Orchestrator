@@ -1,5 +1,4 @@
 ﻿using Core.OrchestratorModels;
-using Ingestion.Controllers;
 using Microsoft.Extensions.Logging;
 using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
@@ -8,13 +7,11 @@ namespace StateMachine.BusinessLogic.Processors
 {
     public class ReceiveFileProcessor: IProcessor
     {
-        private readonly ReceiveFileController _controller;
         private readonly ILogger<ReceiveFileProcessor> _logger;
 
-        public ReceiveFileProcessor(ReceiveFileController controller, ILogger<ReceiveFileProcessor> logger)
+        public ReceiveFileProcessor(ILoggerFactory loggerFactory)
         {
-            _controller = controller;
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<ReceiveFileProcessor>();
         }
 
         public async Task<EventEntity> ProcessEvent(EventEntity entity)

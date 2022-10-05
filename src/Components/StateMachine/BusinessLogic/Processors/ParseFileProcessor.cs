@@ -1,6 +1,5 @@
 ﻿using Core.OrchestratorModels;
 using Microsoft.Extensions.Logging;
-using Parse.Controllers;
 using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
 
@@ -8,12 +7,10 @@ namespace StateMachine.BusinessLogic.Processors
 {
     internal class ParseFileProcessor: IProcessor
     {
-        private readonly ParseController _controller;
         private readonly ILogger<ParseFileProcessor> _logger;
 
-        public ParseFileProcessor(ParseController controller, ILoggerFactory loggerFactory)
+        public ParseFileProcessor(ILoggerFactory loggerFactory)
         {
-            _controller = controller;
             _logger = loggerFactory.CreateLogger<ParseFileProcessor>();
         }
 

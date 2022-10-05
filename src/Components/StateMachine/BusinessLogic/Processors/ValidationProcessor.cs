@@ -1,21 +1,21 @@
-﻿using Core.OrchestratorModels;
+﻿using Core.DomainModels;
+using Core.Dtos;
+using Core.OrchestratorModels;
 using DataAccess.DataAccess;
 using Microsoft.Extensions.Logging;
+using ServiceInvocation.Extensions;
 using StateMachine.Abstractions;
-using Validate.Controllers;
 
 namespace StateMachine.BusinessLogic.Processors
 {
     public class ValidationProcessor: IProcessor
     {
         private readonly PaymentRepository _paymentRepository;
-        private readonly ValidationController _validationController;
         private readonly ILogger<ValidationProcessor> _logger;
 
-        public ValidationProcessor(PaymentRepository paymentRepository, ValidationController validationController, ILoggerFactory loggerFactory)
+        public ValidationProcessor(PaymentRepository paymentRepository, ILoggerFactory loggerFactory)
         {
             _paymentRepository = paymentRepository;
-            _validationController = validationController;
             _logger = loggerFactory.CreateLogger<ValidationProcessor>();
         }
 
@@ -25,7 +25,8 @@ namespace StateMachine.BusinessLogic.Processors
             {
                 var id = Guid.Parse(entity.Parameters); 
                 var payments = _paymentRepository.GetFromDocumentId(id).ToList();
-                var results = (await _validationController.ValidatePaymentList(payments, entity.DocumentType)).ToList();
+                //var results = (await _validationController.ValidatePaymentList(payments)).ToList();
+                var results = (await ServiceInvoker.InvokeService<List<Payment>, IEnumerable<ValidationResult>>(HttpMethod.Post, "", "", payments)).ToList();
                 foreach (var validationResult in results)
                 {
                     var payment = payments.FirstOrDefault(x => x.Id == validationResult.PaymentId);

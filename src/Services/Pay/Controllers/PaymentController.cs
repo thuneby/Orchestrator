@@ -1,6 +1,6 @@
 ﻿using Core.DomainModels;
+using Core.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Pay.Models;
 
 namespace Pay.Controllers
 {
