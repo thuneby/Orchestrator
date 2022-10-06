@@ -1,5 +1,6 @@
 using BlobAccess.DataAccessLayer.Helpers;
 using Dapr.Client;
+using Dapr.Extensions.Configuration;
 using DataAccess.DataAccess;
 using DataAccess.Models;
 using EventBus.Abstractions;
@@ -10,6 +11,8 @@ using Utilities.Ftp;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Configuration.AddDaprSecretStore("localsecretstore", new DaprClientBuilder().Build());
+
 builder.Services.AddDbContextFactory<BlobContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("BlobConnection"),
         x => x.MigrationsAssembly("Ingestion")));

@@ -1,15 +1,17 @@
-using System.Text.Json.Serialization;
 using BlobAccess.DataAccessLayer.Helpers;
+using Dapr.Client;
+using Dapr.Extensions.Configuration;
 using DataAccess.DataAccess;
 using DataAccess.Models;
 using DocumentAccess.DocumentAccessLayer;
 using DocumentAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using Utilities.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Configuration.AddDaprSecretStore("localsecretstore", new DaprClientBuilder().Build());
+
 builder.Services.AddDbContextFactory<DocumentContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DocumentConnection"),
         x => x.MigrationsAssembly("Parse")));

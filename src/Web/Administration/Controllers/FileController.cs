@@ -51,7 +51,7 @@ namespace Administration.Controllers
                     }
                     try
                     {
-                        var queueMessage = new QueueMessage(id, documentType, ProcessState.Parse, file.FileName);
+                        var queueMessage = new QueueMessage(id, documentType, ProcessState.Receive, file.FileName);
                         await _eventBus.PublishAsync(queueMessage, Topics.FileUploadedTopicName);
                         _logger.LogInformation($"File with id {id} published!");
                     }

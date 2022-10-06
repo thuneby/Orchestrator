@@ -188,4 +188,20 @@ services:
     build:
       context: .
       dockerfile: src/Web/Administration/Dockerfile
+    ports: 
+    - 5100:80
+    - 55100:50001
+
+  administration-dapr:
+    image: "daprio/daprd:latest"
+    command: [ "./daprd", "-app-id", "administration", "-app-port", "80" ,
+            "-config", "/configuration/config.yaml",
+            "-components-path", "/components",
+        ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+    depends_on:
+      - administration
+    network_mode: "service:administration"
 

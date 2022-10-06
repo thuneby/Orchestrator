@@ -1,4 +1,6 @@
 using BlobAccess.DataAccessLayer.Helpers;
+using Dapr.Client;
+using Dapr.Extensions.Configuration;
 using DataAccess.DataAccess;
 using DataAccess.Models;
 using DocumentAccess.DocumentAccessLayer;
@@ -11,6 +13,8 @@ using Utilities.Ftp;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Configuration.AddDaprSecretStore("localsecretstore", new DaprClientBuilder().Build());
+
 builder.Services.AddDbContextFactory<BlobContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("BlobConnection")));
 
@@ -27,11 +31,11 @@ builder.Services.AddScoped<IFtpController, FileController>();
 builder.Services.AddScoped<InputFileRepository>();
 builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
 builder.Services.AddScoped<EventRepository>();
-builder.Services.AddScoped<IEventBus, SqlEventBus>();
+builder.Services.AddScoped<IEventBus, DaprEventBus>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<PaymentRepository>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddDapr();
 
 var app = builder.Build();
 

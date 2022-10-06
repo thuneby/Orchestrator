@@ -1,27 +1,20 @@
-using BlobAccess.DataAccessLayer.Helpers;
-using Configuration.Models;
+using Dapr.Client;
+using Dapr.Extensions.Configuration;
 using DataAccess.DataAccess;
 using DataAccess.Models;
-using DocumentAccess.DocumentAccessLayer;
-using DocumentAccess.Models;
 using EventBus.Abstractions;
 using EventBus.Extensions;
 using Microsoft.EntityFrameworkCore;
 using StateMachine.BusinessLogic;
 using System.Text.Json.Serialization;
-using Utilities.Ftp;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Configuration.AddJsonFile($"ServiceConfig.json", optional: false);
-builder.Services.Configure<ServiceConfig>(options => builder.Configuration.GetSection("ServiceConfig").Bind(options));
+//builder.Configuration.AddJsonFile($"ServiceConfig.json", optional: false);
+//builder.Services.Configure<ServiceConfig>(options => builder.Configuration.GetSection("ServiceConfig").Bind(options));
 
-builder.Services.AddDbContextFactory<BlobContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("BlobConnection")));
-
-builder.Services.AddDbContextFactory<DocumentContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DocumentConnection")));
+builder.Configuration.AddDaprSecretStore("localsecretstore", new DaprClientBuilder().Build());
 
 builder.Services.AddDbContextFactory<DomainContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DomainConnection")));
@@ -34,13 +27,8 @@ builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<FlowRepository>();
 builder.Services.AddScoped<TenantRepository>();
 builder.Services.AddScoped<ParameterRepository>();
-builder.Services.AddScoped<FtpControllerFactory>();
-builder.Services.AddScoped<InputFileRepository>();
-builder.Services.AddScoped<OutputFileRepository>();
-builder.Services.AddScoped<IStorageHelper, SqlBlobStorageHelper>();
 builder.Services.AddScoped<EventRepository>();
 builder.Services.AddScoped<IEventBus, DaprEventBus>();
-builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<PaymentRepository>();
 builder.Services.AddScoped<ProcessorFactory>();
 builder.Services.AddScoped<WorkFlowProcessor>();

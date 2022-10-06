@@ -51,7 +51,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{BDA7D637-4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{4CC9E65B-2E0B-4436-9BBA-DA934F60E7DF}"
 	ProjectSection(SolutionItems) = preProject
+		dapr\components\local-secret-store.yaml = dapr\components\local-secret-store.yaml
 		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
+		dapr\components\secrets.json = dapr\components\secrets.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{BCD26461-98A3-453B-9402-00D715E88B09}"
@@ -78,7 +80,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScenarioTests", "test\Scena
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FC25B833-6504-4864-8FBF-52E621066618}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceInvocation", "src\Components\ServiceInvocation\ServiceInvocation.csproj", "{09750696-005B-4A08-89BC-01DBE805F712}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceInvocation", "src\Components\ServiceInvocation\ServiceInvocation.csproj", "{09750696-005B-4A08-89BC-01DBE805F712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
