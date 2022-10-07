@@ -2,12 +2,14 @@
 using Core.CoreModels;
 using Core.OrchestratorModels;
 using Core.QueueModels;
+using Dapr.Client;
 using DataAccess.DataAccess;
 using EventBus.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Utilities.Ftp;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Ingestion.Controllers
 {
@@ -37,7 +39,7 @@ namespace Ingestion.Controllers
         public async Task<ActionResult> ReceiveFiles(long tenantId, DocumentType documentType)
         {
             var fileCount = 0;
-            var settings = GetSettings(tenantId);
+            var settings = await GetSettings(tenantId);
             var ftpController = _ftpControllerFactory.GetController(settings, _loggerFactory);
             var ftpFolder = GetInputFolder(settings, documentType);
             var fileList = ftpController.GetFileList(ftpFolder);
@@ -70,7 +72,7 @@ namespace Ingestion.Controllers
         {
             try
             {
-                var settings = GetSettings(entity.TenantÍd);
+                var settings = await GetSettings(entity.TenantÍd);
                 var ftpController = _ftpControllerFactory.GetController(settings, _loggerFactory);
                 var ftpFolder = GetInputFolder(settings, entity.DocumentType);
                 var inputFile = ftpController.Get(entity.Parameters, ftpFolder);
@@ -98,15 +100,15 @@ namespace Ingestion.Controllers
         }
 
         [HttpGet("[action]")]
-        public List<string> GetFileList(long tenantId, DocumentType documentType)
+        public async Task<List<string>> GetFileList(long tenantId, DocumentType documentType)
         {
-            var settings = GetSettings(tenantId);
+            var settings = await GetSettings(tenantId);
             var ftpController = _ftpControllerFactory.GetController(settings, _loggerFactory);
             var fileList = ftpController.GetFileList(GetInputFolder(settings, documentType));
             return fileList;
         }
 
-        private FtpSettings GetSettings(long tenantId)
+        private async Task<FtpSettings> GetSettings(long tenantId)
         {
             var defaultSettings = new FtpSettings
             {
@@ -114,7 +116,8 @@ namespace Ingestion.Controllers
                 BsInputFolder = "BsInput",
                 OsInputFolder = "OsInput"
             };
-            var parameters = _parameterRepository.GetParameters(tenantId);
+            var parameters = await GetParameters(tenantId);
+
             var fileLoadParameter = parameters.FirstOrDefault(x => x.ParameterType == ParameterType.FileLoadParameters);
             if (fileLoadParameter == null)
                 return defaultSettings;
@@ -130,6 +133,20 @@ namespace Ingestion.Controllers
             }
 
             return defaultSettings;
+        }
+
+        private async Task<ICollection<ParameterEntity>> GetParameters(long tenantId)
+        {
+            const string DAPR_STORE_NAME = "statestore";
+            using var client = new DaprClientBuilder().Build();
+            var result = await client.GetStateAsync<string>(DAPR_STORE_NAME, tenantId.ToString());
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                var parameterEntities = JsonSerializer.Deserialize<List<ParameterEntity>>(result);
+                return parameterEntities?? new List<ParameterEntity>();
+            }
+            var parameters = _parameterRepository.GetParameters(tenantId).ToList();
+            return parameters;
         }
 
         private static string GetInputFolder(FtpSettings settings, DocumentType documentType)

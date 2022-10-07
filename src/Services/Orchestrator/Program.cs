@@ -7,6 +7,7 @@ using EventBus.Extensions;
 using Microsoft.EntityFrameworkCore;
 using StateMachine.BusinessLogic;
 using System.Text.Json.Serialization;
+using Orchestrator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.AddCaching();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

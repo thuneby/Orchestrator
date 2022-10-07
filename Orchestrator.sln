@@ -54,6 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", 
 		dapr\components\local-secret-store.yaml = dapr\components\local-secret-store.yaml
 		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
 		dapr\components\secrets.json = dapr\components\secrets.json
+		dapr\components\statestore.yaml = dapr\components\statestore.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{BCD26461-98A3-453B-9402-00D715E88B09}"
