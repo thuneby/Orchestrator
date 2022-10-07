@@ -2,6 +2,7 @@
 using Core.DomainModels;
 using DataAccess.DataAccess;
 using FluentAssertions;
+using Utilities.Dates;
 using Validate.BusinessLogic;
 
 namespace ServiceTests.Validate
@@ -16,7 +17,7 @@ namespace ServiceTests.Validate
             DocumentType = DocumentType.NetsOsInfo,
             TotalAmount = 14789.77M,
             PbsNumberRecepient = "12345678",
-            DueDate = DateTime.Today.AddDays(1)
+            DueDate = DateUtil.GetNextBusinessDay(DateTime.Today)
         };
 
         private readonly Payment _payment2 = new()
@@ -25,7 +26,7 @@ namespace ServiceTests.Validate
             DocumentType = DocumentType.NetsOsInfo,
             TotalAmount = 15789.76M,
             PbsNumberRecepient = "",
-            DueDate = DateTime.Today.AddDays(1)
+            DueDate = DateUtil.GetNextBusinessDay(DateTime.Today)
         };
 
         private readonly Payment _payment3 = new()

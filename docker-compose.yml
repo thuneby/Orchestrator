@@ -1,207 +1,116 @@
-version: '3.4'
-
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: orchestrator
 services:
-  orchestrator:
-    image: ${DOCKER_REGISTRY-}orchestrator
-    build:
-      context: .
-      dockerfile: src/Services/Orchestrator/Dockerfile
-    ports: 
-    - 5001:80
-    - 55001:50001
-
-  orchestrator-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "orchestrator", "-app-port", "80",
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - orchestrator
-    network_mode: "service:orchestrator"
-
-  ingestion:
-    image: ${DOCKER_REGISTRY-}ingestion
-    build:
-      context: .
-      dockerfile: src/Services/Ingestion/Dockerfile
-    ports: 
-    - 5010:80
-    - 55010:50001
-
-  ingestion-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "ingestion", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - ingestion
-    network_mode: "service:ingestion"
-
-  parse:
-    image: ${DOCKER_REGISTRY-}parse
-    build:
-      context: .
-      dockerfile: src/Services/Parse/Dockerfile
-    ports: 
-    - 5020:80
-    - 55020:50001
-
-  parse-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "parse", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - parse
-    network_mode: "service:parse"
-
-
-  convert:
-    image: ${DOCKER_REGISTRY-}convert
-    build:
-      context: .
-      dockerfile: src/Services/Convert/Dockerfile
-    ports: 
-    - 5030:80
-    - 55030:50001
-
-  convert-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "convert", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - convert
-    network_mode: "service:convert"
-
-
-  validate:
-    image: ${DOCKER_REGISTRY-}validate
-    build:
-      context: .
-      dockerfile: src/Services/Validate/Dockerfile
-    ports: 
-    - 5040:80
-    - 55040:50001
-
-  validate-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "validate", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - validate
-    network_mode: "service:validate"
-
-
-  pay:
-    image: ${DOCKER_REGISTRY-}pay
-    build:
-      context: .
-      dockerfile: src/Services/Pay/Dockerfile
-    ports: 
-    - 5055:80
-    - 55055:50001
-
-  pay-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "pay", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - pay
-    network_mode: "service:pay"
-
-
-  document:
-    image: ${DOCKER_REGISTRY-}document
-    build:
-      context: .
-      dockerfile: src/Services/Document/Dockerfile
-    ports: 
-    - 5060:80
-    - 55060:50001
-
-  document-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "document", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - document
-    network_mode: "service:document"
-
-
-  transfer:
-    image: ${DOCKER_REGISTRY-}transfer
-    build:
-      context: .
-      dockerfile: src/Services/Transfer/Dockerfile
-    ports: 
-    - 5090:80
-    - 55090:50001
-
-  transfer-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "transfer", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - transfer
-    network_mode: "service:transfer"
-
-
-  administration:
-    image: ${DOCKER_REGISTRY-}administration
-    build:
-      context: .
-      dockerfile: src/Web/Administration/Dockerfile
-    ports: 
-    - 5100:80
-    - 55100:50001
-
-  administration-dapr:
-    image: "daprio/daprd:latest"
-    command: [ "./daprd", "-app-id", "administration", "-app-port", "80" ,
-            "-config", "/configuration/config.yaml",
-            "-components-path", "/components",
-        ]
-    volumes:
-      - "./dapr/components/:/components"
-      - "./dapr/configuration/:/configuration"
-    depends_on:
-      - administration
-    network_mode: "service:administration"
-
+- name: orchestrator
+  image: ${DOCKER_REGISTRY-}orchestrator
+  dockerFile: src/Services/Orchestrator/Dockerfile
+  bindings:
+  - port: 5001
+    containerPort: 80
+    protocol: http
+  - port: 55001
+    containerPort: 50001
+    protocol: http
+- name: orchestrator-dapr
+  image: daprio/daprd:latest
+- name: ingestion
+  image: ${DOCKER_REGISTRY-}ingestion
+  dockerFile: src/Services/Ingestion/Dockerfile
+  bindings:
+  - port: 5010
+    containerPort: 80
+    protocol: http
+  - port: 55010
+    containerPort: 50001
+    protocol: http
+- name: ingestion-dapr
+  image: daprio/daprd:latest
+- name: parse
+  image: ${DOCKER_REGISTRY-}parse
+  dockerFile: src/Services/Parse/Dockerfile
+  bindings:
+  - port: 5020
+    containerPort: 80
+    protocol: http
+  - port: 55020
+    containerPort: 50001
+    protocol: http
+- name: parse-dapr
+  image: daprio/daprd:latest
+- name: convert
+  image: ${DOCKER_REGISTRY-}convert
+  dockerFile: src/Services/Convert/Dockerfile
+  bindings:
+  - port: 5030
+    containerPort: 80
+    protocol: http
+  - port: 55030
+    containerPort: 50001
+    protocol: http
+- name: convert-dapr
+  image: daprio/daprd:latest
+- name: validate
+  image: ${DOCKER_REGISTRY-}validate
+  dockerFile: src/Services/Validate/Dockerfile
+  bindings:
+  - port: 5040
+    containerPort: 80
+    protocol: http
+  - port: 55040
+    containerPort: 50001
+    protocol: http
+- name: validate-dapr
+  image: daprio/daprd:latest
+- name: pay
+  image: ${DOCKER_REGISTRY-}pay
+  dockerFile: src/Services/Pay/Dockerfile
+  bindings:
+  - port: 5055
+    containerPort: 80
+    protocol: http
+  - port: 55055
+    containerPort: 50001
+    protocol: http
+- name: pay-dapr
+  image: daprio/daprd:latest
+- name: document
+  image: ${DOCKER_REGISTRY-}document
+  dockerFile: src/Services/Document/Dockerfile
+  bindings:
+  - port: 5060
+    containerPort: 80
+    protocol: http
+  - port: 55060
+    containerPort: 50001
+    protocol: http
+- name: document-dapr
+  image: daprio/daprd:latest
+- name: transfer
+  image: ${DOCKER_REGISTRY-}transfer
+  dockerFile: src/Services/Transfer/Dockerfile
+  bindings:
+  - port: 5090
+    containerPort: 80
+    protocol: http
+  - port: 55090
+    containerPort: 50001
+    protocol: http
+- name: transfer-dapr
+  image: daprio/daprd:latest
+- name: administration
+  image: ${DOCKER_REGISTRY-}administration
+  dockerFile: src/Web/Administration/Dockerfile
+  bindings:
+  - port: 5100
+    containerPort: 80
+    protocol: http
+  - port: 55100
+    containerPort: 50001
+    protocol: http
+- name: administration-dapr
+  image: daprio/daprd:latest
