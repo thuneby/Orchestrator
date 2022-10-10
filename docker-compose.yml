@@ -11,7 +11,7 @@ services:
     - 55001:50001
 
   orchestrator-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "orchestrator", "-app-port", "80",
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -33,7 +33,7 @@ services:
     - 55010:50001
 
   ingestion-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "ingestion", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -55,7 +55,7 @@ services:
     - 55020:50001
 
   parse-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "parse", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -78,7 +78,7 @@ services:
     - 55030:50001
 
   convert-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "convert", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -101,7 +101,7 @@ services:
     - 55040:50001
 
   validate-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "validate", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -124,7 +124,7 @@ services:
     - 55055:50001
 
   pay-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "pay", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -147,7 +147,7 @@ services:
     - 55060:50001
 
   document-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "document", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -170,7 +170,7 @@ services:
     - 55090:50001
 
   transfer-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "transfer", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
@@ -193,7 +193,7 @@ services:
     - 55100:50001
 
   administration-dapr:
-    image: "daprio/daprd:latest"
+    image: "daprio/daprd:1.8.4"
     command: [ "./daprd", "-app-id", "administration", "-app-port", "80" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
