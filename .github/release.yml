@@ -5,7 +5,7 @@ changelog:
     labels:
     - ignore-for-release
     authors:
-    - thuneby
+    - octocat
   categories:
     - title: Breaking Changes 🛠
       labels:
