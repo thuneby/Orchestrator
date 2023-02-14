@@ -1,9 +1,9 @@
 variable "location" {
-    type        = string
-    default     = "WestEurope"  
+  type    = string
+  default = "WestEurope"  
 }
 
 variable "resource_group" {
-    type        = string
-    default     = "rg-orchestrator"   
+  type    = string
+  default = "rg-orchestrator"   
 }
