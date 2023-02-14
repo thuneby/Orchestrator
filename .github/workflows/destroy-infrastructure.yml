@@ -41,10 +41,10 @@ jobs:
         id: plan
         run: |
           cd terraform
-          terraform plan -destroy
+          terraform plan -destroy -out=terraform.plan
                     
       - name: 'Terraform apply'
         id: apply
         run: |
           cd terraform
-          terraform apply -auto-approve          
+          terraform apply -auto-approve ./terraform.plan   
