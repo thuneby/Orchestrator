@@ -1,9 +1,9 @@
-variable "Location" {
+variable "location" {
     type        = string
     default     = "WestEurope"  
 }
 
-variable "ResourceGroup" {
+variable "resource_group" {
     type        = string
     default     = "rg-orchestrator"   
 }
