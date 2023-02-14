@@ -7,7 +7,7 @@ resource "azurecaf_name" "servicebus_name" {
 
 resource "azurerm_servicebus_namespace" "servicebus" {
   name                = azurecaf_name.servicebus_name.result
-  location            = var.Location
-  resource_group_name = var.ResourceGroup
+  location            = azurerm_resource_group.orchestrator.location
+  resource_group_name = azurerm_resource_group.orchestrator.name
   sku                 = "Standard"
 }
