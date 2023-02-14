@@ -15,7 +15,7 @@ resource "azurerm_eventhub_namespace" "eventhub_namespace" {
 
 resource "azurerm_eventhub" "hub" {
   name                = "events"
-  namespace_name    = azurecaf_name.eventhub_namespace.result
+  namespace_name      = azurerm_eventhub_namespace.eventhub_namespace.name
   resource_group_name = azurerm_resource_group.orchestrator.name
   partition_count     = 2
   message_retention   = 1
