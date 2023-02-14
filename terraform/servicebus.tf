@@ -1,7 +1,7 @@
 resource "azurecaf_name" "servicebus_name" {
   name          = "sb-orchestrator"
   resource_type = "azurerm_servicebus_namespace"
-  suffixes      = "sharperbox"
+  suffixes      = ["sharperbox"]
   clean_input   = true
 }
 
