@@ -10,5 +10,4 @@ resource "azurerm_servicebus_namespace" "servicebus" {
   location            = var.Location
   resource_group_name = var.ResourceGroup
   sku                 = "Standard"
-  capacity            = 1
 }
