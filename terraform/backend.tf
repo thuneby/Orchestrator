@@ -3,6 +3,10 @@ terraform {
         azurerm = {
             source  = "hashicorp/azurerm"
         }
+        azurecaf = {
+      source  = "aztfmod/azurecaf"
+      version = "~> 1.2.5"
+        }
     }
   
     backend "azurerm" {
