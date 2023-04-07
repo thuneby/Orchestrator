@@ -10,6 +10,8 @@
         Xml000 = 5, 
         Bs602 = 6,
         Excel = 9,
+        IpStandard = 10,
+        IpExtended = 11,
         Bs603 = 21,
         Bs605 = 22,
         Bs621 = 23,

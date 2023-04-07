@@ -1,4 +1,5 @@
-﻿using ExternalModels.MasterCard.Bs601Model;
+﻿using ExternalModels.IndustriensPension;
+using ExternalModels.MasterCard.Bs601Model;
 using ExternalModels.MasterCard.OsInfoModel;
 
 namespace DocumentAccess.DocumentAccessLayer
@@ -7,6 +8,7 @@ namespace DocumentAccess.DocumentAccessLayer
     {
         Task SaveModel(FlatOsInfoModel model);
         Task SaveModel(FlatNetsBs601Model model);
+        Task SaveModel(FlatIpModel model);
 
         OsInfoStart? GetOsInfo(Guid id);
 

@@ -1,4 +1,5 @@
 ﻿using DocumentAccess.Models;
+using ExternalModels.IndustriensPension;
 using ExternalModels.MasterCard.Bs601Model;
 using ExternalModels.MasterCard.OsInfoModel;
 using Microsoft.EntityFrameworkCore;
@@ -59,7 +60,25 @@ namespace DocumentAccess.DocumentAccessLayer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e.Message, e);
+                throw;
+            }
+        }
+
+        public async Task SaveModel(FlatIpModel model)
+        {
+            try
+            {
+                _documentContext.Add(model.IpStartRecord);
+                if (model.IpRecords.Any())
+                    _documentContext.AddRange(model.IpRecords);
+                if (model.IpExtendedRecords.Any())
+                    _documentContext.AddRange(model.IpExtendedRecords);
+                await _documentContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
                 throw;
             }
         }

@@ -8,13 +8,13 @@ namespace Parse.BusinessLogic.Helpers
     public abstract class TextParserHelperBase<T>
         where T : TextModelBase
     {
-        public async Task<(IEnumerable<T>, List<string>)> GetRecordsFromPayload(Guid guid, IStorageHelper storageHelper, DocumentType documentType)
+        public async Task<(List<T>, List<string>)> GetRecordsFromPayload(Guid guid, IStorageHelper storageHelper, DocumentType documentType)
         {
             var errors = new HashSet<string>();
             var payload = await storageHelper.GetPayload(guid.ToString());
             var engine = new FileHelperEngine<T>();
             engine.ErrorManager.ErrorMode = ErrorMode.SaveAndContinue;
-            var records = engine.ReadStream(new StreamReader(payload, EncodingHelper.GetEncoding(documentType)));
+            var records = engine.ReadStream(new StreamReader(payload, EncodingHelper.GetEncoding(documentType))).ToList();
             if (engine.ErrorManager.HasErrors)
                 foreach (var error in engine.ErrorManager.Errors)
                 {

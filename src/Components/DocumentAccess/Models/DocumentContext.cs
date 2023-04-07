@@ -1,4 +1,5 @@
-﻿using ExternalModels.MasterCard.Bs601Model;
+﻿using ExternalModels.IndustriensPension;
+using ExternalModels.MasterCard.Bs601Model;
 using ExternalModels.MasterCard.OsInfoModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,11 @@ namespace DocumentAccess.Models
         public DbSet<BsRecord42> BsRecord42 { get; set; }
         public DbSet<BsRecord52> BsRecord52 { get; set; }
         public DbSet<BsRecord62> BsRecord62 { get; set; }
+
+        // Industriens Pension
+        public DbSet<IpStartRecord> IpStartRecord { get; set; }
+        public DbSet<IpRecord> IpRecord { get; set; }
+        public DbSet<IpExtendedRecord> IpExtendedRecord { get; set; }
 
     }
 }
