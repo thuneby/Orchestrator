@@ -7,12 +7,12 @@ services:
       context: .
       dockerfile: src/Services/Orchestrator/Dockerfile
     ports: 
-    - 5001:80
+    - 5001:8080
     - 55001:50001
 
   orchestrator-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "orchestrator", "-app-port", "80",
+    command: [ "./daprd", "-app-id", "orchestrator", "-app-port", "8080",
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -29,12 +29,12 @@ services:
       context: .
       dockerfile: src/Services/Ingestion/Dockerfile
     ports: 
-    - 5010:80
+    - 5010:8080
     - 55010:50001
 
   ingestion-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "ingestion", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "ingestion", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -51,12 +51,12 @@ services:
       context: .
       dockerfile: src/Services/Parse/Dockerfile
     ports: 
-    - 5020:80
+    - 5020:8080
     - 55020:50001
 
   parse-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "parse", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "parse", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -74,12 +74,12 @@ services:
       context: .
       dockerfile: src/Services/Convert/Dockerfile
     ports: 
-    - 5030:80
+    - 5030:8080
     - 55030:50001
 
   convert-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "convert", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "convert", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -97,12 +97,12 @@ services:
       context: .
       dockerfile: src/Services/Validate/Dockerfile
     ports: 
-    - 5040:80
+    - 5040:8080
     - 55040:50001
 
   validate-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "validate", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "validate", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -120,12 +120,12 @@ services:
       context: .
       dockerfile: src/Services/Pay/Dockerfile
     ports: 
-    - 5055:80
+    - 5055:8080
     - 55055:50001
 
   pay-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "pay", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "pay", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -143,12 +143,12 @@ services:
       context: .
       dockerfile: src/Services/Document/Dockerfile
     ports: 
-    - 5060:80
+    - 5060:8080
     - 55060:50001
 
   document-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "document", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "document", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -166,12 +166,12 @@ services:
       context: .
       dockerfile: src/Services/Transfer/Dockerfile
     ports: 
-    - 5090:80
+    - 5090:8080
     - 55090:50001
 
   transfer-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "transfer", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "transfer", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
@@ -189,12 +189,12 @@ services:
       context: .
       dockerfile: src/Web/Administration/Dockerfile
     ports: 
-    - 5100:80
+    - 5100:8080
     - 55100:50001
 
   administration-dapr:
     image: "daprio/daprd:1.8.4"
-    command: [ "./daprd", "-app-id", "administration", "-app-port", "80" ,
+    command: [ "./daprd", "-app-id", "administration", "-app-port", "8080" ,
             "-config", "/configuration/config.yaml",
             "-components-path", "/components",
         ]
